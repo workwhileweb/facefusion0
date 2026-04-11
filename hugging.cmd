@@ -49,15 +49,8 @@ if not errorlevel 1 (
 	for /f "delims=" %%S in ('git rev-parse --short HEAD 2^>nul') do set "HF_MSG=hugging.cmd deploy %%S"
 )
 echo [hugging] Uploading to spaces/!HF_SPACE! ...
-hf upload "!HF_SPACE!" . --repo-type space ^
-	--exclude ".git/**" ^
-	--exclude ".venv-test/**" ^
-	--exclude "**/__pycache__/**" ^
-	--exclude ".specstory/**" ^
-	--exclude ".pytest_cache/**" ^
-	--exclude "@.txt" ^
-	--exclude ".hf-deploy-sha" ^
-	--commit-message "!HF_MSG!"
+rem Do not use *.git/** unquoted: cmd expands * and breaks hf upload with thousands of extra args
+hf upload "!HF_SPACE!" . --repo-type space --exclude=.git --exclude=.venv-test --exclude=.specstory --exclude=.pytest_cache --exclude=@.txt --exclude=.hf-deploy-sha --commit-message "!HF_MSG!"
 
 if errorlevel 1 (
 	echo [hugging] Upload failed.
