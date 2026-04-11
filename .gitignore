@@ -1,7 +1,11 @@
 __pycache__
 .assets
-.claude
+#.claude
 .caches
-.idea
-.jobs
-.vscode
+#.idea
+#.jobs
+#.vscode
+.venv-test
+.pytest_cache
+.venv
+.hf-deploy-sha

@@ -1,0 +1,45 @@
+https://github.com/facefusion/facefusion
+
+
+
+bỏ nwsf
+thêm api endpoint để call
+mở thêm mục video webcam mode
+
+
+
+
+tạo dockerfile để publish repo này lên huggingface space
+tự tạo tự chạy test luôn
+
+
+
+
+Vào tab Logs của Space để theo dõi build (lần đầu thường rất lâu vì base CUDA + cài dependency).
+
+
+
+
+
+
+Đã thêm hugging.cmd ở thư mục gốc repo và ghi /.hf-deploy-sha vào .gitignore (file chỉ để nhớ commit đã deploy, không đưa lên Hub).
+
+Cách dùng
+Lệnh	Ý nghĩa
+hugging.cmd
+Chỉ chạy hf upload nếu có thay đổi chưa commit hoặc commit mới (khác .hf-deploy-sha). Trùng commit đã deploy → báo và thoát.
+hugging.cmd /f
+Luôn upload.
+Biến HF_SPACE: mặc định cristiefisherwfc43821s/facefusion-t4; đổi Space:
+set HF_SPACE=user/khac && hugging.cmd
+
+Cần hf đã cài và đã login (pip install -U "huggingface_hub[cli]" rồi hf auth login).
+
+Tự chạy khi có code mới
+Sau mỗi commit: tạo .git\hooks\post-commit.cmd với dòng:
+@call "%~dp0..\..\hugging.cmd"
+(đường dẫn từ hooks lên 2 cấp tới root repo rồi gọi hugging.cmd).
+
+Theo lịch: dùng Task Scheduler gọi hugging.cmd hoặc hugging.cmd /f.
+
+Nội dung chính của script nằm trong hugging.cmd (upload, exclude giống lần deploy trước, commit message có kèm short SHA khi có git).

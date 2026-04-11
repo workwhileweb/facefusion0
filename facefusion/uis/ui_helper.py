@@ -1,6 +1,6 @@
 import hashlib
 import os
-from typing import Optional
+from typing import Any, Dict, Optional
 
 from facefusion import state_manager
 from facefusion.filesystem import get_file_extension, is_image, is_video
@@ -24,3 +24,17 @@ def suggest_output_path(output_directory_path : str, target_path : str) -> Optio
 		target_file_extension = get_file_extension(target_path)
 		return os.path.join(output_directory_path, output_file_name + target_file_extension)
 	return None
+
+
+def get_gradio_launch_kwargs() -> Dict[str, Any]:
+	kwargs : Dict[str, Any] =\
+	{
+		'favicon_path': 'facefusion.ico',
+		'inbrowser': state_manager.get_item('open_browser')
+	}
+	gradio_host = os.environ.get('FACEFUSION_GRADIO_HOST')
+	if gradio_host:
+		kwargs['server_name'] = gradio_host
+		kwargs['server_port'] = int(os.environ.get('PORT', '7860'))
+		kwargs['inbrowser'] = False
+	return kwargs
