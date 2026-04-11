@@ -107,7 +107,8 @@ def launch() -> None:
 	ui_layouts = state_manager.get_item('ui_layouts')
 	ui_layouts_total = len(ui_layouts)
 	open_webcam_js = None
-	if ui_layouts_total > 1 and 'webcam' in ui_layouts:
+	# Inner "webcam" tab (layout merged) or legacy multi-layout default+webcam
+	if ('merged' in ui_layouts) or (ui_layouts_total > 1 and 'webcam' in ui_layouts):
 		open_webcam_js = get_open_webcam_tab_js()
 
 	with gradio.Blocks(

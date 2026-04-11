@@ -2,10 +2,19 @@ https://github.com/facefusion/facefusion
 
 
 
+https://cristiefisherwfc43821s-facefusion-t4.hf.space/
+
 bỏ nwsf
 thêm api endpoint để call
 mở thêm mục video webcam mode
+replace button "join our community" ở ui chính thành "webcam" và mở blank page với mode = webcam ui, commit và tự deploy lên huggingface_hub
 
+
+
+mỗi lần deploy hugging mới phải tải lại các model quá mất công
+huggingface deloy mới có thể đừng đụng chạm tới model đã download không đỡ tải lại
+check if file ext then dont download
+mount driver to space, ... kiểu vậy, hãy tìm hiểu xem?
 
 
 
