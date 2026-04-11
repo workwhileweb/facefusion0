@@ -80,10 +80,44 @@ def init() -> None:
 	gradio.components.Number.raise_if_out_of_bounds = uis_overrides.mock
 
 
+def get_open_webcam_tab_js() -> str:
+	return """() => {
+	if (new URLSearchParams(window.location.search).get('ff_layout') !== 'webcam') {
+		return;
+	}
+	const tryClick = function(n) {
+		if (n > 48) {
+			return;
+		}
+		const buttons = document.querySelectorAll('button');
+		for (let i = 0; i < buttons.length; i++) {
+			const label = (buttons[i].textContent || '').trim().toLowerCase();
+			if (label === 'webcam') {
+				buttons[i].click();
+				return;
+			}
+		}
+		setTimeout(function() { tryClick(n + 1); }, 125);
+	};
+	tryClick(0);
+}"""
+
+
 def launch() -> None:
-	ui_layouts_total = len(state_manager.get_item('ui_layouts'))
-	with gradio.Blocks(theme = get_theme(), css = get_css(), title = metadata.get('name') + ' ' + metadata.get('version'), fill_width = True) as ui:
-		for ui_layout in state_manager.get_item('ui_layouts'):
+	ui_layouts = state_manager.get_item('ui_layouts')
+	ui_layouts_total = len(ui_layouts)
+	open_webcam_js = None
+	if ui_layouts_total > 1 and 'webcam' in ui_layouts:
+		open_webcam_js = get_open_webcam_tab_js()
+
+	with gradio.Blocks(
+		theme = get_theme(),
+		css = get_css(),
+		title = metadata.get('name') + ' ' + metadata.get('version'),
+		fill_width = True,
+		js = open_webcam_js,
+	) as ui:
+		for ui_layout in ui_layouts:
 			ui_layout_module = load_ui_layout_module(ui_layout)
 
 			if ui_layouts_total > 1:
@@ -94,7 +128,7 @@ def launch() -> None:
 				ui_layout_module.render()
 				ui_layout_module.listen()
 
-	for ui_layout in state_manager.get_item('ui_layouts'):
+	for ui_layout in ui_layouts:
 		ui_layout_module = load_ui_layout_module(ui_layout)
 		ui_layout_module.run(ui)
 

@@ -191,7 +191,8 @@ LOCALES : Locales =\
 		{
 			'fund': 'fund ai workstation',
 			'subscribe': 'become a member',
-			'join': 'join our community'
+			'join': 'join our community',
+			'webcam': 'Webcam'
 		},
 		'uis':
 		{

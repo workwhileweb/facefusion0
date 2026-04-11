@@ -1,4 +1,3 @@
-import random
 from typing import Optional
 
 import gradio
@@ -6,36 +5,24 @@ import gradio
 from facefusion import metadata, translator
 
 METADATA_BUTTON : Optional[gradio.Button] = None
-ACTION_BUTTON : Optional[gradio.Button] = None
+WEBCAM_PAGE_LINK : Optional[gradio.HTML] = None
 
 
 def render() -> None:
 	global METADATA_BUTTON
-	global ACTION_BUTTON
-
-	action = random.choice(
-	[
-		{
-			'translator': translator.get('about.fund'),
-			'url': 'https://fund.facefusion.io'
-		},
-		{
-			'translator': translator.get('about.subscribe'),
-			'url': 'https://subscribe.facefusion.io'
-		},
-		{
-			'translator': translator.get('about.join'),
-			'url': 'https://join.facefusion.io'
-		}
-	])
+	global WEBCAM_PAGE_LINK
 
 	METADATA_BUTTON = gradio.Button(
 		value = metadata.get('name') + ' ' + metadata.get('version'),
 		variant = 'primary',
 		link = metadata.get('url')
 	)
-	ACTION_BUTTON = gradio.Button(
-		value = action.get('translator'),
-		link = action.get('url'),
-		size = 'sm'
+	WEBCAM_PAGE_LINK = gradio.HTML(
+		value = '<div style="text-align:center">'
+		'<a href="/?ff_layout=webcam" target="_blank" rel="noopener noreferrer" '
+		'style="display:inline-flex;align-items:center;justify-content:center;min-height:2rem;'
+		'padding:0 0.75rem;border-radius:0.375rem;font-size:0.875rem;font-weight:400;'
+		'border:1px solid var(--border-color-primary);text-decoration:none;color:inherit">'
+		+ translator.get('about.webcam')
+		+ '</a></div>'
 	)
