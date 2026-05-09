@@ -267,6 +267,7 @@ LOCALES : Locales =\
 			'video_memory_strategy_dropdown': 'VIDEO MEMORY STRATEGY',
 			'webcam_fps_slider': 'WEBCAM FPS',
 			'webcam_image': 'WEBCAM',
+			'webcam_browser_hint': '**Browser webcam:** open the image area below, choose the **webcam** tool, allow the camera, then **capture** a frame (live streaming is disabled here for Space stability). Server-side device list is hidden because the container has no USB camera.',
 			'webcam_device_id_dropdown': 'WEBCAM DEVICE ID',
 			'webcam_mode_radio': 'WEBCAM MODE',
 			'webcam_resolution_dropdown': 'WEBCAM RESOLUTION'

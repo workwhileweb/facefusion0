@@ -4,6 +4,9 @@ https://github.com/facefusion/facefusion
 
 https://cristiefisherwfc43821s-facefusion-t4.hf.space/
 
+
+
+
 bỏ nwsf
 thêm api endpoint để call
 mở thêm mục video webcam mode

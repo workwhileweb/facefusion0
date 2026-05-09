@@ -1,3 +1,4 @@
+import os
 import platform
 from typing import Any, Iterable, Optional, Reversible, Sequence
 
@@ -12,6 +13,18 @@ def is_macos() -> bool:
 
 def is_windows() -> bool:
 	return platform.system().lower() == 'windows'
+
+
+def use_browser_webcam() -> bool:
+	"""Use Gradio client-side webcam (getUserMedia) instead of server OpenCV.
+
+	Hugging Face Spaces have no USB camera on the container; device scan stays empty
+	unless we stream from the user's browser. Set FACEFUSION_BROWSER_WEBCAM=1 to force
+	this mode locally.
+	"""
+	if os.environ.get('FACEFUSION_BROWSER_WEBCAM', '').lower() in ('1', 'true', 'yes'):
+		return True
+	return bool(os.environ.get('SPACE_ID'))
 
 
 def create_int_metavar(int_range : Sequence[int]) -> str:

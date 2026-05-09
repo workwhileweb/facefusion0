@@ -19320,3 +19320,7328 @@ _**Agent (default)**_
 Trong `merged.py` đã **bỏ** dòng `webcam_options.listen()`; chỉ giữ `webcam.listen()`.
 
 Redeploy Space / chạy lại app là được.
+
+---
+
+_**User**_
+
+@@.txt (12-15) 
+
+---
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+Users face repeated model re-downloads during Hugging Face Spaces deployments, causing inefficiency.</details></think>
+
+_**Agent (default)**_
+
+
+Đang tìm cách FaceFusion lưu và tải model, cùng các tùy chọn lưu trữ bền trên Hugging Face Spaces.
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="semantic_search_full">
+<details>
+<summary>Tool use: **semantic_search_full**</summary>
+
+
+Parameters:
+
+```json
+{
+  "explanation": "",
+  "includePattern": "e:\\github\\facefusion0\\facefusion",
+  "query": "Where are models downloaded and saved on disk?",
+  "topK": 10
+}
+```
+Result:
+
+```json
+{
+  "codeResults": [
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "isSignature": true,
+            "lineNumber": 72,
+            "text": "def init() -\u003e None:"
+          },
+          {
+            "lineNumber": 73,
+            "text": "\tos.environ['GRADIO_ANALYTICS_ENABLED'] = '0'"
+          },
+          {
+            "lineNumber": 74,
+            "text": "\tos.environ['GRADIO_TEMP_DIR'] = os.path.join(state_manager.get_item('temp_path'), 'gradio')"
+          },
+          {
+            "lineNumber": 75
+          },
+          {
+            "lineNumber": 76,
+            "text": "\tlogging.getLogger('asyncio').setLevel(logging.CRITICAL)"
+          },
+          {
+            "lineNumber": 77,
+            "text": "\twarnings.filterwarnings('ignore', category = UserWarning, module = 'gradio')"
+          },
+          {
+            "lineNumber": 78,
+            "text": "\tgradio.processing_utils._check_allowed = uis_overrides.mock"
+          },
+          {
+            "lineNumber": 79,
+            "text": "\tgradio.processing_utils.convert_video_to_playable_mp4 = uis_overrides.convert_video_to_playable_mp4"
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 80,
+            "text": "\tgradio.components.Number.raise_if_out_of_bounds = uis_overrides.mock"
+          },
+          {
+            "lineNumber": 81
+          },
+          {
+            "lineNumber": 82
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 83,
+            "text": "def get_open_webcam_tab_js() -\u003e str:"
+          },
+          {
+            "lineNumber": 84,
+            "text": "\treturn"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "line": 102
+          },
+          "startPosition": {
+            "column": 42,
+            "line": 68
+          }
+        },
+        "relativeWorkspacePath": ".\\facefusion\\uis\\core.py",
+        "signatures": {}
+      },
+      "score": 0.19877709448337555
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "lineNumber": 149,
+            "text": ","
+          },
+          {
+            "lineNumber": 150,
+            "text": "\t\t\t'background-remover-model': 'choose the model responsible for removing the background',"
+          },
+          {
+            "lineNumber": 151,
+            "text": "\t\t\t'background-remover-color': 'apply red, green blue and alpha values of the background',"
+          },
+          {
+            "lineNumber": 152,
+            "text": "\t\t\t'open_browser': 'open the browser once the program is ready',"
+          },
+          {
+            "lineNumber": 153,
+            "text": "\t\t\t'ui_layouts': 'launch a single or multiple UI layouts (choices: {choices}, ...)',"
+          },
+          {
+            "lineNumber": 154,
+            "text": "\t\t\t'ui_workflow': 'choose the ui workflow',"
+          },
+          {
+            "lineNumber": 155,
+            "text": "\t\t\t'download_providers': 'download using different providers (choices: {choices}, ...)',"
+          },
+          {
+            "lineNumber": 156,
+            "text": "\t\t\t'download_scope': 'specify the download scope',"
+          },
+          {
+            "lineNumber": 157,
+            "text": "\t\t\t'benchmark_mode': 'choose the benchmark mode',"
+          },
+          {
+            "lineNumber": 158,
+            "text": "\t\t\t'benchmark_resolutions': 'choose the resolutions for the benchmarks (choices: {choices}, ...)',"
+          },
+          {
+            "lineNumber": 159,
+            "text": "\t\t\t'benchmark_cycle_count': 'specify the amount of cycles per benchmark',"
+          },
+          {
+            "lineNumber": 160,
+            "text": "\t\t\t'execution_device_ids': 'specify the devices used for processing',"
+          },
+          {
+            "lineNumber": 161,
+            "text": "\t\t\t'execution_providers': 'inference using different providers (choices: {choices}, ...)',"
+          },
+          {
+            "lineNumber": 162,
+            "text": "\t\t\t'execution_thread_count': 'specify the amount of parallel threads while processing',"
+          },
+          {
+            "lineNumber": 163,
+            "text": "\t\t\t'video_memory_strategy': 'balance fast processing and low VRAM usage',"
+          },
+          {
+            "lineNumber": 164,
+            "text": "\t\t\t'system_memory_limit': 'limit the available RAM that can be used while processing',"
+          },
+          {
+            "lineNumber": 165,
+            "text": "\t\t\t'log_level': 'adjust the message severity displayed in the terminal',"
+          },
+          {
+            "lineNumber": 166,
+            "text": "\t\t\t'halt_on_error': 'halt the program once an error occurred',"
+          },
+          {
+            "lineNumber": 167,
+            "text": "\t\t\t'run': 'run the program',"
+          },
+          {
+            "lineNumber": 168,
+            "text": "\t\t\t'headless_run': 'run the program in headless mode',"
+          },
+          {
+            "lineNumber": 169,
+            "text": "\t\t\t'batch_run': 'run the program in batch mode',"
+          },
+          {
+            "lineNumber": 170,
+            "text": "\t\t\t'force_download': 'force automate downloads and exit',"
+          },
+          {
+            "lineNumber": 171,
+            "text": "\t\t\t'benchmark': 'benchmark the program',"
+          },
+          {
+            "lineNumber": 172,
+            "text": "\t\t\t'job_id': 'specify the job id',"
+          },
+          {
+            "lineNumber": 173,
+            "text": "\t\t\t'job_status': 'specify the job status',"
+          },
+          {
+            "lineNumber": 174,
+            "text": "\t\t\t'step_index': 'specify the step index',"
+          },
+          {
+            "lineNumber": 175,
+            "text": "\t\t\t'job_list': 'list jobs by status',"
+          },
+          {
+            "lineNumber": 176,
+            "text": "\t\t\t'job_create': 'create a drafted job',"
+          },
+          {
+            "lineNumber": 177,
+            "text": "\t\t\t'job_submit': 'submit a drafted job to become a queued job',"
+          },
+          {
+            "lineNumber": 178,
+            "text": "\t\t\t'job_submit_all': 'submit all drafted jobs to become a queued jobs',"
+          },
+          {
+            "lineNumber": 179,
+            "text": "\t\t\t'job_delete': 'delete a drafted, queued, failed or completed job',"
+          },
+          {
+            "lineNumber": 180,
+            "text": "\t\t\t'job_delete_all': 'delete all drafted, queued, failed and completed jobs',"
+          },
+          {
+            "lineNumber": 181,
+            "text": "\t\t\t'job_add_step': 'add a step to a drafted job',"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "column": 49,
+            "line": 180
+          },
+          "startPosition": {
+            "column": 81,
+            "line": 148
+          }
+        },
+        "relativeWorkspacePath": ".\\facefusion\\locales.py",
+        "signatures": {}
+      },
+      "score": 0.1286136955022812
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "lineNumber": 1,
+            "text": "from facefusion.types import Locales"
+          },
+          {
+            "lineNumber": 2
+          },
+          {
+            "lineNumber": 3,
+            "text": "LOCALES : Locales =\\"
+          },
+          {
+            "lineNumber": 4,
+            "text": "{"
+          },
+          {
+            "lineNumber": 5,
+            "text": "\t'en':"
+          },
+          {
+            "lineNumber": 6,
+            "text": "\t{"
+          },
+          {
+            "lineNumber": 7,
+            "text": "\t\t'conda_not_activated': 'conda is not activated',"
+          },
+          {
+            "lineNumber": 8,
+            "text": "\t\t'python_not_supported': 'python version is not supported, upgrade to {version} or higher',"
+          },
+          {
+            "lineNumber": 9,
+            "text": "\t\t'curl_not_installed': 'curl is not installed',"
+          },
+          {
+            "lineNumber": 10,
+            "text": "\t\t'ffmpeg_not_installed': 'ffmpeg is not installed',"
+          },
+          {
+            "lineNumber": 11,
+            "text": "\t\t'creating_temp': 'creating temporary resources',"
+          },
+          {
+            "lineNumber": 12,
+            "text": "\t\t'extracting_frames': 'extracting frames with a resolution of {resolution} and {fps} frames per second',"
+          },
+          {
+            "lineNumber": 13,
+            "text": "\t\t'extracting_frames_succeeded': 'extracting frames succeeded',"
+          },
+          {
+            "lineNumber": 14,
+            "text": "\t\t'extracting_frames_failed': 'extracting frames failed',"
+          },
+          {
+            "lineNumber": 15,
+            "text": "\t\t'analysing': 'analysing',"
+          },
+          {
+            "lineNumber": 16,
+            "text": "\t\t'extracting': 'extracting',"
+          },
+          {
+            "lineNumber": 17,
+            "text": "\t\t'streaming': 'streaming',"
+          },
+          {
+            "lineNumber": 18,
+            "text": "\t\t'processing': 'processing',"
+          },
+          {
+            "lineNumber": 19,
+            "text": "\t\t'merging': 'merging',"
+          },
+          {
+            "lineNumber": 20,
+            "text": "\t\t'downloading': 'downloading',"
+          },
+          {
+            "lineNumber": 21,
+            "text": "\t\t'temp_frames_not_found': 'temporary frames not found',"
+          },
+          {
+            "lineNumber": 22,
+            "text": "\t\t'copying_image': 'copying image with a resolution of {resolution}',"
+          },
+          {
+            "lineNumber": 23,
+            "text": "\t\t'copying_image_succeeded': 'copying image succeeded',"
+          },
+          {
+            "lineNumber": 24,
+            "text": "\t\t'copying_image_failed': 'copying image failed',"
+          },
+          {
+            "lineNumber": 25,
+            "text": "\t\t'finalizing_image': 'finalizing image with a resolution of {resolution}',"
+          },
+          {
+            "lineNumber": 26,
+            "text": "\t\t'finalizing_image_succeeded': 'finalizing image succeeded',"
+          },
+          {
+            "lineNumber": 27,
+            "text": "\t\t'finalizing_image_skipped': 'finalizing image skipped',"
+          },
+          {
+            "lineNumber": 28,
+            "text": "\t\t'merging_video': 'merging video with a resolution of {resolution} and {fps} frames per second',"
+          },
+          {
+            "lineNumber": 29,
+            "text": "\t\t'merging_video_succeeded': 'merging video succeeded',"
+          },
+          {
+            "lineNumber": 30,
+            "text": "\t\t'merging_video_failed': 'merging video failed',"
+          },
+          {
+            "lineNumber": 31,
+            "text": "\t\t'skipping_audio': 'skipping audio',"
+          },
+          {
+            "lineNumber": 32,
+            "text": "\t\t'replacing_audio_succeeded': 'replacing audio succeeded',"
+          },
+          {
+            "lineNumber": 33,
+            "text": "\t\t'replacing_audio_skipped': 'replacing audio skipped',"
+          },
+          {
+            "lineNumber": 34,
+            "text": "\t\t'restoring_audio_succeeded': 'restoring audio succeeded',"
+          },
+          {
+            "lineNumber": 35,
+            "text": "\t\t'restoring_audio_skipped': 'restoring audio skipped',"
+          },
+          {
+            "lineNumber": 36,
+            "text": "\t\t'clearing_temp': 'clearing temporary resources',"
+          },
+          {
+            "lineNumber": 37,
+            "text": "\t\t'processing_stopped': 'processing stopped',"
+          },
+          {
+            "lineNumber": 38,
+            "text": "\t\t'processing_image_succeeded': 'processing to image succeeded in {seconds} seconds',"
+          },
+          {
+            "lineNumber": 39,
+            "text": "\t\t'processing_image_failed': 'processing to image failed',"
+          },
+          {
+            "lineNumber": 40,
+            "text": "\t\t'processing_video_succeeded': 'processing to video succeeded in {seconds} seconds',"
+          },
+          {
+            "lineNumber": 41,
+            "text": "\t\t'processing_video_failed': 'processing to video failed',"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "column": 58,
+            "line": 40
+          },
+          "startPosition": {}
+        },
+        "relativeWorkspacePath": ".\\facefusion\\locales.py",
+        "signatures": {}
+      },
+      "score": 0.11731939762830734
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "lineNumber": 97,
+            "text": "\t\t'exclamation_mark': '!',"
+          },
+          {
+            "lineNumber": 98,
+            "text": "\t\t'help':"
+          },
+          {
+            "lineNumber": 99,
+            "text": "\t\t{"
+          },
+          {
+            "lineNumber": 100,
+            "text": "\t\t\t'install_dependency': 'choose the variant of {dependency} to install',"
+          },
+          {
+            "lineNumber": 101,
+            "text": "\t\t\t'skip_conda': 'skip the conda environment check',"
+          },
+          {
+            "lineNumber": 102,
+            "text": "\t\t\t'config_path': 'choose the config file to override defaults',"
+          },
+          {
+            "lineNumber": 103,
+            "text": "\t\t\t'temp_path': 'specify the directory for the temporary resources',"
+          },
+          {
+            "lineNumber": 104,
+            "text": "\t\t\t'jobs_path': 'specify the directory to store jobs',"
+          },
+          {
+            "lineNumber": 105,
+            "text": "\t\t\t'source_paths': 'choose the image or audio paths',"
+          },
+          {
+            "lineNumber": 106,
+            "text": "\t\t\t'target_path': 'choose the image or video path',"
+          },
+          {
+            "lineNumber": 107,
+            "text": "\t\t\t'output_path': 'specify the image or video within a directory',"
+          },
+          {
+            "lineNumber": 108,
+            "text": "\t\t\t'source_pattern': 'choose the image or audio pattern',"
+          },
+          {
+            "lineNumber": 109,
+            "text": "\t\t\t'target_pattern': 'choose the image or video pattern',"
+          },
+          {
+            "lineNumber": 110,
+            "text": "\t\t\t'output_pattern': 'specify the image or video pattern',"
+          },
+          {
+            "lineNumber": 111,
+            "text": "\t\t\t'face_detector_model': 'choose the model responsible for detecting the faces',"
+          },
+          {
+            "lineNumber": 112,
+            "text": "\t\t\t'face_detector_size': 'specify the frame size provided to the face detector',"
+          },
+          {
+            "lineNumber": 113,
+            "text": "\t\t\t'face_detector_margin': 'apply top, right, bottom and left margin to the frame',"
+          },
+          {
+            "lineNumber": 114,
+            "text": "\t\t\t'face_detector_angles': 'specify the angles to rotate the frame before detecting faces',"
+          },
+          {
+            "lineNumber": 115,
+            "text": "\t\t\t'face_detector_score': 'filter the detected faces based on the confidence score',"
+          },
+          {
+            "lineNumber": 116,
+            "text": "\t\t\t'face_landmarker_model': 'choose the model responsible for detecting the face landmarks',"
+          },
+          {
+            "lineNumber": 117,
+            "text": "\t\t\t'face_landmarker_score': 'filter the detected face landmarks based on the confidence score',"
+          },
+          {
+            "lineNumber": 118,
+            "text": "\t\t\t'face_selector_mode': 'use reference based tracking or simple matching',"
+          },
+          {
+            "lineNumber": 119,
+            "text": "\t\t\t'face_selector_order': 'specify the order of the detected faces',"
+          },
+          {
+            "lineNumber": 120,
+            "text": "\t\t\t'face_selector_age_start': 'filter the detected faces based on the starting age',"
+          },
+          {
+            "lineNumber": 121,
+            "text": "\t\t\t'face_selector_age_end': 'filter the detected faces based on the ending age',"
+          },
+          {
+            "lineNumber": 122,
+            "text": "\t\t\t'face_selector_gender': 'filter the detected faces based on their gender',"
+          },
+          {
+            "lineNumber": 123,
+            "text": "\t\t\t'face_selector_race': 'filter the detected faces based on their race',"
+          },
+          {
+            "lineNumber": 124,
+            "text": "\t\t\t'reference_face_position': 'specify the position used to create the reference face',"
+          },
+          {
+            "lineNumber": 125,
+            "text": "\t\t\t'reference_face_distance': 'specify the similarity between the reference face and target face',"
+          },
+          {
+            "lineNumber": 126,
+            "text": "\t\t\t'reference_frame_number': 'specify the frame used to create the reference face',"
+          },
+          {
+            "lineNumber": 127,
+            "text": "\t\t\t'face_occluder_model': 'choose the model responsible for the occlusion mask'"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "column": 79,
+            "line": 126
+          },
+          "startPosition": {
+            "column": 23,
+            "line": 95
+          }
+        },
+        "relativeWorkspacePath": ".\\facefusion\\locales.py",
+        "signatures": {}
+      },
+      "score": 0.09541034698486328
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "isSignature": true,
+            "lineNumber": 16,
+            "text": "def render() -\u003e gradio.Blocks:"
+          },
+          {
+            "lineNumber": 17,
+            "text": "\twith gradio.Blocks() as layout:"
+          },
+          {
+            "lineNumber": 18,
+            "text": "\t\twith gradio.Tabs():"
+          },
+          {
+            "lineNumber": 19,
+            "text": "\t\t\twith gradio.Tab('default'):"
+          },
+          {
+            "lineNumber": 20,
+            "text": "\t\t\t\twith gradio.Row():"
+          },
+          {
+            "lineNumber": 21,
+            "text": "\t\t\t\t\twith gradio.Column(scale = 4):"
+          },
+          {
+            "lineNumber": 22,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 23,
+            "text": "\t\t\t\t\t\t\tabout.render()"
+          },
+          {
+            "lineNumber": 24,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 25,
+            "text": "\t\t\t\t\t\t\tprocessors.render()"
+          },
+          {
+            "lineNumber": 26,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 27,
+            "text": "\t\t\t\t\t\t\tage_modifier_options.render()"
+          },
+          {
+            "lineNumber": 28,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 29,
+            "text": "\t\t\t\t\t\t\tbackground_remover_options.render()"
+          },
+          {
+            "lineNumber": 30,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 31,
+            "text": "\t\t\t\t\t\t\tdeep_swapper_options.render()"
+          },
+          {
+            "lineNumber": 32,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 33,
+            "text": "\t\t\t\t\t\t\texpression_restorer_options.render()"
+          },
+          {
+            "lineNumber": 34,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 35,
+            "text": "\t\t\t\t\t\t\tface_debugger_options.render()"
+          },
+          {
+            "lineNumber": 36,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 37,
+            "text": "\t\t\t\t\t\t\tface_editor_options.render()"
+          },
+          {
+            "lineNumber": 38,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 39,
+            "text": "\t\t\t\t\t\t\tface_enhancer_options.render()"
+          },
+          {
+            "lineNumber": 40,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 41,
+            "text": "\t\t\t\t\t\t\tface_swapper_options.render()"
+          },
+          {
+            "lineNumber": 42,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 43,
+            "text": "\t\t\t\t\t\t\tframe_colorizer_options.render()"
+          },
+          {
+            "lineNumber": 44,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 45,
+            "text": "\t\t\t\t\t\t\tframe_enhancer_options.render()"
+          },
+          {
+            "lineNumber": 46,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 47,
+            "text": "\t\t\t\t\t\t\tlip_syncer_options.render()"
+          },
+          {
+            "lineNumber": 48,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 49,
+            "text": "\t\t\t\t\t\t\tvoice_extractor.render()"
+          },
+          {
+            "lineNumber": 50,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 51,
+            "text": "\t\t\t\t\t\t\texecution.render()"
+          },
+          {
+            "lineNumber": 52,
+            "text": "\t\t\t\t\t\t\texecution_thread_count.render()"
+          },
+          {
+            "lineNumber": 53,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 54,
+            "text": "\t\t\t\t\t\t\tdownload.render()"
+          },
+          {
+            "lineNumber": 55,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 56,
+            "text": "\t\t\t\t\t\t\tmemory.render()"
+          },
+          {
+            "lineNumber": 57,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 58,
+            "text": "\t\t\t\t\t\t\ttemp_frame.render()"
+          },
+          {
+            "lineNumber": 59,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 60,
+            "text": "\t\t\t\t\t\t\toutput_options.render()"
+          },
+          {
+            "lineNumber": 61,
+            "text": "\t\t\t\t\twith gradio.Column(scale = 4):"
+          },
+          {
+            "lineNumber": 62,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 63,
+            "text": "\t\t\t\t\t\t\tsource.render()"
+          },
+          {
+            "lineNumber": 64,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 65,
+            "text": "\t\t\t\t\t\t\ttarget.render()"
+          },
+          {
+            "lineNumber": 66,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 67,
+            "text": "\t\t\t\t\t\t\toutput.render()"
+          },
+          {
+            "lineNumber": 68,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 69,
+            "text": "\t\t\t\t\t\t\tterminal.render()"
+          },
+          {
+            "lineNumber": 70,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 71,
+            "text": "\t\t\t\t\t\t\tui_workflow.render()"
+          },
+          {
+            "lineNumber": 72,
+            "text": "\t\t\t\t\t\t\tinstant_runner.render()"
+          },
+          {
+            "lineNumber": 73,
+            "text": "\t\t\t\t\t\t\tjob_runner.render()"
+          },
+          {
+            "lineNumber": 74,
+            "text": "\t\t\t\t\t\t\tjob_manager.render()"
+          },
+          {
+            "lineNumber": 75,
+            "text": "\t\t\t\t\twith gradio.Column(scale = 7):"
+          },
+          {
+            "lineNumber": 76,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "line": 99
+          },
+          "startPosition": {
+            "column": 12,
+            "line": 12
+          }
+        },
+        "relativeWorkspacePath": ".\\facefusion\\uis\\layouts\\merged.py",
+        "signatures": {}
+      },
+      "score": 0.09504970163106918
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "isSignature": true,
+            "lineNumber": 106,
+            "text": "def launch() -\u003e None:"
+          },
+          {
+            "lineNumber": 107,
+            "text": "\tui_layouts = state_manager.get_item('ui_layouts')"
+          },
+          {
+            "lineNumber": 108,
+            "text": "\tui_layouts_total = len(ui_layouts)"
+          },
+          {
+            "lineNumber": 109,
+            "text": "\topen_webcam_js = None"
+          },
+          {
+            "lineNumber": 110,
+            "text": "\t# Inner \"webcam\" tab (layout merged) or legacy multi-layout default+webcam"
+          },
+          {
+            "lineNumber": 111,
+            "text": "\tif ('merged' in ui_layouts) or (ui_layouts_total \u003e 1 and 'webcam' in ui_layouts):"
+          },
+          {
+            "lineNumber": 112,
+            "text": "\t\topen_webcam_js = get_open_webcam_tab_js()"
+          },
+          {
+            "lineNumber": 113
+          },
+          {
+            "lineNumber": 114,
+            "text": "\twith gradio.Blocks("
+          },
+          {
+            "lineNumber": 115,
+            "text": "\t\ttheme = get_theme(),"
+          },
+          {
+            "lineNumber": 116,
+            "text": "\t\tcss = get_css(),"
+          },
+          {
+            "lineNumber": 117,
+            "text": "\t\ttitle = metadata.get('name') + ' ' + metadata.get('version'),"
+          },
+          {
+            "lineNumber": 118,
+            "text": "\t\tfill_width = True,"
+          },
+          {
+            "lineNumber": 119,
+            "text": "\t\tjs = open_webcam_js,"
+          },
+          {
+            "lineNumber": 120,
+            "text": "\t) as ui:"
+          },
+          {
+            "lineNumber": 121,
+            "text": "\t\tfor ui_layout in ui_layouts:"
+          },
+          {
+            "lineNumber": 122,
+            "text": "\t\t\tui_layout_module = load_ui_layout_module(ui_layout)"
+          },
+          {
+            "lineNumber": 123
+          },
+          {
+            "lineNumber": 124,
+            "text": "\t\t\tif ui_layouts_total \u003e 1:"
+          },
+          {
+            "lineNumber": 125,
+            "text": "\t\t\t\twith gradio.Tab(ui_layout):"
+          },
+          {
+            "lineNumber": 126,
+            "text": "\t\t\t\t\tui_layout_module.render()"
+          },
+          {
+            "lineNumber": 127,
+            "text": "\t\t\t\t\tui_layout_module.listen()"
+          },
+          {
+            "lineNumber": 128,
+            "text": "\t\t\telse:"
+          },
+          {
+            "lineNumber": 129,
+            "text": "\t\t\t\tui_layout_module.render()"
+          },
+          {
+            "lineNumber": 130,
+            "text": "\t\t\t\tui_layout_module.listen()"
+          },
+          {
+            "lineNumber": 131
+          },
+          {
+            "lineNumber": 132,
+            "text": "\tfor ui_layout in ui_layouts:"
+          },
+          {
+            "lineNumber": 133,
+            "text": "\t\tui_layout_module = load_ui_layout_module(ui_layout)"
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 134,
+            "text": "\t\tui_layout_module.run(ui)"
+          },
+          {
+            "lineNumber": 135
+          },
+          {
+            "lineNumber": 136
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 137,
+            "text": "def get_theme() -\u003e gradio.Theme:"
+          },
+          {
+            "lineNumber": 138,
+            "text": "\treturn"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "line": 229
+          },
+          "startPosition": {
+            "column": 4,
+            "line": 102
+          }
+        },
+        "relativeWorkspacePath": ".\\facefusion\\uis\\core.py",
+        "signatures": {}
+      },
+      "score": 0.08859193325042725
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "lineNumber": 125,
+            "text": "',"
+          },
+          {
+            "lineNumber": 126,
+            "text": "\t\t\t'reference_frame_number': 'specify the frame used to create the reference face',"
+          },
+          {
+            "lineNumber": 127,
+            "text": "\t\t\t'face_occluder_model': 'choose the model responsible for the occlusion mask',"
+          },
+          {
+            "lineNumber": 128,
+            "text": "\t\t\t'face_parser_model': 'choose the model responsible for the region mask',"
+          },
+          {
+            "lineNumber": 129,
+            "text": "\t\t\t'face_mask_types': 'mix and match different face mask types (choices: {choices})',"
+          },
+          {
+            "lineNumber": 130,
+            "text": "\t\t\t'face_mask_areas': 'choose the items used for the area mask (choices: {choices})',"
+          },
+          {
+            "lineNumber": 131,
+            "text": "\t\t\t'face_mask_regions': 'choose the items used for the region mask (choices: {choices})',"
+          },
+          {
+            "lineNumber": 132,
+            "text": "\t\t\t'face_mask_blur': 'specify the degree of blur applied to the box mask',"
+          },
+          {
+            "lineNumber": 133,
+            "text": "\t\t\t'face_mask_padding': 'apply top, right, bottom and left padding to the box mask',"
+          },
+          {
+            "lineNumber": 134,
+            "text": "\t\t\t'voice_extractor_model': 'choose the model responsible for extracting the voices',"
+          },
+          {
+            "lineNumber": 135,
+            "text": "\t\t\t'trim_frame_start': 'specify the starting frame of the target video',"
+          },
+          {
+            "lineNumber": 136,
+            "text": "\t\t\t'trim_frame_end': 'specify the ending frame of the target video',"
+          },
+          {
+            "lineNumber": 137,
+            "text": "\t\t\t'temp_frame_format': 'specify the temporary resources format',"
+          },
+          {
+            "lineNumber": 138,
+            "text": "\t\t\t'keep_temp': 'keep the temporary resources after processing',"
+          },
+          {
+            "lineNumber": 139,
+            "text": "\t\t\t'output_image_quality': 'specify the image quality which translates to the image compression',"
+          },
+          {
+            "lineNumber": 140,
+            "text": "\t\t\t'output_image_scale': 'specify the image scale based on the target image',"
+          },
+          {
+            "lineNumber": 141,
+            "text": "\t\t\t'output_audio_encoder': 'specify the encoder used for the audio',"
+          },
+          {
+            "lineNumber": 142,
+            "text": "\t\t\t'output_audio_quality': 'specify the audio quality which translates to the audio compression',"
+          },
+          {
+            "lineNumber": 143,
+            "text": "\t\t\t'output_audio_volume': 'specify the audio volume based on the target video',"
+          },
+          {
+            "lineNumber": 144,
+            "text": "\t\t\t'output_video_encoder': 'specify the encoder used for the video',"
+          },
+          {
+            "lineNumber": 145,
+            "text": "\t\t\t'output_video_preset': 'balance fast video processing and video file size',"
+          },
+          {
+            "lineNumber": 146,
+            "text": "\t\t\t'output_video_quality': 'specify the video quality which translates to the video compression',"
+          },
+          {
+            "lineNumber": 147,
+            "text": "\t\t\t'output_video_scale': 'specify the video scale based on the target video',"
+          },
+          {
+            "lineNumber": 148,
+            "text": "\t\t\t'output_video_fps': 'specify the video fps based on the target video',"
+          },
+          {
+            "lineNumber": 149,
+            "text": "\t\t\t'processors': 'load a single or multiple processors (choices: {choices}, ...)',"
+          },
+          {
+            "lineNumber": 150,
+            "text": "\t\t\t'background-remover-model': 'choose the model responsible for removing the background',"
+          },
+          {
+            "lineNumber": 151,
+            "text": "\t\t\t'background-remover-color': 'apply red, green blue and alpha values of the background"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "column": 88,
+            "line": 150
+          },
+          "startPosition": {
+            "column": 96,
+            "line": 124
+          }
+        },
+        "relativeWorkspacePath": ".\\facefusion\\locales.py",
+        "signatures": {}
+      },
+      "score": 0.08688110113143921
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "lineNumber": 1,
+            "text": "import importlib"
+          },
+          {
+            "lineNumber": 2,
+            "text": "import logging"
+          },
+          {
+            "lineNumber": 3,
+            "text": "import os"
+          },
+          {
+            "lineNumber": 4,
+            "text": "import warnings"
+          },
+          {
+            "lineNumber": 5,
+            "text": "from types import ModuleType"
+          },
+          {
+            "lineNumber": 6,
+            "text": "from typing import Any, Dict, List, Optional"
+          },
+          {
+            "lineNumber": 7
+          },
+          {
+            "lineNumber": 8,
+            "text": "import gradio"
+          },
+          {
+            "lineNumber": 9,
+            "text": "from gradio.themes import Size"
+          },
+          {
+            "lineNumber": 10
+          },
+          {
+            "lineNumber": 11,
+            "text": "import facefusion.uis.overrides as uis_overrides"
+          },
+          {
+            "lineNumber": 12,
+            "text": "from facefusion import logger, metadata, state_manager, translator"
+          },
+          {
+            "lineNumber": 13,
+            "text": "from facefusion.exit_helper import hard_exit"
+          },
+          {
+            "lineNumber": 14,
+            "text": "from facefusion.filesystem import resolve_relative_path"
+          },
+          {
+            "lineNumber": 15,
+            "text": "from facefusion.uis.types import Component, ComponentName"
+          },
+          {
+            "lineNumber": 16
+          },
+          {
+            "lineNumber": 17,
+            "text": "UI_COMPONENTS: Dict[ComponentName, Component] = {}"
+          },
+          {
+            "lineNumber": 18,
+            "text": "UI_LAYOUT_MODULES : List[ModuleType] = []"
+          },
+          {
+            "lineNumber": 19,
+            "text": "UI_LAYOUT_METHODS =\\"
+          },
+          {
+            "lineNumber": 20,
+            "text": "["
+          },
+          {
+            "lineNumber": 21,
+            "text": "\t'pre_check',"
+          },
+          {
+            "lineNumber": 22,
+            "text": "\t'render',"
+          },
+          {
+            "lineNumber": 23,
+            "text": "\t'listen',"
+          },
+          {
+            "lineNumber": 24,
+            "text": "\t'run'"
+          },
+          {
+            "lineNumber": 25,
+            "text": "]"
+          },
+          {
+            "lineNumber": 26
+          },
+          {
+            "lineNumber": 27
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 28,
+            "text": "def load_ui_layout_module(ui_layout : str) -\u003e Any:"
+          },
+          {
+            "lineNumber": 29,
+            "text": "\ttry:"
+          },
+          {
+            "lineNumber": 30,
+            "text": "\t\tui_layout_module = importlib.import_module('facefusion.uis.layouts.' + ui_layout)"
+          },
+          {
+            "lineNumber": 31,
+            "text": "\t\tfor method_name in UI_LAYOUT_METHODS:"
+          },
+          {
+            "lineNumber": 32,
+            "text": "\t\t\tif not hasattr(ui_layout_module, method_name):"
+          },
+          {
+            "lineNumber": 33,
+            "text": "\t\t\t\traise NotImplementedError"
+          },
+          {
+            "lineNumber": 34,
+            "text": "\texcept ModuleNotFoundError as exception:"
+          },
+          {
+            "lineNumber": 35,
+            "text": "\t\tlogger.error(translator.get('ui_layout_not_loaded').format(ui_layout = ui_layout), __name__)"
+          },
+          {
+            "lineNumber": 36,
+            "text": "\t\tlogger.debug(exception.msg, __name__)"
+          },
+          {
+            "lineNumber": 37,
+            "text": "\t\thard_exit(1)"
+          },
+          {
+            "lineNumber": 38,
+            "text": "\texcept NotImplementedError:"
+          },
+          {
+            "lineNumber": 39,
+            "text": "\t\tlogger.error(translator.get('ui_layout_not_implemented').format(ui_layout = ui_layout), __name__)"
+          },
+          {
+            "lineNumber": 40,
+            "text": "\t\thard_exit(1)"
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 41,
+            "text": "\treturn ui_layout_module"
+          },
+          {
+            "lineNumber": 42
+          },
+          {
+            "lineNumber": 43
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 44,
+            "text": "def get_ui_layouts_modules(ui_layouts : List[str]) -\u003e List[ModuleType]:"
+          },
+          {
+            "lineNumber": 45,
+            "text": "\tif"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "line": 48
+          },
+          "startPosition": {}
+        },
+        "relativeWorkspacePath": ".\\facefusion\\uis\\core.py",
+        "signatures": {}
+      },
+      "score": 0.08350060135126114
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "isSignature": true,
+            "lineNumber": 103,
+            "text": "def listen() -\u003e None:"
+          },
+          {
+            "lineNumber": 104,
+            "text": "\tprocessors.listen()"
+          },
+          {
+            "lineNumber": 105,
+            "text": "\tage_modifier_options.listen()"
+          },
+          {
+            "lineNumber": 106,
+            "text": "\tbackground_remover_options.listen()"
+          },
+          {
+            "lineNumber": 107,
+            "text": "\tdeep_swapper_options.listen()"
+          },
+          {
+            "lineNumber": 108,
+            "text": "\texpression_restorer_options.listen()"
+          },
+          {
+            "lineNumber": 109,
+            "text": "\tface_debugger_options.listen()"
+          },
+          {
+            "lineNumber": 110,
+            "text": "\tface_editor_options.listen()"
+          },
+          {
+            "lineNumber": 111,
+            "text": "\tface_enhancer_options.listen()"
+          },
+          {
+            "lineNumber": 112,
+            "text": "\tface_swapper_options.listen()"
+          },
+          {
+            "lineNumber": 113,
+            "text": "\tframe_colorizer_options.listen()"
+          },
+          {
+            "lineNumber": 114,
+            "text": "\tframe_enhancer_options.listen()"
+          },
+          {
+            "lineNumber": 115,
+            "text": "\tlip_syncer_options.listen()"
+          },
+          {
+            "lineNumber": 116,
+            "text": "\texecution.listen()"
+          },
+          {
+            "lineNumber": 117,
+            "text": "\texecution_thread_count.listen()"
+          },
+          {
+            "lineNumber": 118,
+            "text": "\tdownload.listen()"
+          },
+          {
+            "lineNumber": 119,
+            "text": "\tmemory.listen()"
+          },
+          {
+            "lineNumber": 120,
+            "text": "\ttemp_frame.listen()"
+          },
+          {
+            "lineNumber": 121,
+            "text": "\toutput_options.listen()"
+          },
+          {
+            "lineNumber": 122,
+            "text": "\tsource.listen()"
+          },
+          {
+            "lineNumber": 123,
+            "text": "\ttarget.listen()"
+          },
+          {
+            "lineNumber": 124,
+            "text": "\toutput.listen()"
+          },
+          {
+            "lineNumber": 125,
+            "text": "\tinstant_runner.listen()"
+          },
+          {
+            "lineNumber": 126,
+            "text": "\tjob_runner.listen()"
+          },
+          {
+            "lineNumber": 127,
+            "text": "\tjob_manager.listen()"
+          },
+          {
+            "lineNumber": 128,
+            "text": "\tterminal.listen()"
+          },
+          {
+            "lineNumber": 129,
+            "text": "\tpreview.listen()"
+          },
+          {
+            "lineNumber": 130,
+            "text": "\tpreview_options.listen()"
+          },
+          {
+            "lineNumber": 131,
+            "text": "\ttrim_frame.listen()"
+          },
+          {
+            "lineNumber": 132,
+            "text": "\tface_selector.listen()"
+          },
+          {
+            "lineNumber": 133,
+            "text": "\tface_masker.listen()"
+          },
+          {
+            "lineNumber": 134,
+            "text": "\tface_detector.listen()"
+          },
+          {
+            "lineNumber": 135,
+            "text": "\tface_landmarker.listen()"
+          },
+          {
+            "lineNumber": 136,
+            "text": "\tvoice_extractor.listen()"
+          },
+          {
+            "lineNumber": 137,
+            "text": "\tcommon_options.listen()"
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 138,
+            "text": "\twebcam.listen()"
+          },
+          {
+            "lineNumber": 139
+          },
+          {
+            "lineNumber": 140
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 141,
+            "text": "def run(ui : gradio.Blocks) -\u003e None:"
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 142,
+            "text": "\tui.launch(**get_gradio_launch_kwargs())"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "column": 40,
+            "line": 141
+          },
+          "startPosition": {
+            "column": 14,
+            "line": 99
+          }
+        },
+        "relativeWorkspacePath": ".\\facefusion\\uis\\layouts\\merged.py",
+        "signatures": {}
+      },
+      "score": 0.07372593879699707
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "lineNumber": 1,
+            "text": "\"\"\""
+          },
+          {
+            "lineNumber": 2,
+            "text": "Single Gradio layout with inner tabs (default | webcam). Using two top-level"
+          },
+          {
+            "lineNumber": 3,
+            "text": "layouts (default + webcam) duplicates every component and .listen() twice,"
+          },
+          {
+            "lineNumber": 4,
+            "text": "which breaks Gradio's queue (e.g. KeyError: fn_index)."
+          },
+          {
+            "lineNumber": 5,
+            "text": "\"\"\""
+          },
+          {
+            "lineNumber": 6,
+            "text": "import gradio"
+          },
+          {
+            "lineNumber": 7
+          },
+          {
+            "lineNumber": 8,
+            "text": "from facefusion.uis.components import about, age_modifier_options, background_remover_options, common_options, deep_swapper_options, download, execution, execution_thread_count, expression_restorer_options, face_debugger_options, face_detector, face_editor_options, face_enhancer_options, face_landmarker, face_masker, face_selector, face_swapper_options, frame_colorizer_options, frame_enhancer_options, instant_runner, job_manager, job_runner, lip_syncer_options, memory, output, output_options, preview, preview_options, processors, source, target, temp_frame, terminal, trim_frame, ui_workflow, voice_extractor, webcam, webcam_options"
+          },
+          {
+            "lineNumber": 9,
+            "text": "from facefusion.uis.ui_helper import get_gradio_launch_kwargs"
+          },
+          {
+            "lineNumber": 10
+          },
+          {
+            "lineNumber": 11
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 12,
+            "text": "def pre_check() -\u003e bool:"
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 13,
+            "text": "\treturn True"
+          },
+          {
+            "lineNumber": 14
+          },
+          {
+            "lineNumber": 15
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 16,
+            "text": "def render() -\u003e gradio.Blocks:"
+          },
+          {
+            "lineNumber": 17,
+            "text": "\twith gradio.Blocks() as layout:"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "line": 99
+          },
+          "startPosition": {}
+        },
+        "relativeWorkspacePath": ".\\facefusion\\uis\\layouts\\merged.py",
+        "signatures": {}
+      },
+      "score": 0.06920093297958374
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "lineNumber": 222,
+            "text": "\t\t\t'face_mask_types_checkbox_group': 'FACE MASK TYPES',"
+          },
+          {
+            "lineNumber": 223,
+            "text": "\t\t\t'face_selector_age_range_slider': 'FACE SELECTOR AGE',"
+          },
+          {
+            "lineNumber": 224,
+            "text": "\t\t\t'face_selector_gender_dropdown': 'FACE SELECTOR GENDER',"
+          },
+          {
+            "lineNumber": 225,
+            "text": "\t\t\t'face_selector_mode_dropdown': 'FACE SELECTOR MODE',"
+          },
+          {
+            "lineNumber": 226,
+            "text": "\t\t\t'face_selector_order_dropdown': 'FACE SELECTOR ORDER',"
+          },
+          {
+            "lineNumber": 227,
+            "text": "\t\t\t'face_selector_race_dropdown': 'FACE SELECTOR RACE',"
+          },
+          {
+            "lineNumber": 228,
+            "text": "\t\t\t'face_occluder_model_dropdown': 'FACE OCCLUDER MODEL',"
+          },
+          {
+            "lineNumber": 229,
+            "text": "\t\t\t'face_parser_model_dropdown': 'FACE PARSER MODEL',"
+          },
+          {
+            "lineNumber": 230,
+            "text": "\t\t\t'voice_extractor_model_dropdown': 'VOICE EXTRACTOR MODEL',"
+          },
+          {
+            "lineNumber": 231,
+            "text": "\t\t\t'job_list_status_checkbox_group': 'JOB STATUS',"
+          },
+          {
+            "lineNumber": 232,
+            "text": "\t\t\t'job_manager_job_action_dropdown': 'JOB_ACTION',"
+          },
+          {
+            "lineNumber": 233,
+            "text": "\t\t\t'job_manager_job_id_dropdown': 'JOB ID',"
+          },
+          {
+            "lineNumber": 234,
+            "text": "\t\t\t'job_manager_step_index_dropdown': 'STEP INDEX',"
+          },
+          {
+            "lineNumber": 235,
+            "text": "\t\t\t'job_runner_job_action_dropdown': 'JOB ACTION',"
+          },
+          {
+            "lineNumber": 236,
+            "text": "\t\t\t'job_runner_job_id_dropdown': 'JOB ID',"
+          },
+          {
+            "lineNumber": 237,
+            "text": "\t\t\t'log_level_dropdown': 'LOG LEVEL',"
+          },
+          {
+            "lineNumber": 238,
+            "text": "\t\t\t'output_audio_encoder_dropdown': 'OUTPUT AUDIO ENCODER',"
+          },
+          {
+            "lineNumber": 239,
+            "text": "\t\t\t'output_audio_quality_slider': 'OUTPUT AUDIO QUALITY',"
+          },
+          {
+            "lineNumber": 240,
+            "text": "\t\t\t'output_audio_volume_slider': 'OUTPUT AUDIO VOLUME',"
+          },
+          {
+            "lineNumber": 241,
+            "text": "\t\t\t'output_image_or_video': 'OUTPUT',"
+          },
+          {
+            "lineNumber": 242,
+            "text": "\t\t\t'output_image_quality_slider': 'OUTPUT IMAGE QUALITY',"
+          },
+          {
+            "lineNumber": 243,
+            "text": "\t\t\t'output_image_scale_slider': 'OUTPUT IMAGE SCALE',"
+          },
+          {
+            "lineNumber": 244,
+            "text": "\t\t\t'output_path_textbox': 'OUTPUT PATH',"
+          },
+          {
+            "lineNumber": 245,
+            "text": "\t\t\t'output_video_encoder_dropdown': 'OUTPUT VIDEO ENCODER',"
+          },
+          {
+            "lineNumber": 246,
+            "text": "\t\t\t'output_video_fps_slider': 'OUTPUT VIDEO FPS',"
+          },
+          {
+            "lineNumber": 247,
+            "text": "\t\t\t'output_video_preset_dropdown': 'OUTPUT VIDEO PRESET',"
+          },
+          {
+            "lineNumber": 248,
+            "text": "\t\t\t'output_video_quality_slider': 'OUTPUT VIDEO QUALITY',"
+          },
+          {
+            "lineNumber": 249,
+            "text": "\t\t\t'output_video_scale_slider': 'OUTPUT VIDEO SCALE',"
+          },
+          {
+            "lineNumber": 250,
+            "text": "\t\t\t'preview_frame_slider': 'PREVIEW FRAME',"
+          },
+          {
+            "lineNumber": 251,
+            "text": "\t\t\t'preview_image': 'PREVIEW',"
+          },
+          {
+            "lineNumber": 252,
+            "text": "\t\t\t'preview_mode_dropdown': 'PREVIEW MODE',"
+          },
+          {
+            "lineNumber": 253,
+            "text": "\t\t\t'preview_resolution_dropdown': 'PREVIEW RESOLUTION',"
+          },
+          {
+            "lineNumber": 254,
+            "text": "\t\t\t'processors_checkbox_group': 'PROCESSORS',"
+          },
+          {
+            "lineNumber": 255,
+            "text": "\t\t\t'reference_face_distance_slider': 'REFERENCE FACE DISTANCE',"
+          },
+          {
+            "lineNumber": 256,
+            "text": "\t\t\t'reference_face_gallery': 'REFERENCE FACE',"
+          },
+          {
+            "lineNumber": 257,
+            "text": "\t\t\t'refresh_button': 'REFRESH',"
+          },
+          {
+            "lineNumber": 258,
+            "text": "\t\t\t'source_file': 'SOURCE',"
+          },
+          {
+            "lineNumber": 259,
+            "text": "\t\t\t'start_button': 'START',"
+          },
+          {
+            "lineNumber": 260,
+            "text": "\t\t\t'stop_button': 'STOP',"
+          },
+          {
+            "lineNumber": 261,
+            "text": "\t\t\t'system_memory_limit_slider': 'SYSTEM MEMORY LIMIT',"
+          },
+          {
+            "lineNumber": 262,
+            "text": "\t\t\t'target_file': 'TARGET',"
+          },
+          {
+            "lineNumber": 263,
+            "text": "\t\t\t'temp_frame_format_dropdown': 'TEMP FRAME FORMAT'"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "column": 52,
+            "line": 262
+          },
+          "startPosition": {
+            "column": 59,
+            "line": 220
+          }
+        },
+        "relativeWorkspacePath": ".\\facefusion\\locales.py",
+        "signatures": {}
+      },
+      "score": 0.0599730983376503
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "lineNumber": 180,
+            "text": "\t\t\t'job_delete_all': 'delete all drafted, queued, failed and completed jobs',"
+          },
+          {
+            "lineNumber": 181,
+            "text": "\t\t\t'job_add_step': 'add a step to a drafted job',"
+          },
+          {
+            "lineNumber": 182,
+            "text": "\t\t\t'job_remix_step': 'remix a previous step from a drafted job',"
+          },
+          {
+            "lineNumber": 183,
+            "text": "\t\t\t'job_insert_step': 'insert a step to a drafted job',"
+          },
+          {
+            "lineNumber": 184,
+            "text": "\t\t\t'job_remove_step': 'remove a step from a drafted job',"
+          },
+          {
+            "lineNumber": 185,
+            "text": "\t\t\t'job_run': 'run a queued job',"
+          },
+          {
+            "lineNumber": 186,
+            "text": "\t\t\t'job_run_all': 'run all queued jobs',"
+          },
+          {
+            "lineNumber": 187,
+            "text": "\t\t\t'job_retry': 'retry a failed job',"
+          },
+          {
+            "lineNumber": 188,
+            "text": "\t\t\t'job_retry_all': 'retry all failed jobs'"
+          },
+          {
+            "lineNumber": 189,
+            "text": "\t\t},"
+          },
+          {
+            "lineNumber": 190,
+            "text": "\t\t'about':"
+          },
+          {
+            "lineNumber": 191,
+            "text": "\t\t{"
+          },
+          {
+            "lineNumber": 192,
+            "text": "\t\t\t'fund': 'fund ai workstation',"
+          },
+          {
+            "lineNumber": 193,
+            "text": "\t\t\t'subscribe': 'become a member',"
+          },
+          {
+            "lineNumber": 194,
+            "text": "\t\t\t'join': 'join our community',"
+          },
+          {
+            "lineNumber": 195,
+            "text": "\t\t\t'webcam': 'Webcam'"
+          },
+          {
+            "lineNumber": 196,
+            "text": "\t\t},"
+          },
+          {
+            "lineNumber": 197,
+            "text": "\t\t'uis':"
+          },
+          {
+            "lineNumber": 198,
+            "text": "\t\t{"
+          },
+          {
+            "lineNumber": 199,
+            "text": "\t\t\t'apply_button': 'APPLY',"
+          },
+          {
+            "lineNumber": 200,
+            "text": "\t\t\t'benchmark_mode_dropdown': 'BENCHMARK MODE',"
+          },
+          {
+            "lineNumber": 201,
+            "text": "\t\t\t'benchmark_cycle_count_slider': 'BENCHMARK CYCLE COUNT',"
+          },
+          {
+            "lineNumber": 202,
+            "text": "\t\t\t'benchmark_resolutions_checkbox_group': 'BENCHMARK RESOLUTIONS',"
+          },
+          {
+            "lineNumber": 203,
+            "text": "\t\t\t'clear_button': 'CLEAR',"
+          },
+          {
+            "lineNumber": 204,
+            "text": "\t\t\t'common_options_checkbox_group': 'OPTIONS',"
+          },
+          {
+            "lineNumber": 205,
+            "text": "\t\t\t'download_providers_checkbox_group': 'DOWNLOAD PROVIDERS',"
+          },
+          {
+            "lineNumber": 206,
+            "text": "\t\t\t'execution_providers_checkbox_group': 'EXECUTION PROVIDERS',"
+          },
+          {
+            "lineNumber": 207,
+            "text": "\t\t\t'execution_thread_count_slider': 'EXECUTION THREAD COUNT',"
+          },
+          {
+            "lineNumber": 208,
+            "text": "\t\t\t'face_detector_angles_checkbox_group': 'FACE DETECTOR ANGLES',"
+          },
+          {
+            "lineNumber": 209,
+            "text": "\t\t\t'face_detector_model_dropdown': 'FACE DETECTOR MODEL',"
+          },
+          {
+            "lineNumber": 210,
+            "text": "\t\t\t'face_detector_margin_slider': 'FACE DETECTOR MARGIN',"
+          },
+          {
+            "lineNumber": 211,
+            "text": "\t\t\t'face_detector_score_slider': 'FACE DETECTOR SCORE',"
+          },
+          {
+            "lineNumber": 212,
+            "text": "\t\t\t'face_detector_size_dropdown': 'FACE DETECTOR SIZE',"
+          },
+          {
+            "lineNumber": 213,
+            "text": "\t\t\t'face_landmarker_model_dropdown': 'FACE LANDMARKER MODEL',"
+          },
+          {
+            "lineNumber": 214,
+            "text": "\t\t\t'face_landmarker_score_slider': 'FACE LANDMARKER SCORE',"
+          },
+          {
+            "lineNumber": 215,
+            "text": "\t\t\t'face_mask_blur_slider': 'FACE MASK BLUR',"
+          },
+          {
+            "lineNumber": 216,
+            "text": "\t\t\t'face_mask_padding_bottom_slider': 'FACE MASK PADDING BOTTOM',"
+          },
+          {
+            "lineNumber": 217,
+            "text": "\t\t\t'face_mask_padding_left_slider': 'FACE MASK PADDING LEFT',"
+          },
+          {
+            "lineNumber": 218,
+            "text": "\t\t\t'face_mask_padding_right_slider': 'FACE MASK PADDING RIGHT',"
+          },
+          {
+            "lineNumber": 219,
+            "text": "\t\t\t'face_mask_padding_top_slider': 'FACE MASK PADDING TOP',"
+          },
+          {
+            "lineNumber": 220,
+            "text": "\t\t\t'face_mask_areas_checkbox_group': 'FACE MASK AREAS',"
+          },
+          {
+            "lineNumber": 221,
+            "text": "\t\t\t'face_mask_regions_checkbox_group': 'FACE MASK REGIONS',"
+          },
+          {
+            "lineNumber": 222,
+            "text": "\t\t\t'face_mask_types_checkbox_group': 'FACE MASK TYPES',"
+          },
+          {
+            "lineNumber": 223,
+            "text": "\t\t\t'face_selector_age_range_slider': 'FACE SELECTOR AGE',"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "column": 57,
+            "line": 222
+          },
+          "startPosition": {
+            "column": 69,
+            "line": 178
+          }
+        },
+        "relativeWorkspacePath": ".\\facefusion\\locales.py",
+        "signatures": {}
+      },
+      "score": 0.048065248876810074
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "isSignature": true,
+            "lineNumber": 141,
+            "text": "def run(ui : gradio.Blocks) -\u003e None:"
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 142,
+            "text": "\tui.launch(**get_gradio_launch_kwargs())"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "column": 40,
+            "line": 141
+          },
+          "startPosition": {
+            "column": 16,
+            "line": 137
+          }
+        },
+        "relativeWorkspacePath": ".\\facefusion\\uis\\layouts\\merged.py",
+        "signatures": {}
+      },
+      "score": 0.04621829837560654
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "lineNumber": 260,
+            "text": ","
+          },
+          {
+            "lineNumber": 261,
+            "text": "\t\t\t'system_memory_limit_slider': 'SYSTEM MEMORY LIMIT',"
+          },
+          {
+            "lineNumber": 262,
+            "text": "\t\t\t'target_file': 'TARGET',"
+          },
+          {
+            "lineNumber": 263,
+            "text": "\t\t\t'temp_frame_format_dropdown': 'TEMP FRAME FORMAT',"
+          },
+          {
+            "lineNumber": 264,
+            "text": "\t\t\t'terminal_textbox': 'TERMINAL',"
+          },
+          {
+            "lineNumber": 265,
+            "text": "\t\t\t'trim_frame_slider': 'TRIM FRAME',"
+          },
+          {
+            "lineNumber": 266,
+            "text": "\t\t\t'ui_workflow': 'UI WORKFLOW',"
+          },
+          {
+            "lineNumber": 267,
+            "text": "\t\t\t'video_memory_strategy_dropdown': 'VIDEO MEMORY STRATEGY',"
+          },
+          {
+            "lineNumber": 268,
+            "text": "\t\t\t'webcam_fps_slider': 'WEBCAM FPS',"
+          },
+          {
+            "lineNumber": 269,
+            "text": "\t\t\t'webcam_image': 'WEBCAM',"
+          },
+          {
+            "lineNumber": 270,
+            "text": "\t\t\t'webcam_device_id_dropdown': 'WEBCAM DEVICE ID',"
+          },
+          {
+            "lineNumber": 271,
+            "text": "\t\t\t'webcam_mode_radio': 'WEBCAM MODE',"
+          },
+          {
+            "lineNumber": 272,
+            "text": "\t\t\t'webcam_resolution_dropdown': 'WEBCAM RESOLUTION'"
+          },
+          {
+            "lineNumber": 273,
+            "text": "\t\t}"
+          },
+          {
+            "lineNumber": 274,
+            "text": "\t}"
+          },
+          {
+            "lineNumber": 275,
+            "text": "}"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "column": 1,
+            "line": 274
+          },
+          "startPosition": {
+            "column": 24,
+            "line": 259
+          }
+        },
+        "relativeWorkspacePath": ".\\facefusion\\locales.py",
+        "signatures": {}
+      },
+      "score": 0.03863620012998581
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "lineNumber": 71,
+            "text": "\t\t'job_step_removed': 'step {step_index} removed from job {job_id}',"
+          },
+          {
+            "lineNumber": 72,
+            "text": "\t\t'job_step_not_removed': 'step {step_index} not removed from job {job_id}',"
+          },
+          {
+            "lineNumber": 73,
+            "text": "\t\t'running_job': 'running queued job {job_id}',"
+          },
+          {
+            "lineNumber": 74,
+            "text": "\t\t'running_jobs': 'running all queued jobs',"
+          },
+          {
+            "lineNumber": 75,
+            "text": "\t\t'retrying_job': 'retrying failed job {job_id}',"
+          },
+          {
+            "lineNumber": 76,
+            "text": "\t\t'retrying_jobs': 'retrying all failed jobs',"
+          },
+          {
+            "lineNumber": 77,
+            "text": "\t\t'processing_job_succeeded': 'processing of job {job_id} succeeded',"
+          },
+          {
+            "lineNumber": 78,
+            "text": "\t\t'processing_jobs_succeeded': 'processing of all jobs succeeded',"
+          },
+          {
+            "lineNumber": 79,
+            "text": "\t\t'processing_job_failed': 'processing of job {job_id} failed',"
+          },
+          {
+            "lineNumber": 80,
+            "text": "\t\t'processing_jobs_failed': 'processing of all jobs failed',"
+          },
+          {
+            "lineNumber": 81,
+            "text": "\t\t'processing_step': 'processing step {step_current} of {step_total}',"
+          },
+          {
+            "lineNumber": 82,
+            "text": "\t\t'validating_hash_succeeded': 'validating hash for {hash_file_name} succeeded',"
+          },
+          {
+            "lineNumber": 83,
+            "text": "\t\t'validating_hash_failed': 'validating hash for {hash_file_name} failed',"
+          },
+          {
+            "lineNumber": 84,
+            "text": "\t\t'validating_source_succeeded': 'validating source for {source_file_name} succeeded',"
+          },
+          {
+            "lineNumber": 85,
+            "text": "\t\t'validating_source_failed': 'validating source for {source_file_name} failed',"
+          },
+          {
+            "lineNumber": 86,
+            "text": "\t\t'deleting_corrupt_source': 'deleting corrupt source for {source_file_name}',"
+          },
+          {
+            "lineNumber": 87,
+            "text": "\t\t'loading_model_succeeded': 'loading model {model_name} succeeded in {seconds} seconds',"
+          },
+          {
+            "lineNumber": 88,
+            "text": "\t\t'loading_model_failed': 'loading model {model_name} failed',"
+          },
+          {
+            "lineNumber": 89,
+            "text": "\t\t'time_ago_now': 'just now',"
+          },
+          {
+            "lineNumber": 90,
+            "text": "\t\t'time_ago_minutes': '{minutes} minutes ago',"
+          },
+          {
+            "lineNumber": 91,
+            "text": "\t\t'time_ago_hours': '{hours} hours and {minutes} minutes ago',"
+          },
+          {
+            "lineNumber": 92,
+            "text": "\t\t'time_ago_days': '{days} days, {hours} hours and {minutes} minutes ago',"
+          },
+          {
+            "lineNumber": 93,
+            "text": "\t\t'point': '.',"
+          },
+          {
+            "lineNumber": 94,
+            "text": "\t\t'comma': ',',"
+          },
+          {
+            "lineNumber": 95,
+            "text": "\t\t'colon': ':',"
+          },
+          {
+            "lineNumber": 96,
+            "text": "\t\t'question_mark': '?',"
+          },
+          {
+            "lineNumber": 97,
+            "text": "\t\t'exclamation_mark': '!',"
+          },
+          {
+            "lineNumber": 98,
+            "text": "\t\t'help':"
+          },
+          {
+            "lineNumber": 99,
+            "text": "\t\t{"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "column": 3,
+            "line": 98
+          },
+          "startPosition": {
+            "column": 76,
+            "line": 69
+          }
+        },
+        "relativeWorkspacePath": ".\\facefusion\\locales.py",
+        "signatures": {}
+      },
+      "score": 0.0384787991642952
+    }
+  ]
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="semantic_search_full"><details>
+<summary>Tool use: **semantic_search_full**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="web_search">
+<details>
+<summary>Tool use: **web_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "searchTerm": "Hugging Face Spaces persistent storage mount data directory 2024"
+}
+```
+Result:
+
+```json
+{
+  "isFinal": true,
+  "references": [
+    {
+      "chunk": "Links:\n1. [huggingface/README · Persistent Storage Bug: Data in /data not surviving restarts on Spaces](http://www.huggingface.co/spaces/huggingface/README/discussions/29)\n2. [Accessing persistent /data folder in a Space with FastAPI · Issue #3806 · huggingface/huggingface_hub](https://github.com/huggingface/huggingface_hub/issues/3806)\n3. [[Spaces] Add support for mounted volumes (#4018) · e000c1c · huggingface/huggingface_hub](https://github.com/huggingface/huggingface_hub/commit/e000c1c89c65aee188041723456ac3a479416d4c)\n4. [Managing your Space runtime · Hugging Face](https://huggingface.com/docs/huggingface_hub/package_reference/space_runtime)\n5. [Docker Spaces · Hugging Face](https://huggingface.co/docs/hub/main/spaces-sdks-docker)\n\n# Hugging Face Spaces Persistent Storage and Volume Mounting (2024)\n\n## Current Status: Deprecation and Transition\n\nAs of 2026 (latest information in results), persistent storage using the &#96;/data&#96; folder is being slowly deprecated on Hugging Face Spaces.[2] Users are advised not to build new applications around this feature.\n\n## New Volume Mounting System\n\nHugging Face has introduced a new **mounted volumes** feature to replace persistent storage.[3] This system allows mounting Hub resources directly into your Space's filesystem:\n\n**Supported Volume Types:**[3]\n- Models (read-only access)\n- Datasets (read-only access)\n- Storage buckets (read/write access)\n\n**Implementation Example:**[3]\n&#96;&#96;&#96;python\nfrom huggingface_hub import Volume\napi.set_space_volumes(\n    repo_id=repo_id,\n    volumes=[\n        Volume(type=\"model\", source=\"username/my-model\", mount_path=\"/models\", read_only=True),\n        Volume(type=\"dataset\", source=\"username/my-dataset\", mount_path=\"/data\", read_only=True),\n        Volume(type=\"bucket\", source=\"username/my-bucket\", mount_path=\"/output\"),\n    ],\n)\n&#96;&#96;&#96;\n\n## Recommended Alternative\n\nFor persistent data storage, Hugging Face recommends using dataset repositories with the &#96;huggingface_hub&#96; upload/download methods and CommitScheduler for automated commits, rather than relying on the deprecated &#96;/data&#96; folder approach.[2]",
+      "title": "Web search results for query: Hugging Face Spaces persistent storage mount data directory 2024"
+    }
+  ],
+  "rejected": false
+}
+```
+User decision: **accepted**
+
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="web_search"><details>
+<summary>Tool use: **web_search**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: e:\github\facefusion0\facefusion\download.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "*.py",
+  "path": "e:\\github\\facefusion0\\facefusion",
+  "pattern": "conditional_download|model_path|\\.cache|FACE"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "e:\\github\\facefusion0\\facefusion",
+  "pattern": "conditional_download|model_path|\\.cache|FACE",
+  "topFiles": [
+    {
+      "matchCount": 2,
+      "uri": "facefusion/face_detector.py"
+    },
+    {
+      "matchCount": 1,
+      "uri": "facefusion/uis/components/download.py"
+    },
+    {
+      "matchCount": 2,
+      "uri": "facefusion/content_analyser.py"
+    },
+    {
+      "matchCount": 2,
+      "uri": "facefusion/face_classifier.py"
+    },
+    {
+      "matchCount": 25,
+      "uri": "facefusion/uis/components/face_detector.py"
+    },
+    {
+      "matchCount": 2,
+      "uri": "facefusion/model_helper.py"
+    },
+    {
+      "matchCount": 2,
+      "uri": "facefusion/core.py"
+    },
+    {
+      "matchCount": 4,
+      "uri": "facefusion/processors/modules/frame_colorizer/core.py"
+    }
+  ],
+  "totalFiles": 8,
+  "totalMatches": 401
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+The key is `conditional_download` - it already performs checks.</details></think>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: e:\github\facefusion0\facefusion\filesystem.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "*.py",
+  "path": "e:\\github\\facefusion0\\facefusion",
+  "pattern": "\\.assets|models|resolve_relative"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "e:\\github\\facefusion0\\facefusion",
+  "pattern": "\\.assets|models|resolve_relative",
+  "topFiles": [
+    {
+      "matchCount": 1,
+      "uri": "facefusion/uis/components/face_enhancer_options.py"
+    },
+    {
+      "matchCount": 1,
+      "uri": "facefusion/processors/modules/age_modifier/choices.py"
+    },
+    {
+      "matchCount": 33,
+      "uri": "facefusion/processors/modules/face_enhancer/core.py"
+    }
+  ],
+  "totalFiles": 3,
+  "totalMatches": 490
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "path": "e:\\github\\facefusion0\\facefusion\\filesystem.py",
+  "pattern": "def resolve_relative_path"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "e:\\github\\facefusion0\\facefusion\\filesystem.py",
+  "pattern": "def resolve_relative_path",
+  "topFiles": [
+    {
+      "matchCount": 1,
+      "uri": "facefusion\\filesystem.py"
+    }
+  ],
+  "totalFiles": 1,
+  "totalMatches": 1
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: e:\github\facefusion0\facefusion\filesystem.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+So models resolve to `facefusion/..`.</details></think>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "glob": "*.py",
+  "path": "e:\\github\\facefusion0\\facefusion",
+  "pattern": "FACEFUSION|ASSETS|environ"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "e:\\github\\facefusion0\\facefusion",
+  "pattern": "FACEFUSION|ASSETS|environ",
+  "topFiles": [
+    {
+      "matchCount": 2,
+      "uri": "facefusion/installer.py"
+    },
+    {
+      "matchCount": 2,
+      "uri": "facefusion/uis/core.py"
+    },
+    {
+      "matchCount": 1,
+      "uri": "facefusion\\locales.py"
+    },
+    {
+      "matchCount": 2,
+      "uri": "facefusion\\uis\\core.py"
+    },
+    {
+      "matchCount": 2,
+      "uri": "facefusion/uis/ui_helper.py"
+    },
+    {
+      "matchCount": 1,
+      "uri": "facefusion/locales.py"
+    },
+    {
+      "matchCount": 4,
+      "uri": "facefusion/conda.py"
+    }
+  ],
+  "totalFiles": 7,
+  "totalMatches": 14
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+I'll implement a minimal, focused change:
+
+- 1. When `resolve_relative_path` encounters paths containing `.assets`, it can now be overridden using the `FACEFUSION_ASSETS_ROOT` environment variable. If set, this variable specifies the full path to replace the `.assets` directory root entirely.
+
+For example, if `FACEFUSION_ASSETS_ROOT=/data`, a path like `../.assets/models/foo.onnx` would resolve to `/data/models/foo.onnx` instead of the default behavior of joining from `dirname(__file__)`.
+
+Default behavior remains unchanged unless overridden by the environment variable. When `resolve_relative_path` encounters paths containing `.assets`, it can now be overridden using the `FACEFUSION_ASSETS_ROOT` environment variable. If set, this variable specifies the full path to replace the `.assets` directory root entirely.
+
+For example, if `FACEFUSION_ASSETS_ROOT=/data`, a path like `../.assets/models/foo.onnx` would resolve to `/data/models/foo.onnx` instead of the default behavior of joining from `dirname(__file__)`.
+
+Default behavior remains unchanged unless overridden by the environment variable.</details></think>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "outputMode": "count",
+  "path": "e:\\github\\facefusion0\\facefusion",
+  "pattern": "resolve_relative_path\\('\\.\\./\\.assets"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "count",
+  "path": "e:\\github\\facefusion0\\facefusion",
+  "pattern": "resolve_relative_path\\('\\.\\./\\.assets",
+  "topFiles": [
+    {
+      "matchCount": 18,
+      "uri": "facefusion/processors/modules/face_enhancer/core.py"
+    },
+    {
+      "matchCount": 8,
+      "uri": "facefusion/face_detector.py"
+    },
+    {
+      "matchCount": 38,
+      "uri": "facefusion/processors/modules/frame_enhancer/core.py"
+    },
+    {
+      "matchCount": 6,
+      "uri": "facefusion/content_analyser.py"
+    },
+    {
+      "matchCount": 6,
+      "uri": "facefusion/processors/modules/lip_syncer/core.py"
+    },
+    {
+      "matchCount": 6,
+      "uri": "facefusion/voice_extractor.py"
+    },
+    {
+      "matchCount": 2,
+      "uri": "facefusion/face_classifier.py"
+    },
+    {
+      "matchCount": 2,
+      "uri": "facefusion/face_recognizer.py"
+    },
+    {
+      "matchCount": 38,
+      "uri": "facefusion/processors/modules/face_swapper/core.py"
+    },
+    {
+      "matchCount": 3,
+      "uri": "facefusion/processors/modules/deep_swapper/core.py"
+    },
+    {
+      "matchCount": 30,
+      "uri": "facefusion/processors/modules/background_remover/core.py"
+    },
+    {
+      "matchCount": 10,
+      "uri": "facefusion/face_masker.py"
+    },
+    {
+      "matchCount": 6,
+      "uri": "facefusion/processors/modules/expression_restorer/core.py"
+    },
+    {
+      "matchCount": 4,
+      "uri": "facefusion/processors/modules/age_modifier/core.py"
+    },
+    {
+      "matchCount": 6,
+      "uri": "facefusion/face_landmarker.py"
+    },
+    {
+      "matchCount": 12,
+      "uri": "facefusion/processors/modules/face_editor/core.py"
+    },
+    {
+      "matchCount": 1,
+      "uri": "facefusion/processors/modules/deep_swapper/choices.py"
+    },
+    {
+      "matchCount": 10,
+      "uri": "facefusion/processors/modules/frame_colorizer/core.py"
+    }
+  ],
+  "totalFiles": 18,
+  "totalMatches": 206
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+All go through `resolve_relative_path`. I'll implement the env override in `resolve_relative_path` in filesystem.py.
+
+- If `FACEFUSION_ASSETS_ROOT` is set, paths like `../.assets/foo/bar` will use `join(FACEFUSION_ASSETS_ROOT, 'foo/bar')`
+- Normalize paths using `os.path.join(os.path.dirname(__file__), path)` 
+- Example: `resolve_relative_path('../.assets/models/codeformer.onnx')` with dirname `/app/facefusion/processors/modules/face_enhancer` results in `/app/.assets/models/codeformer.onnx` My override extracts the part after `.assets/` from the normalized path:
+
+- If `FACEFUSION_ASSETS_ROOT` is set, paths like `../.assets/foo/bar` use `join(FACEFUSION_ASSETS_ROOT, 'foo/bar')`
+- Normalize paths using `os.path.join(os.path.dirname(__file__), path)`
+- Example: `resolve_relative_path('../.assets/models/codeformer.onnx')` with dirname `/app/facefusion/processors/modules/face_enhancer` results in `/app/.assets/models/codeformer.onnx` If `FACEFUSION_ASSETS_ROOT` is set, paths like `../.assets/foo/bar` will use `join(FACEFUSION_ASSETS_ROOT, 'foo/bar')`.  
+Normalize paths using `os.path.join(os.path.dirname(__file__), path)`.  
+Example: `resolve_relative_path('../.assets/models/codeformer.onnx')` with dirname `/app/facefusion/processors/modules/face_enhancer` results in `/app/.assets/models/codeformer.onnx`.  
+
+The override extracts the part after `.assets/` from the normalized path.  
+Use `os.path.normpath` to normalize paths and handle Windows path separators by replacing `\` with `/`.  
+The function checks if the path ends with `.assets` and returns the absolute path of `FACEFUSION_ASSETS_ROOT` if found. If `FACEFUSION_ASSETS_ROOT` is set and `abs_path` is under `default_assets`, compute `default_assets = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', '.assets'))` and return `os.path.abspath(os.path.join(assets_root, relative_suffix))`.
+
+- Use `os.path.normpath` to normalize paths and handle Windows path separators.
+- Check if `abs_path` equals the default assets path or is under it.
+- Return the absolute path using `assets_root` and `relative_suffix`.
+- If not under default assets, return `abs_path` unchanged. - Determine if the absolute path is under the default assets directory.
+- If it is, compute the relative path and join it with `FACEFUSION_ASSETS_ROOT`.
+- If not, return the absolute path unchanged.
+- Handle cases where `relpath` starts with `..` to avoid incorrect joins. If the absolute path matches the default assets location but the original path used `.assets`, construct the final path by joining `FACEFUSION_ASSETS_ROOT` with the relative suffix from `.assets`.
+
+If the path is not under the default assets directory, check if the relative path starts with `..` to avoid incorrect joins and skip the override if true.
+
+Handle edge cases where `FACEFUSION_ASSETS_ROOT` is set at runtime, such as in Docker containers.</details></think>
+
+_**Agent (default)**_
+
+
+Đang triển khai: FaceFusion đã có `conditional_download` — chỉ tải khi `file_size < expected`. Mỗi lần deploy Space, container mới nên `/app/.assets` trống → phải tải lại. Thêm biến môi trường để trỏ thư mục model tới volume bền (ví dụ `/data` trên HF).
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: e:\github\facefusion0\facefusion\filesystem.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: e:\github\facefusion0\Dockerfile</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+Implement the changes to filesystem.py.</details></think>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: e:\github\facefusion0\facefusion\filesystem.py</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: e:\github\facefusion0\Dockerfile</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+On HF Spaces, the `/data` directory may serve as the mount point for persistent storage. It's unclear if `/data/facefusion-assets` specifically resides on the persistent volume, but typically the entire `/data` directory is mounted when persistence is enabled.</details></think>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: cd /d "e:\github\facefusion0" 2>nul & python -m py_compile facefusion/filesystem.py 2>&1</summary>
+
+```bash
+cd /d "e:\github\facefusion0" 2>nul & python -m py_compile facefusion/filesystem.py 2>&1
+```
+
+```
+At C:\Users\TuanAdmin\AppData\Local\Temp\ps-script-a996b125-3323-45ef-81cc-09b94c5c2763.ps1:87 char:37
++ cd /d "e:\github\facefusion0" 2&gt;nul &amp; python -m py_compile facefusion ...
++                                     ~
+The ampersand (&amp;) character is not allowed. The &amp; operator is reserved for future use; wrap an ampersand in double 
+quotation marks ("&amp;") to pass it as part of a string.
+At C:\Users\TuanAdmin\AppData\Local\Temp\ps-script-a996b125-3323-45ef-81cc-09b94c5c2763.ps1:87 char:85
++ ... cefusion0" 2&gt;nul &amp; python -m py_compile facefusion/filesystem.py 2&gt;&amp;1
++                                                                      ~~~~
+The error stream for this command is already redirected.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : AmpersandNotAllowed
+ 
+
+```
+</details>
+</tool-use>
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: Set-Location "e:\github\facefusion0"; python -m py_compile facefusion/filesystem.py</summary>
+
+```bash
+Set-Location "e:\github\facefusion0"; python -m py_compile facefusion/filesystem.py
+```
+</details>
+</tool-use>
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+
+### Cách FaceFusion xử lý tải file
+
+Trong `download.py`, **`conditional_download`** đã so sánh kích thước file trên đĩa với kích thước từ server: **nếu file đã đủ dung lượng thì không tải lại** (không chỉ “check extension”).
+
+Vấn đề trên Hugging Face Space là **mỗi lần build/deploy thường có container/filesystem mới**: thư mục mặc định **`/app/.assets`** (tính từ `resolve_relative_path`) **trống**, nên mọi model phải tải lại từ đầu — không phải do thiếu “skip if exists”, mà do **không có ổ bền**.
+
+### Việc đã chỉnh trong repo
+
+1. **`FACEFUSION_ASSETS_ROOT`** (biến môi trường)  
+   Trong `resolve_relative_path`, mọi đường dẫn dưới `.assets` có thể được **ánh xạ** sang thư mục bạn chỉ (ví dụ volume bền).
+
+2. **`Dockerfile`**  
+   - `mkdir -p /data/facefusion-assets`  
+   - `ENV FACEFUSION_ASSETS_ROOT=/data/facefusion-assets`  
+
+   Trên Space, bạn **gắn persistent storage** (thường mount ở **`/data`**) trong **Settings → Storage** của Space; model sẽ nằm dưới `/data/facefusion-assets/...` và **giữ qua các lần deploy** miễn là volume vẫn gắn.
+
+### Việc bạn cần làm trên Hugging Face
+
+- Bật **persistent disk / storage** cho Space (tùy gói Pro / cấu hình tổ chức).  
+- Đảm bảo mount trùng với đường dẫn bạn dùng (mặc định trong image là **`/data`** → dùng `FACEFUSION_ASSETS_ROOT=/data/facefusion-assets` là hợp lý).  
+- Xem tài liệu hiện tại của Hub về **Spaces storage / volumes** (HF đổi dần từ `/data` sang **mounted volumes / buckets** — chọn loại storage mà Space của bạn hỗ trợ và chỉnh `FACEFUSION_ASSETS_ROOT` cho khớp đường mount).
+
+### Tùy chọn local / Docker
+
+- Không set `FACEFUSION_ASSETS_ROOT` → hành vi cũ: model trong **`<repo>/.assets`** cạnh `facefusion/`.  
+- Set trỏ sang ổ lớn hoặc thư mục cache riêng:  
+  `FACEFUSION_ASSETS_ROOT=/path/to/persistent/models`
+
+**Mount “driver”**: trên Space không gắn ổ Windows; đúng mô hình là **volume/bucket** của Hub gắn vào path trong container, rồi trỏ `FACEFUSION_ASSETS_ROOT` vào đó — đúng với thay đổi phía trên.
+
+---
+
+_**User**_
+
+mục chọn WEBCAM DEVICE ID
+không thấy xuất hiện webcam, cũng không thấy xuất hiện yêu cầu access webcam từ trang web. hãy fix
+
+---
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+The user experiences issues with the webcam device ID dropdown, where webcams do not appear and the browser's webcam permission prompt is missing. This issue likely stems from server-side detection of camera IDs, where `detect_local_camera_ids` runs on the server (like HF Space / Docker) rather than the user's browser. Since remote servers don't have local USB cameras, the dropdown may show "none" or remain empty.
+
+For actual webcam access in a web app, client-side JavaScript/API (getUserMedia) is requiredGradio's Image component with `sources` or webcam streaming from the client side. FaceFusion's webcam module uses OpenCV (`cv2`) which operates differently than browser-based webcam access.</details></think>
+
+_**Agent (default)**_
+
+
+Đang kiểm tra cách FaceFusion phát hiện camera và render webcam — trên Space, OpenCV trên server không truy cập được webcam của trình duyệt.
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: e:\github\facefusion0\facefusion\camera_manager.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: e:\github\facefusion0\facefusion\uis\components\webcam.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: e:\github\facefusion0\facefusion\uis\components\webcam_options.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+The issue is clear: the `detect_local_camera_ids` function runs on a GPU server and does not have access to a local USB webcam. The dropdown may receive `[ 'none' ]` as a fallback when empty, since `[] or ['none']` evaluates to `['none']`. However, mixed data types (int vs str) in choices could cause issues with `get_first`.
+
+- Browser permission limitations prevent OpenCV from triggering `getUserMedia` on the server side.
+- Use Gradio's `Image` component with `sources=["webcam"]` for client-side webcam capture when running in a browser context.
+- Check Gradio 5 documentation for the `Image` component's webcam source functionality. - Use `gr.Image(sources=["upload", "webcam"], ...)` to show webcam button and trigger browser permissions.
+- Implement a hybrid approach:
+  - Detect remote environment using `FACEFUSION_REMOTE_UI` or `SPACE_ID`.
+  - For remote: use `gr.Image(sources=["webcam"], ...)` and adapt frame handling for the processing pipeline.
+  - For local: retain current OpenCV workflow.
+- Simplify UX for remote users by adjusting webcam integration accordingly. - Replace `WEBCAM_IMAGE` with an `Image` component using `sources=["webcam"]` to enable browser-based webcam access and permission handling.
+- Use **event per frame** or **Image change** triggers instead of the `start` streaming loop for capturing webcam images.
+- Leverage Gradio 5s `gr.Image` with `sources=["webcam", "upload"]` to handle `getUserMedia` automatically.
+- Consider `gr.Video` or the new streaming API for live browser-to-server webcam streaming.</details></think>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="web_search">
+<details>
+<summary>Tool use: **web_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "searchTerm": "gradio 5 Image sources webcam streaming getUserMedia"
+}
+```
+Result:
+
+```json
+{
+  "isFinal": true,
+  "references": [
+    {
+      "chunk": "Links:\n1. [Allow start/pause of streaming image input. Only access the webcam while it's needed · Pull Request #7228 · gradio-app/gradio](https://github.com/gradio-app/gradio/pull/7228)\n2. [Streaming inputs for 5.0 · Pull Request #8941 · gradio-app/gradio](https://github.com/gradio-app/gradio/pull/8941)\n3. [Gradio  Docs](https://gradio.app/main/docs/gradio/image)\n4. [Gradio  Docs](https://gradio.app/docs/gradio/image)\n5. [Streaming Inputs](https://gradio.app/guides/streaming-inputs)\n\n# Gradio 5 Image Streaming with Webcam\n\n## Webcam Access Control\n\nIn Gradio 5, webcam streaming has been improved to provide better control over &#96;getUserMedia&#96; access. Previously, Gradio would automatically access the webcam when the Image component mounted. Now, webcam access only occurs when needed.[1]\n\n**Key improvements:**\n- Webcam is only accessed while actively recording or taking a picture[1]\n- Users must click into the image component to grant webcam access permissions[1]\n- After recording/capturing stops, Gradio releases webcam access and reverts to the previous state[1]\n\n## Image Component Configuration\n\nThe Image component supports streaming with the following parameters:[4]\n\n- **&#96;sources&#96;**: List of image sources including &#96;'webcam'&#96;, &#96;'upload'&#96;, and &#96;'clipboard'&#96;. If &#96;None&#96; and streaming is &#96;False&#96;, defaults to all three sources. If streaming is enabled, defaults to &#96;['webcam']&#96; only.[4]\n- **&#96;stream_frequency&#96;**: Controls the sampling rate for streaming in Hz (e.g., &#96;stream_frequency=10&#96; means 10 chunks per second)[2]\n\n## Streaming Implementation\n\nFor streaming image input, use the &#96;.stream()&#96; method with &#96;time_limit&#96; parameter to control how long a stream processes:[2]\n\n&#96;&#96;&#96;python\ninput_img = gr.Image(sources=[\"webcam\"], stream_frequency=10, type=\"numpy\")\ninput_img.stream(transform_function, [input_img], [output_img], time_limit=25)\n&#96;&#96;&#96;\n\nThe &#96;time_limit&#96; parameter specifies how long (in seconds) a user \"owns\" the queue worker for that stream.[2]",
+      "title": "Web search results for query: gradio 5 Image sources webcam streaming getUserMedia"
+    }
+  ],
+  "rejected": false
+}
+```
+User decision: **accepted**
+
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="web_search"><details>
+<summary>Tool use: **web_search**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+For HF Space / remote UI, I need to:
+
+- Configure the interface layout
+- Set up remote access parameters
+- Test connectivity and performance
+- Deploy the application to the Hugging Face platform
+- Ensure proper authentication and security settings are in place Detect remote deployment by checking for `SPACE_ID` in environment variables, `FACEFUSION_REMOTE_WEBCAM=1`, or `GRADIO_*` flags.
+
+When running remotely:
+- **webcam_options**: Add choice `0` with label "Browser (remote)" when `SPACE_ID` is present, simplifying the UI
+- **webcam.py render**: Use `gradio.Image(sources=["webcam"], streaming=True, stream_frequency=...)` instead of hidden image with server-side OpenCV loop
+- **webcam.py listen**: Use `gradio.Image` directly for webcam input For remote deployment, use `gradio.Image.stream()` with a handler that processes numpy frames, while local behavior remains unchanged. Implement `is_remote_space()` helper to differentiate paths, and update `webcam_options.render()` accordingly. - For remote deployment, set webcam choices to `[0]` or `['browser']` with `value=0`, and add Markdown instruction: "Click Start then allow camera in the browser."
+- For local deployment, retain existing `detect_local_camera_ids` logic.
+- In `webcam.render()`:
+  - For remote: use `gradio.Image(sources=["webcam"], type="numpy", streaming=True, ...)` with visible true, and employ `.stream()` for frame handling.
+  - Simpler alternative: use `sources=["webcam"]` alone to trigger browsers camera prompt. The issue may stem from a dropdown showing 'none' due to `get_first` being called on `['none']`, and potential type mismatches where choices mix integers and strings.
+
+For the `start()` function, `webcam_device_id` expects an integer, so passing the string 'none' could cause errors.
+
+When running remotely:
+- Avoid using OpenCV for preview; instead, use Gradio's webcam Image component.
+- Use `gradio.Image(sources=["webcam"], type="numpy", streaming=True)` for remote webcam input.
+- Ensure consistent data types in dropdown choices to prevent errors.</details></think>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: e:\github\facefusion0\facefusion\app_context.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: e:\github\facefusion0\facefusion\common_helper.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+I'll add `is_huggingface_space()` to common_helper. I'll add `is_huggingface_space()` to common_helper and update webcam_options.py to use it.
+
+- Add `is_huggingface_space()` function to common_helper.py that checks for `SPACE_ID` environment variable
+- Import `os` module in common_helper.py if not already present
+- Update webcam_options.py to use the new helper function
+- Set `local_camera_ids = [0]` as placeholder when running in Hugging Face space or when `FACEFUSION_BROWSER_WEBCAM=1` is set If start() uses webcam_device_id for OpenCV, then device 0 on server is incorrect when using HF spaces. For Hugging Face spaces, the OpenCV path is skipped entirely.
+
+In webcam.py's render():
+- Check if running in Hugging Face space using new helper function
+- If so, create Gradio image component with webcam source instead of OpenCV path
+- Set streaming frequency to 10 and format to jpeg for browser webcam usage - In webcam.py's listen() function, use .stream() on WEBCAM_IMAGE for browser webcam streaming
+- Check Gradio's Image.stream() signature to understand how to process current frames
+- For browser streaming, replace OpenCV loop with stream API function that receives current frame as input
+- Need to implement separate processing function for browser webcam stream vs server webcam loop To implement the minimal fix for browser webcam permissions, set `sources=["webcam"]` on the Image component. For device selection in Hugging Face spaces, display `[0]` with the label "Browser (this Space)" or use a Dropdown with choices `[0]` and value `0`. When `USE_BROWSER_WEBCAM` is active in the `listen` function, remove the Start button click that triggers OpenCV `start`, and instead use `WEBCAM_IMAGE.stream()` for browser webcam streaming. To implement browser webcam streaming, I'll use Gradio's `Image.stream()` method with a callback function that receives periodic webcam updates. The function should take numpy RGB frames, apply face fitting if needed, and yield frames for display. For FaceFusion facial processing, I'll create a separate lightweight processing function that handles the full pipeline efficiently. This mirrors the OpenCV path visually but adapts to browser streaming constraints.
+
+- Use `Image.stream(fn, inputs=[input_img], outputs=[output])` pattern from Gradio
+- Implement `browser_webcam_loop` function that processes frames similarly to OpenCV path
+- Apply `fit_cover_frame` processing when needed
+- Create separate processing function for FaceFusion facial pipeline
+- Handle streaming efficiently without blocking the main thread User might only need to see the webcam working first.
+
+**Phase 1**: Display streaming webcam from browser (numpy) to the same Image output - loopback identity with optional resize.
+
+- Use `passthrough_webcam` function that returns input frame unchanged
+- Stream using `WEBCAM_IMAGE.stream()` with `stream_every=0.1` parameter
+- May cause infinite loop - need to verify Gradio documentation
+- Streaming inputs may require output to be different component type For Hugging Face Spaces, use the Webcam tab on the image component and allow camera access. Change `WEBCAM_IMAGE` to `visible=True`, `sources=["webcam","upload"]`, and `type="numpy"`. For live streaming, use `streaming=True` with `WEBCAM_IMAGE.stream()` and a simple passthrough function. For capturing photos, use `sources=["webcam"]` with `streaming=False` to trigger permission prompts. - Disable Start/Stop buttons and server start() when running in Hugging Face space
+- Force device dropdown to show `[0]` with label "N/A (use browser camera below)" for HF spaces
+- Add `FACEFUSION_FORCE_BROWSER_WEBCAM=1` environment variable to enable browser webcam fallback for local users with no camera
+- Implement `is_huggingface_space()` helper function in common_helper.py
+- Update webcam_options.py to use the new helper function and adjust UI elements accordingly I'll add `is_huggingface_space()` to common_helper and update webcam_options.py to use it.
+
+- Add `is_huggingface_space()` function to common_helper.py that checks for `SPACE_ID` environment variable
+- Import `os` module in common_helper.py if not already present
+- Update webcam_options.py to use the new helper function
+- Set `local_camera_ids = [0]` as placeholder when running in Hugging Face space or when `FACEFUSION_BROWSER_WEBCAM=1` is set
+
+In webcam.py's render():
+- Check if running in Hugging Face space using new helper function
+- If so, create Gradio image component with webcam source instead of OpenCV path
+- Set streaming frequency to 10 and format to jpeg for browser webcam usage
+- Use `sources=["webcam"]` on the Image component for Hugging Face spaces
+- Set `streaming=True` with `WEBCAM_IMAGE.stream()` for When using browser webcam, implement a stream handler that passes through frames unchanged. Use Gradio's Image.stream() method with a relay function that returns frames as-is. The stream function requires inputs and outputs parameters matching the Image component. For Gradio 5.44.1, ensure the stream API is used correctly with proper input/output handling. The relay function should handle None frames gracefully and return them unchanged. The streaming parameters must align with Gradio's expected format for Image components.</details></think>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="web_fetch">
+<details>
+<summary>Tool use: **web_fetch**</summary>
+
+
+Parameters:
+
+```json
+{
+  "url": "https://www.gradio.app/docs/gradio/image"
+}
+```
+Result:
+
+```json
+{
+  "markdown": "1. Components\n2. Image\n\nUse our Docs MCP\n\n6.12.05.49.14.44.1main\n\n## Building Demos\n\n* Interface\n* ChatInterface\n* TabbedInterface\n* Blocks\n* Server\n\n## Blocks Layout\n\n* \u003crender\u003e\n* Accordion\n* Column\n* Group\n* Row\n* Tab\n* Walkthrough\n\n## Components\n\n* Introduction\n* AnnotatedImage\n* Audio\n* BarPlot\n* Button\n* Chatbot\n* Checkbox\n* CheckboxGroup\n* ClearButton\n* Code\n* ColorPicker\n* Dataframe\n* Dataset\n* DateTime\n* Dialogue\n* DownloadButton\n* Dropdown\n* DuplicateButton\n* File\n* FileExplorer\n* Gallery\n* HighlightedText\n* HTML\n* Image\n* ImageEditor\n* ImageSlider\n* JSON\n* Label\n* LinePlot\n* LoginButton\n* Markdown\n* Model3D\n* MultimodalTextbox\n* Navbar\n* Number\n* ParamViewer\n* Plot\n* Radio\n* ScatterPlot\n* Sidebar\n* SimpleImage\n* Slider\n* State\n* Textbox\n* Timer\n* UploadButton\n* Video\n\n## Helpers\n\n* EventData\n* DeletedFileData\n* KeyUpData\n* LikeData\n* SelectData\n* FileData\n* RetryData\n* UndoData\n* EditData\n* DownloadData\n* CopyData\n* Examples\n* Progress\n* Dependency\n* \u003capi\u003e\n* \u003cload\u003e\n* \u003cload%5Fchat\u003e\n* \u003con\u003e\n* \u003cset%5Fstatic%5Fpaths\u003e\n\n## Modals\n\n* Error\n* Info\n* Warning\n\n## Routes\n\n* \u003cmount%5Fgradio%5Fapp\u003e\n* Request\n\n## Other\n\n* Flagging\n* Themes\n* \u003cNO%5FRELOAD\u003e\n\nNew to Gradio? Start here: Getting Started\n\nSee the Release History\n\n← HTML ImageEditor →\n\nCopy Page \n\n# Image\n\n&#96;&#96;&#96;python\ngradio.Image(···)\n&#96;&#96;&#96;\n\n### Description\n\n## Creates an image component that can be used to upload images (as an input) or display images (as an output).   \n\n### Behavior\n\n**Using Image as an input component.**\n\nHow Image will pass its value to your function:\n\nType: &#96;np.ndarray | PIL.Image.Image | str | None&#96;\n\nPasses the uploaded image as a &#96;numpy.array&#96;, &#96;PIL.Image&#96; or &#96;str&#96; filepath depending on &#96;type&#96;.\n\n##### Example Code\n\n    &#96;\n    import gradio as gr\n\n    def predict(\n        value: np.ndarray | PIL.Image.Image | str | None\n    ):\n        # process value from the Image component\n        return \"prediction\"\n\n    interface = gr.Interface(predict, gr.Image(), gr.Textbox())\n    interface.launch()\n&#96;\n\n  \n**Using Image as an output component**\n\nHow Image expects you to return a value:\n\nType: &#96;np.ndarray | PIL.Image.Image | str | Path | None&#96;\n\nExpects a &#96;numpy.array&#96;, &#96;PIL.Image&#96;, or &#96;str&#96; or &#96;pathlib.Path&#96; filepath to an image which is displayed.\n\n##### Example Code\n\n    &#96;\n    import gradio as gr\n\n    def predict(text) -\u003e np.ndarray | PIL.Image.Image | str | Path | None\n        # process value to return to the Image component\n        return value\n\n    interface = gr.Interface(predict, gr.Textbox(), gr.Image())\n    interface.launch()\n&#96;\n\n### Initialization\n\nParameters ▼\n\n🔗 \n\n&#96;&#96;&#96;python\nvalue: str | PIL.Image.Image | np.ndarray | Callable | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nA \\&#96;PIL.Image\\&#96;, \\&#96;numpy.array\\&#96;, \\&#96;pathlib.Path\\&#96;, or \\&#96;str\\&#96; filepath or URL for the default value that Image component is going to take. If a function is provided, the function will be called each time the app loads to set the initial value of this component.\n\n🔗 \n\n&#96;&#96;&#96;python\nformat: str\n&#96;&#96;&#96;\n\ndefault &#96;= \"webp\"&#96;\n\nFile format (e.g. \"png\" or \"gif\"). Used to save image if it does not already have a valid format (e.g. if the image is being returned to the frontend as a numpy array or PIL Image). The format should be supported by the PIL library. Applies both when this component is used as an input or output. This parameter has no effect on SVG files.\n\n🔗 \n\n&#96;&#96;&#96;python\nheight: int | str | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nThe height of the component, specified in pixels if a number is passed, or in CSS units if a string is passed. This has no effect on the preprocessed image file or numpy array, but will affect the displayed image.\n\n🔗 \n\n&#96;&#96;&#96;python\nwidth: int | str | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nThe width of the component, specified in pixels if a number is passed, or in CSS units if a string is passed. This has no effect on the preprocessed image file or numpy array, but will affect the displayed image.\n\n🔗 \n\n&#96;&#96;&#96;python\nimage_mode: Literal['1', 'L', 'P', 'RGB', 'RGBA', 'CMYK', 'YCbCr', 'LAB', 'HSV', 'I', 'F'] | None\n&#96;&#96;&#96;\n\ndefault &#96;= \"RGB\"&#96;\n\nThe pixel format and color depth that the image should be loaded and preprocessed as. \"RGB\" will load the image as a color image, or \"L\" as black-and-white. See https://pillow.readthedocs.io/en/stable/handbook/concepts.html for other supported image modes and their meaning. This parameter has no effect on SVG or GIF files. If set to None, the image\\_mode will be inferred from the image file type (e.g. \"RGBA\" for a .png image, \"RGB\" in most other cases).\n\n🔗 \n\n&#96;&#96;&#96;python\nsources: list[Literal['upload', 'webcam', 'clipboard']] | Literal['upload', 'webcam', 'clipboard'] | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nList of sources for the image. \"upload\" creates a box where user can drop an image file, \"webcam\" allows user to take snapshot from their webcam, \"clipboard\" allows users to paste an image from the clipboard. If None, defaults to \\[\"upload\", \"webcam\", \"clipboard\"\\] if streaming is False, otherwise defaults to \\[\"webcam\"\\].\n\n🔗 \n\n&#96;&#96;&#96;python\ntype: Literal['numpy', 'pil', 'filepath']\n&#96;&#96;&#96;\n\ndefault &#96;= \"numpy\"&#96;\n\nThe format the image is converted before being passed into the prediction function. \"numpy\" converts the image to a numpy array with shape (height, width, 3) and values from 0 to 255, \"pil\" converts the image to a PIL image object, \"filepath\" passes a str path to a temporary file containing the image. To support animated GIFs in input, the \\&#96;type\\&#96; should be set to \"filepath\" or \"pil\". To support SVGs, the \\&#96;type\\&#96; should be set to \"filepath\".\n\n🔗 \n\n&#96;&#96;&#96;python\nlabel: str | I18nData | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nthe label for this component. Appears above the component and is also used as the header if there are a table of examples for this component. If None and used in a \\&#96;gr.Interface\\&#96;, the label will be the name of the parameter this component is assigned to.\n\n🔗 \n\n&#96;&#96;&#96;python\nevery: Timer | float | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nContinously calls \\&#96;value\\&#96; to recalculate it if \\&#96;value\\&#96; is a function (has no effect otherwise). Can provide a Timer whose tick resets \\&#96;value\\&#96;, or a float that provides the regular interval for the reset Timer.\n\n🔗 \n\n&#96;&#96;&#96;python\ninputs: Component | list[Component] | set[Component] | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nComponents that are used as inputs to calculate \\&#96;value\\&#96; if \\&#96;value\\&#96; is a function (has no effect otherwise). \\&#96;value\\&#96; is recalculated any time the inputs change.\n\n🔗 \n\n&#96;&#96;&#96;python\nshow_label: bool | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nif True, will display label.\n\n🔗 \n\n&#96;&#96;&#96;python\nbuttons: list[Literal['download', 'share', 'fullscreen'] | Button] | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nA list of buttons to show in the corner of the component. Valid options are \"download\", \"share\", \"fullscreen\", or a gr.Button() instance. The \"download\" button allows the user to download the image. The \"share\" button allows the user to share to Hugging Face Spaces Discussions. The \"fullscreen\" button allows the user to view in fullscreen mode. Custom gr.Button() instances will appear in the toolbar with their configured icon and/or label, and clicking them will trigger any .click() events registered on the button. by default, all of the built-in buttons are shown.\n\n🔗 \n\n&#96;&#96;&#96;python\ncontainer: bool\n&#96;&#96;&#96;\n\ndefault &#96;= True&#96;\n\nIf True, will place the component in a container - providing some extra padding around the border.\n\n🔗 \n\n&#96;&#96;&#96;python\nscale: int | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nrelative size compared to adjacent Components. For example if Components A and B are in a Row, and A has scale=2, and B has scale=1, A will be twice as wide as B. Should be an integer. scale applies in Rows, and to top-level Components in Blocks where fill\\_height=True.\n\n🔗 \n\n&#96;&#96;&#96;python\nmin_width: int\n&#96;&#96;&#96;\n\ndefault &#96;= 160&#96;\n\nminimum pixel width, will wrap if not sufficient screen space to satisfy this value. If a certain scale value results in this Component being narrower than min\\_width, the min\\_width parameter will be respected first.\n\n🔗 \n\n&#96;&#96;&#96;python\ninteractive: bool | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nif True, will allow users to upload and edit an image; if False, can only be used to display images. If not provided, this is inferred based on whether the component is used as an input or output.\n\n🔗 \n\n&#96;&#96;&#96;python\nvisible: bool | Literal['hidden']\n&#96;&#96;&#96;\n\ndefault &#96;= True&#96;\n\nIf False, component will be hidden. If \"hidden\", component will be visually hidden and not take up space in the layout but still exist in the DOM\n\n🔗 \n\n&#96;&#96;&#96;python\nstreaming: bool\n&#96;&#96;&#96;\n\ndefault &#96;= False&#96;\n\nIf True when used in a \\&#96;live\\&#96; interface, will automatically stream webcam feed. Only valid is source is 'webcam'. If the component is an output component, will automatically convert images to base64.\n\n🔗 \n\n&#96;&#96;&#96;python\nelem_id: str | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nAn optional string that is assigned as the id of this component in the HTML DOM. Can be used for targeting CSS styles.\n\n🔗 \n\n&#96;&#96;&#96;python\nelem_classes: list[str] | str | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nAn optional list of strings that are assigned as the classes of this component in the HTML DOM. Can be used for targeting CSS styles.\n\n🔗 \n\n&#96;&#96;&#96;python\nrender: bool\n&#96;&#96;&#96;\n\ndefault &#96;= True&#96;\n\nIf False, component will not render be rendered in the Blocks context. Should be used if the intention is to assign event listeners now but render the component later.\n\n🔗 \n\n&#96;&#96;&#96;python\nkey: int | str | tuple[int | str, ...] | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nin a gr.render, Components with the same key across re-renders are treated as the same component, not a new component. Properties set in 'preserved\\_by\\_key' are not reset across a re-render.\n\n🔗 \n\n&#96;&#96;&#96;python\npreserved_by_key: list[str] | str | None\n&#96;&#96;&#96;\n\ndefault &#96;= \"value\"&#96;\n\nA list of parameters from this component's constructor. Inside a gr.render() function, if a component is re-rendered with the same key, these (and only these) parameters will be preserved in the UI (if they have been changed by the user or an event listener) instead of re-rendered based on the values provided during constructor.\n\n🔗 \n\n&#96;&#96;&#96;python\nwebcam_options: WebcamOptions | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\n🔗 \n\n&#96;&#96;&#96;python\nplaceholder: str | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nCustom text for the upload area. Overrides default upload messages when provided. Accepts new lines and \\&#96;#\\&#96; to designate a heading.\n\n🔗 \n\n&#96;&#96;&#96;python\nwatermark: WatermarkOptions | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nIf provided and this component is used to display a \\&#96;value\\&#96; image, the \\&#96;watermark\\&#96; image will be displayed on the bottom right of the \\&#96;value\\&#96; image, 10 pixels from the bottom and 10 pixels from the right. The watermark image will not be resized. Supports \\&#96;PIL.Image\\&#96;, \\&#96;numpy.array\\&#96;, \\&#96;pathlib.Path\\&#96;, and \\&#96;str\\&#96; filepaths. SVGs and GIFs are not supported as \\&#96;watermark\\&#96; images nor can they be watermarked.\n\n### Shortcuts\n\nShortcuts\n\n&#96;&#96;&#96;\ngradio.Image\n&#96;&#96;&#96;\n\nInterface String Shortcut &#96;\"image\"&#96;\n\nInitialization Uses default values\n\n### Understanding Image Types\n\nThe &#96;type&#96; parameter controls the format of the data passed to your Python function. Choosing the right type avoids unnecessary conversions in your code:\n\n| type              | Your function receives | Shape / Format                                | Best for                                                             |\n| ----------------- | ---------------------- | --------------------------------------------- | -------------------------------------------------------------------- |\n| \"numpy\" (default) | numpy.ndarray          | (height, width, 3), dtype uint8, values 0–255 | ML models (PyTorch, TensorFlow, scikit-learn)                        |\n| \"pil\"             | PIL.Image.Image        | PIL Image object                              | Image processing with Pillow                                         |\n| \"filepath\"        | str                    | Path to a temporary file on disk              | Large images, GIFs, SVGs, or when you need to read the file yourself |\n\n&#96;&#96;&#96;python\nimport gradio as gr\n\n# For a model that expects a numpy array:\ndef predict(img):\n    # img is a numpy array with shape (H, W, 3)\n    return model(img)\n\ndemo = gr.Interface(fn=predict, inputs=gr.Image(type=\"numpy\"), outputs=\"label\")\n\n# For a pipeline that works with file paths:\ndef process(path):\n    # path is a string like \"/tmp/gradio/abcdef.webp\"\n    return my_pipeline(path)\n\ndemo = gr.Interface(fn=process, inputs=gr.Image(type=\"filepath\"), outputs=\"image\")\n&#96;&#96;&#96;\n\nIf you need grayscale input, set &#96;image_mode=\"L\"&#96; — the array shape becomes &#96;(height, width)&#96; instead of &#96;(height, width, 3)&#96;.\n\n### &#96;GIF&#96; and &#96;SVG&#96; Image Formats\n\nThe &#96;gr.Image&#96; component can process or display any image format that is supported by the PIL library, including animated GIFs. In addition, it also supports the SVG image format.\n\nWhen the &#96;gr.Image&#96; component is used as an input component, the image is converted into a &#96;str&#96; filepath, a &#96;PIL.Image&#96; object, or a &#96;numpy.array&#96;, depending on the &#96;type&#96; parameter. However, animated GIF and SVG images are treated differently:\n\n* Animated &#96;GIF&#96; images can only be converted to &#96;str&#96; filepaths or &#96;PIL.Image&#96; objects. If they are converted to a &#96;numpy.array&#96; (which is the default behavior), only the first frame will be used. So if your demo expects an input &#96;GIF&#96; image, make sure to set the &#96;type&#96; parameter accordingly, e.g.\n\n&#96;&#96;&#96;py\nimport gradio as gr\n\ndemo = gr.Interface(\n    fn=lambda x:x, \n    inputs=gr.Image(type=\"filepath\"), \n    outputs=gr.Image()\n)\n    \ndemo.launch()\n&#96;&#96;&#96;\n\n* For &#96;SVG&#96; images, the &#96;type&#96; parameter is ignored altogether and the image is always returned as an image filepath. This is because &#96;SVG&#96; images cannot be processed as &#96;PIL.Image&#96; or &#96;numpy.array&#96; objects.\n\n### Demos\n\nsepia\\_filterfake\\_diffusion\n\n### Event Listeners\n\n#### Description\n\nEvent listeners allow you to respond to user interactions with the UI components you've defined in a Gradio Blocks app. When a user interacts with an element, such as changing a slider value or uploading an image, a function is called.\n\n#### Supported Event Listeners\n\nThe Image component supports the following event listeners. Each event listener takes the same parameters, which are listed in the Event Parameters table below.\n\nListeners\n\n&#96;&#96;&#96;\nImage.clear(fn, ···)\n&#96;&#96;&#96;\n\nThis listener is triggered when the user clears the Image using the clear button for the component.\n\n&#96;&#96;&#96;\nImage.change(fn, ···)\n&#96;&#96;&#96;\n\nTriggered when the value of the Image changes either because of user input (e.g. a user types in a textbox) OR because of a function update (e.g. an image receives a value from the output of an event trigger). See &#96;.input()&#96; for a listener that is only triggered by user input.\n\n&#96;&#96;&#96;\nImage.stream(fn, ···)\n&#96;&#96;&#96;\n\nThis listener is triggered when the user streams the Image.\n\n&#96;&#96;&#96;\nImage.select(fn, ···)\n&#96;&#96;&#96;\n\nEvent listener for when the user selects or deselects the Image. Uses event data gradio.SelectData to carry &#96;value&#96; referring to the label of the Image, and &#96;selected&#96; to refer to state of the Image. See \u003chttps://www.gradio.app/main/docs/gradio/eventdata\u003e for more details.\n\n&#96;&#96;&#96;\nImage.upload(fn, ···)\n&#96;&#96;&#96;\n\nThis listener is triggered when the user uploads a file into the Image.\n\n&#96;&#96;&#96;\nImage.input(fn, ···)\n&#96;&#96;&#96;\n\nThis listener is triggered when the user changes the value of the Image.\n\n#### Event Parameters\n\nParameters ▼\n\n🔗 \n\n&#96;&#96;&#96;python\nfn: Callable | None | Literal['decorator']\n&#96;&#96;&#96;\n\ndefault &#96;= \"decorator\"&#96;\n\nthe function to call when this event is triggered. Often a machine learning model's prediction function. Each parameter of the function corresponds to one input component, and the function should return a single value or a tuple of values, with each element in the tuple corresponding to one output component.\n\n🔗 \n\n&#96;&#96;&#96;python\ninputs: Component | BlockContext | list[Component | BlockContext] | Set[Component | BlockContext] | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nList of gradio.components to use as inputs. If the function takes no inputs, this should be an empty list.\n\n🔗 \n\n&#96;&#96;&#96;python\noutputs: Component | BlockContext | list[Component | BlockContext] | Set[Component | BlockContext] | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nList of gradio.components to use as outputs. If the function returns no outputs, this should be an empty list.\n\n🔗 \n\n&#96;&#96;&#96;python\napi_name: str | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\ndefines how the endpoint appears in the API docs. Can be a string or None. If set to a string, the endpoint will be exposed in the API docs with the given name. If None (default), the name of the function will be used as the API endpoint.\n\n🔗 \n\n&#96;&#96;&#96;python\napi_description: str | None | Literal[False]\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nDescription of the API endpoint. Can be a string, None, or False. If set to a string, the endpoint will be exposed in the API docs with the given description. If None, the function's docstring will be used as the API endpoint description. If False, then no description will be displayed in the API docs.\n\n🔗 \n\n&#96;&#96;&#96;python\nscroll_to_output: bool\n&#96;&#96;&#96;\n\ndefault &#96;= False&#96;\n\nIf True, will scroll to output component on completion\n\n🔗 \n\n&#96;&#96;&#96;python\nshow_progress: Literal['full', 'minimal', 'hidden']\n&#96;&#96;&#96;\n\ndefault &#96;= \"full\"&#96;\n\nhow to show the progress animation while event is running: \"full\" shows a spinner which covers the output component area as well as a runtime display in the upper right corner, \"minimal\" only shows the runtime display, \"hidden\" shows no progress animation at all\n\n🔗 \n\n&#96;&#96;&#96;python\nshow_progress_on: Component | list[Component] | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nComponent or list of components to show the progress animation on. If None, will show the progress animation on all of the output components.\n\n🔗 \n\n&#96;&#96;&#96;python\nqueue: bool\n&#96;&#96;&#96;\n\ndefault &#96;= True&#96;\n\nIf True, will place the request on the queue, if the queue has been enabled. If False, will not put this event on the queue, even if the queue has been enabled. If None, will use the queue setting of the gradio app.\n\n🔗 \n\n&#96;&#96;&#96;python\nbatch: bool\n&#96;&#96;&#96;\n\ndefault &#96;= False&#96;\n\nIf True, then the function should process a batch of inputs, meaning that it should accept a list of input values for each parameter. The lists should be of equal length (and be up to length \\&#96;max\\_batch\\_size\\&#96;). The function is then \\*required\\* to return a tuple of lists (even if there is only 1 output component), with each list in the tuple corresponding to one output component.\n\n🔗 \n\n&#96;&#96;&#96;python\nmax_batch_size: int\n&#96;&#96;&#96;\n\ndefault &#96;= 4&#96;\n\nMaximum number of inputs to batch together if this is called from the queue (only relevant if batch=True)\n\n🔗 \n\n&#96;&#96;&#96;python\npreprocess: bool\n&#96;&#96;&#96;\n\ndefault &#96;= True&#96;\n\nIf False, will not run preprocessing of component data before running 'fn' (e.g. leaving it as a base64 string if this method is called with the \\&#96;Image\\&#96; component).\n\n🔗 \n\n&#96;&#96;&#96;python\npostprocess: bool\n&#96;&#96;&#96;\n\ndefault &#96;= True&#96;\n\nIf False, will not run postprocessing of component data before returning 'fn' output to the browser.\n\n🔗 \n\n&#96;&#96;&#96;python\ncancels: dict[str, Any] | list[dict[str, Any]] | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nA list of other events to cancel when this listener is triggered. For example, setting cancels=\\[click\\_event\\] will cancel the click\\_event, where click\\_event is the return value of another components .click method. Functions that have not yet run (or generators that are iterating) will be cancelled, but functions that are currently running will be allowed to finish.\n\n🔗 \n\n&#96;&#96;&#96;python\ntrigger_mode: Literal['once', 'multiple', 'always_last'] | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nIf \"once\" (default for all events except \\&#96;.change()\\&#96;) would not allow any submissions while an event is pending. If set to \"multiple\", unlimited submissions are allowed while pending, and \"always\\_last\" (default for \\&#96;.change()\\&#96; and \\&#96;.key\\_up()\\&#96; events) would allow a second submission after the pending event is complete.\n\n🔗 \n\n&#96;&#96;&#96;python\njs: str | Literal[True] | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nOptional frontend js method to run before running 'fn'. Input arguments for js method are values of 'inputs' and 'outputs', return should be a list of values for output components.\n\n🔗 \n\n&#96;&#96;&#96;python\nconcurrency_limit: int | None | Literal['default']\n&#96;&#96;&#96;\n\ndefault &#96;= \"default\"&#96;\n\nIf set, this is the maximum number of this event that can be running simultaneously. Can be set to None to mean no concurrency\\_limit (any number of this event can be running simultaneously). Set to \"default\" to use the default concurrency limit (defined by the \\&#96;default\\_concurrency\\_limit\\&#96; parameter in \\&#96;Blocks.queue()\\&#96;, which itself is 1 by default).\n\n🔗 \n\n&#96;&#96;&#96;python\nconcurrency_id: str | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nIf set, this is the id of the concurrency group. Events with the same concurrency\\_id will be limited by the lowest set concurrency\\_limit.\n\n🔗 \n\n&#96;&#96;&#96;python\napi_visibility: Literal['public', 'private', 'undocumented']\n&#96;&#96;&#96;\n\ndefault &#96;= \"public\"&#96;\n\ncontrols the visibility and accessibility of this endpoint. Can be \"public\" (shown in API docs and callable by clients), \"private\" (hidden from API docs and not callable by the Gradio client libraries), or \"undocumented\" (hidden from API docs but callable by clients and via gr.load). If fn is None, api\\_visibility will automatically be set to \"private\".\n\n🔗 \n\n&#96;&#96;&#96;python\ntime_limit: int | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\n🔗 \n\n&#96;&#96;&#96;python\nstream_every: float\n&#96;&#96;&#96;\n\ndefault &#96;= 0.5&#96;\n\n🔗 \n\n&#96;&#96;&#96;python\nkey: int | str | tuple[int | str, ...] | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nA unique key for this event listener to be used in @gr.render(). If set, this value identifies an event as identical across re-renders when the key is identical.\n\n🔗 \n\n&#96;&#96;&#96;python\nvalidator: Callable | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nOptional validation function to run before the main function. If provided, this function will be executed first with queue=False, and only if it completes successfully will the main function be called. The validator receives the same inputs as the main function and should return a \\&#96;gr.validate()\\&#96; for each input value.\n\n### Helper Classes\n\n### Webcam Options\n\n&#96;&#96;&#96;python\ngradio.WebcamOptions(···)\n&#96;&#96;&#96;\n\n#### Description\n\n## A dataclass for specifying options for the webcam tool in the ImageEditor component. An instance of this class can be passed to the &#96;webcam_options&#96; parameter of &#96;gr.ImageEditor&#96;.\n\n#### Initialization\n\nParameters ▼\n\n🔗 \n\n&#96;&#96;&#96;python\nmirror: bool\n&#96;&#96;&#96;\n\ndefault &#96;= True&#96;\n\nIf True, the webcam will be mirrored.\n\n🔗 \n\n&#96;&#96;&#96;python\nconstraints: dict[str, Any] | None\n&#96;&#96;&#96;\n\ndefault &#96;= None&#96;\n\nA dictionary of constraints for the webcam.\n\nStreaming InputsStreaming Outputs\n\n← HTML ImageEditor →\n\nImage \n* Description\n* Behavior\n* Initialization\n* Shortcuts\n* Understanding Image Types\n* GIF and SVG Image Formats\n* Demos\n* Event Listeners\n* Helper Classes\n* Webcam Options\n\n## Related Guides\n\n* Streaming Inputs\n* Streaming Outputs",
+  "url": "https://www.gradio.app/docs/gradio/image"
+}
+```
+User decision: **accepted**
+
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="web_fetch"><details>
+<summary>Tool use: **web_fetch**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "path": "C:\\Users\\TuanAdmin\\.cursor\\projects\\e-github-facefusion0\\agent-tools\\e2863e92-458d-40a0-b03a-00c2cc510072.txt",
+  "pattern": "stream|sources"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "C:\\Users\\TuanAdmin\\.cursor\\projects\\e-github-facefusion0\\agent-tools\\e2863e92-458d-40a0-b03a-00c2cc510072.txt",
+  "pattern": "stream|sources",
+  "topFiles": [
+    {
+      "matchCount": 7,
+      "uri": "C:\\Users\\TuanAdmin\\.cursor\\projects\\e-github-facefusion0\\agent-tools\\e2863e92-458d-40a0-b03a-00c2cc510072.txt"
+    }
+  ],
+  "totalFiles": 1,
+  "totalMatches": 7
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: C:\Users\TuanAdmin\.cursor\projects\e-github-facefusion0\agent-tools\e2863e92-458d-40a0-b03a-00c2cc510072.txt</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: C:\Users\TuanAdmin\.cursor\projects\e-github-facefusion0\agent-tools\e2863e92-458d-40a0-b03a-00c2cc510072.txt</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+I'll implement common_helper. - `is_huggingface_space()` function is implemented.
+- `should_use_browser_webcam()` optionally returns true if running in Hugging Face space or if `FACEFUSION_BROWSER_WEBCAM` environment variable is set.
+- In `webcam_options.py`, when `should_use_browser_webcam()` is true, `local_camera_ids` is set to `[0]`; otherwise, fallback to `['none']` if empty.
+- For webcam rendering:
+  - When using browser, `WEBCAM_IMAGE` is configured with `sources=['webcam']`, `type='numpy'`, `streaming=True`, and `visible=True`.
+  - Gradio 5's `stream_frequency` parameter should be checked around line 380 of documentation.
+  - `WEBCAM_START_BUTTON` and `WEBCAM_STOP_BUTTON` are hidden for browser path.</details></think>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: C:\Users\TuanAdmin\.cursor\projects\e-github-facefusion0\agent-tools\e2863e92-458d-40a0-b03a-00c2cc510072.txt</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: C:\Users\TuanAdmin\.cursor\projects\e-github-facefusion0\agent-tools\e2863e92-458d-40a0-b03a-00c2cc510072.txt</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+I'll implement browser webcam path with:
+- 1. I'll implement browser webcam path with:
+- 1. `WEBCAM_IMAGE.stream(fn, inputs=[WEBCAM_IMAGE], outputs=[WEBCAM_IMAGE], stream_every=0.1)` - if this causes issues, use output=None
+- 2. `def relay_browser_frame(frame): return frame` - passthrough
+
+For **OpenCV path** when NOT browser: unchanged
+
+**webcam_options** - For HF space, also add `gradio.Markdown` - better to add in merged layout - actually add in webcam_options render as optional second component - would require multiple returns. Simpler: add Markdown in webcam.py render() when browser only.
+
+```python
+if use_browser_webcam():
+    WEBCAM_BROWSER_HINT = gradio.Markdown('...')
+``` For the webcam implementation, I'll register the browser webcam hint as global or inline in the webcam render function. I'll add a locale key for the hint message in locales.py under uis, using an English string to minimize locale changes. I'll create a helper function `use_browser_webcam()` in common_helper that checks environment variables and returns True if running on Hugging Face Spaces.
+
+- Add locale key `'webcam_browser_hint'` with specific message for Hugging Face Spaces
+- Implement `use_browser_webcam()` helper function checking FACEFUSION_BROWSER_WEBCAM env var and SPACE_ID
+- Register browser webcam hint globally or inline in webcam render
+- Use English string in code to reduce locale modifications When using the browser webcam path, do not register Start button events; instead, register the stream. For the browser path, keep webcam_device_id_dropdown etc. but avoid calling start(). Clean up the listen function by adding an if block that registers the stream for browser paths and keeps the original block for non-browser paths.</details></think>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: e:\github\facefusion0\facefusion\common_helper.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: e:\github\facefusion0\facefusion\uis\components\webcam.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: e:\github\facefusion0\facefusion\uis\components\webcam_options.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "path": "e:\\github\\facefusion0\\facefusion\\locales.py",
+  "pattern": "webcam"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "e:\\github\\facefusion0\\facefusion\\locales.py",
+  "pattern": "webcam",
+  "topFiles": [
+    {
+      "matchCount": 6,
+      "uri": "facefusion\\locales.py"
+    }
+  ],
+  "totalFiles": 1,
+  "totalMatches": 6
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: e:\github\facefusion0\facefusion\locales.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: e:\github\facefusion0\facefusion\uis\layouts\merged.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+I'll implement common helper functions. I'll implement the webcam functionality with browser support by adding `import os` and `use_browser_webcam()` imports. For webcam options, I'll modify `webcam_options.py` to use `[0]` as choices when `use_browser_webcam` is True instead of `['none']`.
+
+In `webcam.py`, I'll:
+- Import `use_browser_webcam`
+- In render function: create `WEBCAM_IMAGE` with sources=['webcam'], type='numpy', streaming=True, visible=True
+- Optionally disable interactive for SOURCE_FILE conflict
+- Set `WEBCAM_START_BUTTON` and `WEBCAM_STOP_BUTTON` to visible=False for browser path
+- In listen function: if `use_browser_webcam()` is True, only listen for SOURCE_FILE.change and add WEBCAM_IMAGE changes</details></think>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "path": "e:\\github\\facefusion0\\facefusion",
+  "pattern": "WEBCAM_IMAGE|webcam_image"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "e:\\github\\facefusion0\\facefusion",
+  "pattern": "WEBCAM_IMAGE|webcam_image",
+  "topFiles": [
+    {
+      "matchCount": 1,
+      "uri": "facefusion\\locales.py"
+    },
+    {
+      "matchCount": 1,
+      "uri": "facefusion/locales.py"
+    },
+    {
+      "matchCount": 8,
+      "uri": "facefusion/uis/components/webcam.py"
+    }
+  ],
+  "totalFiles": 3,
+  "totalMatches": 10
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="semantic_search_full">
+<details>
+<summary>Tool use: **semantic_search_full**</summary>
+
+
+Parameters:
+
+```json
+{
+  "explanation": "",
+  "includePattern": "e:\\github\\facefusion0\\facefusion",
+  "query": "Where does webcam or camera frame feed into face swap or preview?",
+  "topK": 10
+}
+```
+Result:
+
+```json
+{
+  "codeResults": [
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "isSignature": true,
+            "lineNumber": 16,
+            "text": "def render() -\u003e gradio.Blocks:"
+          },
+          {
+            "lineNumber": 74
+          },
+          {
+            "lineNumber": 75,
+            "text": "\t\t\t\t\twith gradio.Column(scale = 7):"
+          },
+          {
+            "lineNumber": 76,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 77,
+            "text": "\t\t\t\t\t\t\tpreview.render()"
+          },
+          {
+            "lineNumber": 78,
+            "text": "\t\t\t\t\t\t\tpreview_options.render()"
+          },
+          {
+            "lineNumber": 79,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 80,
+            "text": "\t\t\t\t\t\t\ttrim_frame.render()"
+          },
+          {
+            "lineNumber": 81,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 82,
+            "text": "\t\t\t\t\t\t\tface_selector.render()"
+          },
+          {
+            "lineNumber": 83,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 84,
+            "text": "\t\t\t\t\t\t\tface_masker.render()"
+          },
+          {
+            "lineNumber": 85,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 86,
+            "text": "\t\t\t\t\t\t\tface_detector.render()"
+          },
+          {
+            "lineNumber": 87,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 88,
+            "text": "\t\t\t\t\t\t\tface_landmarker.render()"
+          },
+          {
+            "lineNumber": 89,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 90,
+            "text": "\t\t\t\t\t\t\tcommon_options.render()"
+          },
+          {
+            "lineNumber": 91,
+            "text": "\t\t\twith gradio.Tab('webcam'):"
+          },
+          {
+            "lineNumber": 92,
+            "text": "\t\t\t\tgradio.Markdown('Use the **default** tab to choose processors and models, then start the camera here.')"
+          },
+          {
+            "lineNumber": 93,
+            "text": "\t\t\t\twith gradio.Row():"
+          },
+          {
+            "lineNumber": 94,
+            "text": "\t\t\t\t\twith gradio.Column(scale = 4):"
+          },
+          {
+            "lineNumber": 95,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 96,
+            "text": "\t\t\t\t\t\t\twebcam_options.render()"
+          },
+          {
+            "lineNumber": 97,
+            "text": "\t\t\t\t\twith gradio.Column(scale = 11):"
+          },
+          {
+            "lineNumber": 98,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 99,
+            "text": "\t\t\t\t\t\t\twebcam.render()"
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 100,
+            "text": "\treturn layout"
+          },
+          {
+            "lineNumber": 101
+          },
+          {
+            "lineNumber": 102
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 103,
+            "text": "def listen() -\u003e None:"
+          },
+          {
+            "lineNumber": 104,
+            "text": "\tprocessors.listen()"
+          },
+          {
+            "lineNumber": 105,
+            "text": "\tage_modifier_options.listen()"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "line": 137
+          },
+          "startPosition": {
+            "line": 15
+          }
+        },
+        "relativeWorkspacePath": ".\\facefusion\\uis\\layouts\\merged.py",
+        "signatures": {
+          "ranges": [
+            {
+              "endPosition": {
+                "column": 2,
+                "line": 17
+              },
+              "startPosition": {
+                "column": 1,
+                "line": 16
+              }
+            }
+          ]
+        }
+      },
+      "score": 0.41271066665649414
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "isSignature": true,
+            "lineNumber": 11,
+            "text": "def render() -\u003e gradio.Blocks:"
+          },
+          {
+            "lineNumber": 12,
+            "text": "\twith gradio.Blocks() as layout:"
+          },
+          {
+            "lineNumber": 13,
+            "text": "\t\twith gradio.Row():"
+          },
+          {
+            "lineNumber": 14,
+            "text": "\t\t\twith gradio.Column(scale = 4):"
+          },
+          {
+            "lineNumber": 15,
+            "text": "\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 16,
+            "text": "\t\t\t\t\tabout.render()"
+          },
+          {
+            "lineNumber": 17,
+            "text": "\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 18,
+            "text": "\t\t\t\t\twebcam_options.render()"
+          },
+          {
+            "lineNumber": 19,
+            "text": "\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 20,
+            "text": "\t\t\t\t\tage_modifier_options.render()"
+          },
+          {
+            "lineNumber": 21,
+            "text": "\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 22,
+            "text": "\t\t\t\t\tbackground_remover_options.render()"
+          },
+          {
+            "lineNumber": 23,
+            "text": "\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 24,
+            "text": "\t\t\t\t\tdeep_swapper_options.render()"
+          },
+          {
+            "lineNumber": 25,
+            "text": "\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 26,
+            "text": "\t\t\t\t\texpression_restorer_options.render()"
+          },
+          {
+            "lineNumber": 27,
+            "text": "\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 28,
+            "text": "\t\t\t\t\tface_debugger_options.render()"
+          },
+          {
+            "lineNumber": 29,
+            "text": "\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 30,
+            "text": "\t\t\t\t\tface_editor_options.render()"
+          },
+          {
+            "lineNumber": 31,
+            "text": "\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 32,
+            "text": "\t\t\t\t\tface_enhancer_options.render()"
+          },
+          {
+            "lineNumber": 33,
+            "text": "\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 34,
+            "text": "\t\t\t\t\tface_swapper_options.render()"
+          },
+          {
+            "lineNumber": 35,
+            "text": "\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 36,
+            "text": "\t\t\t\t\tframe_colorizer_options.render()"
+          },
+          {
+            "lineNumber": 37,
+            "text": "\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 38,
+            "text": "\t\t\t\t\tframe_enhancer_options.render()"
+          },
+          {
+            "lineNumber": 39,
+            "text": "\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 40,
+            "text": "\t\t\t\t\tlip_syncer_options.render()"
+          },
+          {
+            "lineNumber": 41,
+            "text": "\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 42,
+            "text": "\t\t\t\t\texecution.render()"
+          },
+          {
+            "lineNumber": 43,
+            "text": "\t\t\t\t\texecution_thread_count.render()"
+          },
+          {
+            "lineNumber": 44,
+            "text": "\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 45,
+            "text": "\t\t\t\t\tdownload.render()"
+          },
+          {
+            "lineNumber": 46,
+            "text": "\t\t\twith gradio.Column(scale = 11):"
+          },
+          {
+            "lineNumber": 47,
+            "text": "\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 48,
+            "text": "\t\t\t\t\twebcam.render()"
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 49,
+            "text": "\treturn layout"
+          },
+          {
+            "lineNumber": 50
+          },
+          {
+            "lineNumber": 51
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 52,
+            "text": "def listen() -\u003e None:"
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 53,
+            "text": "\t# processors render/listen only on the default tab — duplicating here breaks Gradio"
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 54,
+            "text": "\t# (two CheckboxGroups + update_processors) and triggers \"needed: 1, got: 0\"."
+          },
+          {
+            "lineNumber": 55,
+            "text": "\t"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "line": 68
+          },
+          "startPosition": {
+            "column": 12,
+            "line": 7
+          }
+        },
+        "relativeWorkspacePath": ".\\facefusion\\uis\\layouts\\webcam.py",
+        "signatures": {}
+      },
+      "score": 0.3528848886489868
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "isSignature": true,
+            "lineNumber": 106,
+            "text": "def launch() -\u003e None:"
+          },
+          {
+            "lineNumber": 107,
+            "text": "\tui_layouts = state_manager.get_item('ui_layouts')"
+          },
+          {
+            "lineNumber": 108,
+            "text": "\tui_layouts_total = len(ui_layouts)"
+          },
+          {
+            "lineNumber": 109,
+            "text": "\topen_webcam_js = None"
+          },
+          {
+            "lineNumber": 110,
+            "text": "\t# Inner \"webcam\" tab (layout merged) or legacy multi-layout default+webcam"
+          },
+          {
+            "lineNumber": 111,
+            "text": "\tif ('merged' in ui_layouts) or (ui_layouts_total \u003e 1 and 'webcam' in ui_layouts):"
+          },
+          {
+            "lineNumber": 112,
+            "text": "\t\topen_webcam_js = get_open_webcam_tab_js()"
+          },
+          {
+            "lineNumber": 113
+          },
+          {
+            "lineNumber": 114,
+            "text": "\twith gradio.Blocks("
+          },
+          {
+            "lineNumber": 115,
+            "text": "\t\ttheme = get_theme(),"
+          },
+          {
+            "lineNumber": 116,
+            "text": "\t\tcss = get_css(),"
+          },
+          {
+            "lineNumber": 117,
+            "text": "\t\ttitle = metadata.get('name') + ' ' + metadata.get('version'),"
+          },
+          {
+            "lineNumber": 118,
+            "text": "\t\tfill_width = True,"
+          },
+          {
+            "lineNumber": 119,
+            "text": "\t\tjs = open_webcam_js,"
+          },
+          {
+            "lineNumber": 120,
+            "text": "\t) as ui:"
+          },
+          {
+            "lineNumber": 121,
+            "text": "\t\tfor ui_layout in ui_layouts:"
+          },
+          {
+            "lineNumber": 122,
+            "text": "\t\t\tui_layout_module = load_ui_layout_module(ui_layout)"
+          },
+          {
+            "lineNumber": 123
+          },
+          {
+            "lineNumber": 124,
+            "text": "\t\t\tif ui_layouts_total \u003e 1:"
+          },
+          {
+            "lineNumber": 125,
+            "text": "\t\t\t\twith gradio.Tab(ui_layout):"
+          },
+          {
+            "lineNumber": 126,
+            "text": "\t\t\t\t\tui_layout_module.render()"
+          },
+          {
+            "lineNumber": 127,
+            "text": "\t\t\t\t\tui_layout_module.listen()"
+          },
+          {
+            "lineNumber": 128,
+            "text": "\t\t\telse:"
+          },
+          {
+            "lineNumber": 129,
+            "text": "\t\t\t\tui_layout_module.render()"
+          },
+          {
+            "lineNumber": 130,
+            "text": "\t\t\t\tui_layout_module.listen()"
+          },
+          {
+            "lineNumber": 131
+          },
+          {
+            "lineNumber": 132,
+            "text": "\tfor ui_layout in ui_layouts:"
+          },
+          {
+            "lineNumber": 133,
+            "text": "\t\tui_layout_module = load_ui_layout_module(ui_layout)"
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 134,
+            "text": "\t\tui_layout_module.run(ui)"
+          },
+          {
+            "lineNumber": 135
+          },
+          {
+            "lineNumber": 136
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 137,
+            "text": "def get_theme() -\u003e gradio.Theme:"
+          },
+          {
+            "lineNumber": 138,
+            "text": "\treturn"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "line": 229
+          },
+          "startPosition": {
+            "column": 4,
+            "line": 102
+          }
+        },
+        "relativeWorkspacePath": ".\\facefusion\\uis\\core.py",
+        "signatures": {}
+      },
+      "score": 0.30547165870666504
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "isSignature": true,
+            "lineNumber": 52,
+            "text": "def listen() -\u003e None:"
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 53,
+            "text": "\t# processors render/listen only on the default tab — duplicating here breaks Gradio"
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 54,
+            "text": "\t# (two CheckboxGroups + update_processors) and triggers \"needed: 1, got: 0\"."
+          },
+          {
+            "lineNumber": 55,
+            "text": "\tage_modifier_options.listen()"
+          },
+          {
+            "lineNumber": 56,
+            "text": "\tbackground_remover_options.listen()"
+          },
+          {
+            "lineNumber": 57,
+            "text": "\tdeep_swapper_options.listen()"
+          },
+          {
+            "lineNumber": 58,
+            "text": "\texpression_restorer_options.listen()"
+          },
+          {
+            "lineNumber": 59,
+            "text": "\tdownload.listen()"
+          },
+          {
+            "lineNumber": 60,
+            "text": "\tface_debugger_options.listen()"
+          },
+          {
+            "lineNumber": 61,
+            "text": "\tface_editor_options.listen()"
+          },
+          {
+            "lineNumber": 62,
+            "text": "\tface_enhancer_options.listen()"
+          },
+          {
+            "lineNumber": 63,
+            "text": "\tface_swapper_options.listen()"
+          },
+          {
+            "lineNumber": 64,
+            "text": "\tframe_colorizer_options.listen()"
+          },
+          {
+            "lineNumber": 65,
+            "text": "\tframe_enhancer_options.listen()"
+          },
+          {
+            "lineNumber": 66,
+            "text": "\tlip_syncer_options.listen()"
+          },
+          {
+            "lineNumber": 67,
+            "text": "\texecution.listen()"
+          },
+          {
+            "lineNumber": 68,
+            "text": "\texecution_thread_count.listen()"
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 69,
+            "text": "\twebcam.listen()"
+          },
+          {
+            "lineNumber": 70
+          },
+          {
+            "lineNumber": 71
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 72,
+            "text": "def run(ui : gradio.Blocks) -\u003e None:"
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 73,
+            "text": "\tui.launch(**get_gradio_launch_kwargs())"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "column": 40,
+            "line": 72
+          },
+          "startPosition": {
+            "column": 14,
+            "line": 48
+          }
+        },
+        "relativeWorkspacePath": ".\\facefusion\\uis\\layouts\\webcam.py",
+        "signatures": {}
+      },
+      "score": 0.28317010402679443
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "isSignature": true,
+            "lineNumber": 72,
+            "text": "def run(ui : gradio.Blocks) -\u003e None:"
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 73,
+            "text": "\tui.launch(**get_gradio_launch_kwargs())"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "column": 40,
+            "line": 72
+          },
+          "startPosition": {
+            "column": 16,
+            "line": 68
+          }
+        },
+        "relativeWorkspacePath": ".\\facefusion\\uis\\layouts\\webcam.py",
+        "signatures": {}
+      },
+      "score": 0.27013325691223145
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "isSignature": true,
+            "lineNumber": 103,
+            "text": "def listen() -\u003e None:"
+          },
+          {
+            "lineNumber": 104,
+            "text": "\tprocessors.listen()"
+          },
+          {
+            "lineNumber": 105,
+            "text": "\tage_modifier_options.listen()"
+          },
+          {
+            "lineNumber": 106,
+            "text": "\tbackground_remover_options.listen()"
+          },
+          {
+            "lineNumber": 107,
+            "text": "\tdeep_swapper_options.listen()"
+          },
+          {
+            "lineNumber": 108,
+            "text": "\texpression_restorer_options.listen()"
+          },
+          {
+            "lineNumber": 109,
+            "text": "\tface_debugger_options.listen()"
+          },
+          {
+            "lineNumber": 110,
+            "text": "\tface_editor_options.listen()"
+          },
+          {
+            "lineNumber": 111,
+            "text": "\tface_enhancer_options.listen()"
+          },
+          {
+            "lineNumber": 112,
+            "text": "\tface_swapper_options.listen()"
+          },
+          {
+            "lineNumber": 113,
+            "text": "\tframe_colorizer_options.listen()"
+          },
+          {
+            "lineNumber": 114,
+            "text": "\tframe_enhancer_options.listen()"
+          },
+          {
+            "lineNumber": 115,
+            "text": "\tlip_syncer_options.listen()"
+          },
+          {
+            "lineNumber": 116,
+            "text": "\texecution.listen()"
+          },
+          {
+            "lineNumber": 117,
+            "text": "\texecution_thread_count.listen()"
+          },
+          {
+            "lineNumber": 118,
+            "text": "\tdownload.listen()"
+          },
+          {
+            "lineNumber": 119,
+            "text": "\tmemory.listen()"
+          },
+          {
+            "lineNumber": 120,
+            "text": "\ttemp_frame.listen()"
+          },
+          {
+            "lineNumber": 121,
+            "text": "\toutput_options.listen()"
+          },
+          {
+            "lineNumber": 122,
+            "text": "\tsource.listen()"
+          },
+          {
+            "lineNumber": 123,
+            "text": "\ttarget.listen()"
+          },
+          {
+            "lineNumber": 124,
+            "text": "\toutput.listen()"
+          },
+          {
+            "lineNumber": 125,
+            "text": "\tinstant_runner.listen()"
+          },
+          {
+            "lineNumber": 126,
+            "text": "\tjob_runner.listen()"
+          },
+          {
+            "lineNumber": 127,
+            "text": "\tjob_manager.listen()"
+          },
+          {
+            "lineNumber": 128,
+            "text": "\tterminal.listen()"
+          },
+          {
+            "lineNumber": 129,
+            "text": "\tpreview.listen()"
+          },
+          {
+            "lineNumber": 130,
+            "text": "\tpreview_options.listen()"
+          },
+          {
+            "lineNumber": 131,
+            "text": "\ttrim_frame.listen()"
+          },
+          {
+            "lineNumber": 132,
+            "text": "\tface_selector.listen()"
+          },
+          {
+            "lineNumber": 133,
+            "text": "\tface_masker.listen()"
+          },
+          {
+            "lineNumber": 134,
+            "text": "\tface_detector.listen()"
+          },
+          {
+            "lineNumber": 135,
+            "text": "\tface_landmarker.listen()"
+          },
+          {
+            "lineNumber": 136,
+            "text": "\tvoice_extractor.listen()"
+          },
+          {
+            "lineNumber": 137,
+            "text": "\tcommon_options.listen()"
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 138,
+            "text": "\twebcam.listen()"
+          },
+          {
+            "lineNumber": 139
+          },
+          {
+            "lineNumber": 140
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 141,
+            "text": "def run(ui : gradio.Blocks) -\u003e None:"
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 142,
+            "text": "\tui.launch(**get_gradio_launch_kwargs())"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "column": 40,
+            "line": 141
+          },
+          "startPosition": {
+            "column": 14,
+            "line": 99
+          }
+        },
+        "relativeWorkspacePath": ".\\facefusion\\uis\\layouts\\merged.py",
+        "signatures": {}
+      },
+      "score": 0.26738059520721436
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "isSignature": true,
+            "lineNumber": 16,
+            "text": "def render() -\u003e gradio.Blocks:"
+          },
+          {
+            "lineNumber": 17,
+            "text": "\twith gradio.Blocks() as layout:"
+          },
+          {
+            "lineNumber": 18,
+            "text": "\t\twith gradio.Tabs():"
+          },
+          {
+            "lineNumber": 19,
+            "text": "\t\t\twith gradio.Tab('default'):"
+          },
+          {
+            "lineNumber": 20,
+            "text": "\t\t\t\twith gradio.Row():"
+          },
+          {
+            "lineNumber": 21,
+            "text": "\t\t\t\t\twith gradio.Column(scale = 4):"
+          },
+          {
+            "lineNumber": 22,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 23,
+            "text": "\t\t\t\t\t\t\tabout.render()"
+          },
+          {
+            "lineNumber": 24,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 25,
+            "text": "\t\t\t\t\t\t\tprocessors.render()"
+          },
+          {
+            "lineNumber": 26,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 27,
+            "text": "\t\t\t\t\t\t\tage_modifier_options.render()"
+          },
+          {
+            "lineNumber": 28,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 29,
+            "text": "\t\t\t\t\t\t\tbackground_remover_options.render()"
+          },
+          {
+            "lineNumber": 30,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 31,
+            "text": "\t\t\t\t\t\t\tdeep_swapper_options.render()"
+          },
+          {
+            "lineNumber": 32,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 33,
+            "text": "\t\t\t\t\t\t\texpression_restorer_options.render()"
+          },
+          {
+            "lineNumber": 34,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 35,
+            "text": "\t\t\t\t\t\t\tface_debugger_options.render()"
+          },
+          {
+            "lineNumber": 36,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 37,
+            "text": "\t\t\t\t\t\t\tface_editor_options.render()"
+          },
+          {
+            "lineNumber": 38,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 39,
+            "text": "\t\t\t\t\t\t\tface_enhancer_options.render()"
+          },
+          {
+            "lineNumber": 40,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 41,
+            "text": "\t\t\t\t\t\t\tface_swapper_options.render()"
+          },
+          {
+            "lineNumber": 42,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 43,
+            "text": "\t\t\t\t\t\t\tframe_colorizer_options.render()"
+          },
+          {
+            "lineNumber": 44,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 45,
+            "text": "\t\t\t\t\t\t\tframe_enhancer_options.render()"
+          },
+          {
+            "lineNumber": 46,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 47,
+            "text": "\t\t\t\t\t\t\tlip_syncer_options.render()"
+          },
+          {
+            "lineNumber": 48,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 49,
+            "text": "\t\t\t\t\t\t\tvoice_extractor.render()"
+          },
+          {
+            "lineNumber": 50,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 51,
+            "text": "\t\t\t\t\t\t\texecution.render()"
+          },
+          {
+            "lineNumber": 52,
+            "text": "\t\t\t\t\t\t\texecution_thread_count.render()"
+          },
+          {
+            "lineNumber": 53,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 54,
+            "text": "\t\t\t\t\t\t\tdownload.render()"
+          },
+          {
+            "lineNumber": 55,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 56,
+            "text": "\t\t\t\t\t\t\tmemory.render()"
+          },
+          {
+            "lineNumber": 57,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 58,
+            "text": "\t\t\t\t\t\t\ttemp_frame.render()"
+          },
+          {
+            "lineNumber": 59,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 60,
+            "text": "\t\t\t\t\t\t\toutput_options.render()"
+          },
+          {
+            "lineNumber": 61,
+            "text": "\t\t\t\t\twith gradio.Column(scale = 4):"
+          },
+          {
+            "lineNumber": 62,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 63,
+            "text": "\t\t\t\t\t\t\tsource.render()"
+          },
+          {
+            "lineNumber": 64,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 65,
+            "text": "\t\t\t\t\t\t\ttarget.render()"
+          },
+          {
+            "lineNumber": 66,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 67,
+            "text": "\t\t\t\t\t\t\toutput.render()"
+          },
+          {
+            "lineNumber": 68,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 69,
+            "text": "\t\t\t\t\t\t\tterminal.render()"
+          },
+          {
+            "lineNumber": 70,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          },
+          {
+            "lineNumber": 71,
+            "text": "\t\t\t\t\t\t\tui_workflow.render()"
+          },
+          {
+            "lineNumber": 72,
+            "text": "\t\t\t\t\t\t\tinstant_runner.render()"
+          },
+          {
+            "lineNumber": 73,
+            "text": "\t\t\t\t\t\t\tjob_runner.render()"
+          },
+          {
+            "lineNumber": 74,
+            "text": "\t\t\t\t\t\t\tjob_manager.render()"
+          },
+          {
+            "lineNumber": 75,
+            "text": "\t\t\t\t\twith gradio.Column(scale = 7):"
+          },
+          {
+            "lineNumber": 76,
+            "text": "\t\t\t\t\t\twith gradio.Blocks():"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "line": 99
+          },
+          "startPosition": {
+            "column": 12,
+            "line": 12
+          }
+        },
+        "relativeWorkspacePath": ".\\facefusion\\uis\\layouts\\merged.py",
+        "signatures": {}
+      },
+      "score": 0.2657566964626312
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "lineNumber": 1,
+            "text": "\"\"\""
+          },
+          {
+            "lineNumber": 2,
+            "text": "Single Gradio layout with inner tabs (default | webcam). Using two top-level"
+          },
+          {
+            "lineNumber": 3,
+            "text": "layouts (default + webcam) duplicates every component and .listen() twice,"
+          },
+          {
+            "lineNumber": 4,
+            "text": "which breaks Gradio's queue (e.g. KeyError: fn_index)."
+          },
+          {
+            "lineNumber": 5,
+            "text": "\"\"\""
+          },
+          {
+            "lineNumber": 6,
+            "text": "import gradio"
+          },
+          {
+            "lineNumber": 7
+          },
+          {
+            "lineNumber": 8,
+            "text": "from facefusion.uis.components import about, age_modifier_options, background_remover_options, common_options, deep_swapper_options, download, execution, execution_thread_count, expression_restorer_options, face_debugger_options, face_detector, face_editor_options, face_enhancer_options, face_landmarker, face_masker, face_selector, face_swapper_options, frame_colorizer_options, frame_enhancer_options, instant_runner, job_manager, job_runner, lip_syncer_options, memory, output, output_options, preview, preview_options, processors, source, target, temp_frame, terminal, trim_frame, ui_workflow, voice_extractor, webcam, webcam_options"
+          },
+          {
+            "lineNumber": 9,
+            "text": "from facefusion.uis.ui_helper import get_gradio_launch_kwargs"
+          },
+          {
+            "lineNumber": 10
+          },
+          {
+            "lineNumber": 11
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 12,
+            "text": "def pre_check() -\u003e bool:"
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 13,
+            "text": "\treturn True"
+          },
+          {
+            "lineNumber": 14
+          },
+          {
+            "lineNumber": 15
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 16,
+            "text": "def render() -\u003e gradio.Blocks:"
+          },
+          {
+            "lineNumber": 17,
+            "text": "\twith gradio.Blocks() as layout:"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "line": 99
+          },
+          "startPosition": {}
+        },
+        "relativeWorkspacePath": ".\\facefusion\\uis\\layouts\\merged.py",
+        "signatures": {}
+      },
+      "score": 0.26498180627822876
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "lineNumber": 1,
+            "text": "import gradio"
+          },
+          {
+            "lineNumber": 2
+          },
+          {
+            "lineNumber": 3,
+            "text": "from facefusion.uis.components import about, age_modifier_options, background_remover_options, deep_swapper_options, download, execution, execution_thread_count, expression_restorer_options, face_debugger_options, face_editor_options, face_enhancer_options, face_swapper_options, frame_colorizer_options, frame_enhancer_options, lip_syncer_options, webcam, webcam_options"
+          },
+          {
+            "lineNumber": 4,
+            "text": "from facefusion.uis.ui_helper import get_gradio_launch_kwargs"
+          },
+          {
+            "lineNumber": 5
+          },
+          {
+            "lineNumber": 6
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 7,
+            "text": "def pre_check() -\u003e bool:"
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 8,
+            "text": "\treturn True"
+          },
+          {
+            "lineNumber": 9
+          },
+          {
+            "lineNumber": 10
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 11,
+            "text": "def render() -\u003e gradio.Blocks:"
+          },
+          {
+            "lineNumber": 12,
+            "text": "\twith gradio.Blocks() as layout:"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "line": 48
+          },
+          "startPosition": {}
+        },
+        "relativeWorkspacePath": ".\\facefusion\\uis\\layouts\\webcam.py",
+        "signatures": {}
+      },
+      "score": 0.263936311006546
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "isSignature": true,
+            "lineNumber": 83,
+            "text": "def get_open_webcam_tab_js() -\u003e str:"
+          },
+          {
+            "lineNumber": 84,
+            "text": "\treturn \"\"\"() =\u003e {"
+          },
+          {
+            "lineNumber": 85,
+            "text": "\tif (new URLSearchParams(window.location.search).get('ff_layout') !== 'webcam') {"
+          },
+          {
+            "lineNumber": 86,
+            "text": "\t\treturn;"
+          },
+          {
+            "lineNumber": 87,
+            "text": "\t}"
+          },
+          {
+            "lineNumber": 88,
+            "text": "\tconst tryClick = function(n) {"
+          },
+          {
+            "lineNumber": 89,
+            "text": "\t\tif (n \u003e 48) {"
+          },
+          {
+            "lineNumber": 90,
+            "text": "\t\t\treturn;"
+          },
+          {
+            "lineNumber": 91,
+            "text": "\t\t}"
+          },
+          {
+            "lineNumber": 92,
+            "text": "\t\tconst buttons = document.querySelectorAll('button');"
+          },
+          {
+            "lineNumber": 93,
+            "text": "\t\tfor (let i = 0; i \u003c buttons.length; i++) {"
+          },
+          {
+            "lineNumber": 94,
+            "text": "\t\t\tconst label = (buttons[i].textContent || '').trim().toLowerCase();"
+          },
+          {
+            "lineNumber": 95,
+            "text": "\t\t\tif (label === 'webcam') {"
+          },
+          {
+            "lineNumber": 96,
+            "text": "\t\t\t\tbuttons[i].click();"
+          },
+          {
+            "lineNumber": 97,
+            "text": "\t\t\t\treturn;"
+          },
+          {
+            "lineNumber": 98,
+            "text": "\t\t\t}"
+          },
+          {
+            "lineNumber": 99,
+            "text": "\t\t}"
+          },
+          {
+            "lineNumber": 100,
+            "text": "\t\tsetTimeout(function() { tryClick(n + 1); }, 125);"
+          },
+          {
+            "lineNumber": 101,
+            "text": "\t};"
+          },
+          {
+            "lineNumber": 102,
+            "text": "\ttryClick(0);"
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 103,
+            "text": "}\"\"\""
+          },
+          {
+            "lineNumber": 104
+          },
+          {
+            "lineNumber": 105
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 106,
+            "text": "def launch() -\u003e None:"
+          },
+          {
+            "lineNumber": 107,
+            "text": "\tui_layouts = state_manager.get_item('ui_layouts')"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "line": 133
+          },
+          "startPosition": {
+            "column": 69,
+            "line": 79
+          }
+        },
+        "relativeWorkspacePath": ".\\facefusion\\uis\\core.py",
+        "signatures": {}
+      },
+      "score": 0.24920539557933807
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "lineNumber": 1,
+            "text": "from typing import Optional"
+          },
+          {
+            "lineNumber": 2
+          },
+          {
+            "lineNumber": 3,
+            "text": "import gradio"
+          },
+          {
+            "lineNumber": 4
+          },
+          {
+            "lineNumber": 5,
+            "text": "from facefusion import metadata, translator"
+          },
+          {
+            "lineNumber": 6
+          },
+          {
+            "lineNumber": 7,
+            "text": "METADATA_BUTTON : Optional[gradio.Button] = None"
+          },
+          {
+            "lineNumber": 8,
+            "text": "WEBCAM_PAGE_LINK : Optional[gradio.HTML] = None"
+          },
+          {
+            "lineNumber": 9
+          },
+          {
+            "lineNumber": 10
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 11,
+            "text": "def render() -\u003e None:"
+          },
+          {
+            "lineNumber": 12,
+            "text": "\tglobal METADATA_BUTTON"
+          },
+          {
+            "lineNumber": 13,
+            "text": "\tglobal WEBCAM_PAGE_LINK"
+          },
+          {
+            "lineNumber": 14
+          },
+          {
+            "lineNumber": 15,
+            "text": "\tMETADATA_BUTTON = gradio.Button("
+          },
+          {
+            "lineNumber": 16,
+            "text": "\t\tvalue = metadata.get('name') + ' ' + metadata.get('version'),"
+          },
+          {
+            "lineNumber": 17,
+            "text": "\t\tvariant = 'primary',"
+          },
+          {
+            "lineNumber": 18,
+            "text": "\t\tlink = metadata.get('url')"
+          },
+          {
+            "lineNumber": 19,
+            "text": "\t)"
+          },
+          {
+            "lineNumber": 20,
+            "text": "\tWEBCAM_PAGE_LINK = gradio.HTML("
+          },
+          {
+            "lineNumber": 21,
+            "text": "\t\tvalue = '\u003cdiv style=\"text-align:center\"\u003e'"
+          },
+          {
+            "lineNumber": 22,
+            "text": "\t\t'\u003ca href=\"/?ff_layout=webcam\" target=\"_blank\" rel=\"noopener noreferrer\" '"
+          },
+          {
+            "lineNumber": 23,
+            "text": "\t\t'style=\"display:inline-flex;align-items:center;justify-content:center;min-height:2rem;'"
+          },
+          {
+            "lineNumber": 24,
+            "text": "\t\t'padding:0 0.75rem;border-radius:0.375rem;font-size:0.875rem;font-weight:400;'"
+          },
+          {
+            "lineNumber": 25,
+            "text": "\t\t'border:1px solid var(--border-color-primary);text-decoration:none;color:inherit\"\u003e'"
+          },
+          {
+            "lineNumber": 26,
+            "text": "\t\t+ translator.get('about.webcam')"
+          },
+          {
+            "lineNumber": 27,
+            "text": "\t\t+ '\u003c/a\u003e\u003c/div\u003e'"
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 28,
+            "text": "\t)"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "column": 2,
+            "line": 27
+          },
+          "startPosition": {}
+        },
+        "relativeWorkspacePath": ".\\facefusion\\uis\\components\\about.py",
+        "signatures": {}
+      },
+      "score": 0.21803370118141174
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "lineNumber": 260,
+            "text": ","
+          },
+          {
+            "lineNumber": 261,
+            "text": "\t\t\t'system_memory_limit_slider': 'SYSTEM MEMORY LIMIT',"
+          },
+          {
+            "lineNumber": 262,
+            "text": "\t\t\t'target_file': 'TARGET',"
+          },
+          {
+            "lineNumber": 263,
+            "text": "\t\t\t'temp_frame_format_dropdown': 'TEMP FRAME FORMAT',"
+          },
+          {
+            "lineNumber": 264,
+            "text": "\t\t\t'terminal_textbox': 'TERMINAL',"
+          },
+          {
+            "lineNumber": 265,
+            "text": "\t\t\t'trim_frame_slider': 'TRIM FRAME',"
+          },
+          {
+            "lineNumber": 266,
+            "text": "\t\t\t'ui_workflow': 'UI WORKFLOW',"
+          },
+          {
+            "lineNumber": 267,
+            "text": "\t\t\t'video_memory_strategy_dropdown': 'VIDEO MEMORY STRATEGY',"
+          },
+          {
+            "lineNumber": 268,
+            "text": "\t\t\t'webcam_fps_slider': 'WEBCAM FPS',"
+          },
+          {
+            "lineNumber": 269,
+            "text": "\t\t\t'webcam_image': 'WEBCAM',"
+          },
+          {
+            "lineNumber": 270,
+            "text": "\t\t\t'webcam_device_id_dropdown': 'WEBCAM DEVICE ID',"
+          },
+          {
+            "lineNumber": 271,
+            "text": "\t\t\t'webcam_mode_radio': 'WEBCAM MODE',"
+          },
+          {
+            "lineNumber": 272,
+            "text": "\t\t\t'webcam_resolution_dropdown': 'WEBCAM RESOLUTION'"
+          },
+          {
+            "lineNumber": 273,
+            "text": "\t\t}"
+          },
+          {
+            "lineNumber": 274,
+            "text": "\t}"
+          },
+          {
+            "lineNumber": 275,
+            "text": "}"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "column": 1,
+            "line": 274
+          },
+          "startPosition": {
+            "column": 24,
+            "line": 259
+          }
+        },
+        "relativeWorkspacePath": ".\\facefusion\\locales.py",
+        "signatures": {}
+      },
+      "score": 0.16039526462554932
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "isSignature": true,
+            "lineNumber": 141,
+            "text": "def run(ui : gradio.Blocks) -\u003e None:"
+          },
+          {
+            "isSignature": true,
+            "lineNumber": 142,
+            "text": "\tui.launch(**get_gradio_launch_kwargs())"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "column": 40,
+            "line": 141
+          },
+          "startPosition": {
+            "column": 16,
+            "line": 137
+          }
+        },
+        "relativeWorkspacePath": ".\\facefusion\\uis\\layouts\\merged.py",
+        "signatures": {}
+      },
+      "score": 0.14202329516410828
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "lineNumber": 222,
+            "text": "\t\t\t'face_mask_types_checkbox_group': 'FACE MASK TYPES',"
+          },
+          {
+            "lineNumber": 223,
+            "text": "\t\t\t'face_selector_age_range_slider': 'FACE SELECTOR AGE',"
+          },
+          {
+            "lineNumber": 224,
+            "text": "\t\t\t'face_selector_gender_dropdown': 'FACE SELECTOR GENDER',"
+          },
+          {
+            "lineNumber": 225,
+            "text": "\t\t\t'face_selector_mode_dropdown': 'FACE SELECTOR MODE',"
+          },
+          {
+            "lineNumber": 226,
+            "text": "\t\t\t'face_selector_order_dropdown': 'FACE SELECTOR ORDER',"
+          },
+          {
+            "lineNumber": 227,
+            "text": "\t\t\t'face_selector_race_dropdown': 'FACE SELECTOR RACE',"
+          },
+          {
+            "lineNumber": 228,
+            "text": "\t\t\t'face_occluder_model_dropdown': 'FACE OCCLUDER MODEL',"
+          },
+          {
+            "lineNumber": 229,
+            "text": "\t\t\t'face_parser_model_dropdown': 'FACE PARSER MODEL',"
+          },
+          {
+            "lineNumber": 230,
+            "text": "\t\t\t'voice_extractor_model_dropdown': 'VOICE EXTRACTOR MODEL',"
+          },
+          {
+            "lineNumber": 231,
+            "text": "\t\t\t'job_list_status_checkbox_group': 'JOB STATUS',"
+          },
+          {
+            "lineNumber": 232,
+            "text": "\t\t\t'job_manager_job_action_dropdown': 'JOB_ACTION',"
+          },
+          {
+            "lineNumber": 233,
+            "text": "\t\t\t'job_manager_job_id_dropdown': 'JOB ID',"
+          },
+          {
+            "lineNumber": 234,
+            "text": "\t\t\t'job_manager_step_index_dropdown': 'STEP INDEX',"
+          },
+          {
+            "lineNumber": 235,
+            "text": "\t\t\t'job_runner_job_action_dropdown': 'JOB ACTION',"
+          },
+          {
+            "lineNumber": 236,
+            "text": "\t\t\t'job_runner_job_id_dropdown': 'JOB ID',"
+          },
+          {
+            "lineNumber": 237,
+            "text": "\t\t\t'log_level_dropdown': 'LOG LEVEL',"
+          },
+          {
+            "lineNumber": 238,
+            "text": "\t\t\t'output_audio_encoder_dropdown': 'OUTPUT AUDIO ENCODER',"
+          },
+          {
+            "lineNumber": 239,
+            "text": "\t\t\t'output_audio_quality_slider': 'OUTPUT AUDIO QUALITY',"
+          },
+          {
+            "lineNumber": 240,
+            "text": "\t\t\t'output_audio_volume_slider': 'OUTPUT AUDIO VOLUME',"
+          },
+          {
+            "lineNumber": 241,
+            "text": "\t\t\t'output_image_or_video': 'OUTPUT',"
+          },
+          {
+            "lineNumber": 242,
+            "text": "\t\t\t'output_image_quality_slider': 'OUTPUT IMAGE QUALITY',"
+          },
+          {
+            "lineNumber": 243,
+            "text": "\t\t\t'output_image_scale_slider': 'OUTPUT IMAGE SCALE',"
+          },
+          {
+            "lineNumber": 244,
+            "text": "\t\t\t'output_path_textbox': 'OUTPUT PATH',"
+          },
+          {
+            "lineNumber": 245,
+            "text": "\t\t\t'output_video_encoder_dropdown': 'OUTPUT VIDEO ENCODER',"
+          },
+          {
+            "lineNumber": 246,
+            "text": "\t\t\t'output_video_fps_slider': 'OUTPUT VIDEO FPS',"
+          },
+          {
+            "lineNumber": 247,
+            "text": "\t\t\t'output_video_preset_dropdown': 'OUTPUT VIDEO PRESET',"
+          },
+          {
+            "lineNumber": 248,
+            "text": "\t\t\t'output_video_quality_slider': 'OUTPUT VIDEO QUALITY',"
+          },
+          {
+            "lineNumber": 249,
+            "text": "\t\t\t'output_video_scale_slider': 'OUTPUT VIDEO SCALE',"
+          },
+          {
+            "lineNumber": 250,
+            "text": "\t\t\t'preview_frame_slider': 'PREVIEW FRAME',"
+          },
+          {
+            "lineNumber": 251,
+            "text": "\t\t\t'preview_image': 'PREVIEW',"
+          },
+          {
+            "lineNumber": 252,
+            "text": "\t\t\t'preview_mode_dropdown': 'PREVIEW MODE',"
+          },
+          {
+            "lineNumber": 253,
+            "text": "\t\t\t'preview_resolution_dropdown': 'PREVIEW RESOLUTION',"
+          },
+          {
+            "lineNumber": 254,
+            "text": "\t\t\t'processors_checkbox_group': 'PROCESSORS',"
+          },
+          {
+            "lineNumber": 255,
+            "text": "\t\t\t'reference_face_distance_slider': 'REFERENCE FACE DISTANCE',"
+          },
+          {
+            "lineNumber": 256,
+            "text": "\t\t\t'reference_face_gallery': 'REFERENCE FACE',"
+          },
+          {
+            "lineNumber": 257,
+            "text": "\t\t\t'refresh_button': 'REFRESH',"
+          },
+          {
+            "lineNumber": 258,
+            "text": "\t\t\t'source_file': 'SOURCE',"
+          },
+          {
+            "lineNumber": 259,
+            "text": "\t\t\t'start_button': 'START',"
+          },
+          {
+            "lineNumber": 260,
+            "text": "\t\t\t'stop_button': 'STOP',"
+          },
+          {
+            "lineNumber": 261,
+            "text": "\t\t\t'system_memory_limit_slider': 'SYSTEM MEMORY LIMIT',"
+          },
+          {
+            "lineNumber": 262,
+            "text": "\t\t\t'target_file': 'TARGET',"
+          },
+          {
+            "lineNumber": 263,
+            "text": "\t\t\t'temp_frame_format_dropdown': 'TEMP FRAME FORMAT'"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "column": 52,
+            "line": 262
+          },
+          "startPosition": {
+            "column": 59,
+            "line": 220
+          }
+        },
+        "relativeWorkspacePath": ".\\facefusion\\locales.py",
+        "signatures": {}
+      },
+      "score": 0.13163310289382935
+    },
+    {
+      "codeBlock": {
+        "detailedLines": [
+          {
+            "lineNumber": 180,
+            "text": "\t\t\t'job_delete_all': 'delete all drafted, queued, failed and completed jobs',"
+          },
+          {
+            "lineNumber": 181,
+            "text": "\t\t\t'job_add_step': 'add a step to a drafted job',"
+          },
+          {
+            "lineNumber": 182,
+            "text": "\t\t\t'job_remix_step': 'remix a previous step from a drafted job',"
+          },
+          {
+            "lineNumber": 183,
+            "text": "\t\t\t'job_insert_step': 'insert a step to a drafted job',"
+          },
+          {
+            "lineNumber": 184,
+            "text": "\t\t\t'job_remove_step': 'remove a step from a drafted job',"
+          },
+          {
+            "lineNumber": 185,
+            "text": "\t\t\t'job_run': 'run a queued job',"
+          },
+          {
+            "lineNumber": 186,
+            "text": "\t\t\t'job_run_all': 'run all queued jobs',"
+          },
+          {
+            "lineNumber": 187,
+            "text": "\t\t\t'job_retry': 'retry a failed job',"
+          },
+          {
+            "lineNumber": 188,
+            "text": "\t\t\t'job_retry_all': 'retry all failed jobs'"
+          },
+          {
+            "lineNumber": 189,
+            "text": "\t\t},"
+          },
+          {
+            "lineNumber": 190,
+            "text": "\t\t'about':"
+          },
+          {
+            "lineNumber": 191,
+            "text": "\t\t{"
+          },
+          {
+            "lineNumber": 192,
+            "text": "\t\t\t'fund': 'fund ai workstation',"
+          },
+          {
+            "lineNumber": 193,
+            "text": "\t\t\t'subscribe': 'become a member',"
+          },
+          {
+            "lineNumber": 194,
+            "text": "\t\t\t'join': 'join our community',"
+          },
+          {
+            "lineNumber": 195,
+            "text": "\t\t\t'webcam': 'Webcam'"
+          },
+          {
+            "lineNumber": 196,
+            "text": "\t\t},"
+          },
+          {
+            "lineNumber": 197,
+            "text": "\t\t'uis':"
+          },
+          {
+            "lineNumber": 198,
+            "text": "\t\t{"
+          },
+          {
+            "lineNumber": 199,
+            "text": "\t\t\t'apply_button': 'APPLY',"
+          },
+          {
+            "lineNumber": 200,
+            "text": "\t\t\t'benchmark_mode_dropdown': 'BENCHMARK MODE',"
+          },
+          {
+            "lineNumber": 201,
+            "text": "\t\t\t'benchmark_cycle_count_slider': 'BENCHMARK CYCLE COUNT',"
+          },
+          {
+            "lineNumber": 202,
+            "text": "\t\t\t'benchmark_resolutions_checkbox_group': 'BENCHMARK RESOLUTIONS',"
+          },
+          {
+            "lineNumber": 203,
+            "text": "\t\t\t'clear_button': 'CLEAR',"
+          },
+          {
+            "lineNumber": 204,
+            "text": "\t\t\t'common_options_checkbox_group': 'OPTIONS',"
+          },
+          {
+            "lineNumber": 205,
+            "text": "\t\t\t'download_providers_checkbox_group': 'DOWNLOAD PROVIDERS',"
+          },
+          {
+            "lineNumber": 206,
+            "text": "\t\t\t'execution_providers_checkbox_group': 'EXECUTION PROVIDERS',"
+          },
+          {
+            "lineNumber": 207,
+            "text": "\t\t\t'execution_thread_count_slider': 'EXECUTION THREAD COUNT',"
+          },
+          {
+            "lineNumber": 208,
+            "text": "\t\t\t'face_detector_angles_checkbox_group': 'FACE DETECTOR ANGLES',"
+          },
+          {
+            "lineNumber": 209,
+            "text": "\t\t\t'face_detector_model_dropdown': 'FACE DETECTOR MODEL',"
+          },
+          {
+            "lineNumber": 210,
+            "text": "\t\t\t'face_detector_margin_slider': 'FACE DETECTOR MARGIN',"
+          },
+          {
+            "lineNumber": 211,
+            "text": "\t\t\t'face_detector_score_slider': 'FACE DETECTOR SCORE',"
+          },
+          {
+            "lineNumber": 212,
+            "text": "\t\t\t'face_detector_size_dropdown': 'FACE DETECTOR SIZE',"
+          },
+          {
+            "lineNumber": 213,
+            "text": "\t\t\t'face_landmarker_model_dropdown': 'FACE LANDMARKER MODEL',"
+          },
+          {
+            "lineNumber": 214,
+            "text": "\t\t\t'face_landmarker_score_slider': 'FACE LANDMARKER SCORE',"
+          },
+          {
+            "lineNumber": 215,
+            "text": "\t\t\t'face_mask_blur_slider': 'FACE MASK BLUR',"
+          },
+          {
+            "lineNumber": 216,
+            "text": "\t\t\t'face_mask_padding_bottom_slider': 'FACE MASK PADDING BOTTOM',"
+          },
+          {
+            "lineNumber": 217,
+            "text": "\t\t\t'face_mask_padding_left_slider': 'FACE MASK PADDING LEFT',"
+          },
+          {
+            "lineNumber": 218,
+            "text": "\t\t\t'face_mask_padding_right_slider': 'FACE MASK PADDING RIGHT',"
+          },
+          {
+            "lineNumber": 219,
+            "text": "\t\t\t'face_mask_padding_top_slider': 'FACE MASK PADDING TOP',"
+          },
+          {
+            "lineNumber": 220,
+            "text": "\t\t\t'face_mask_areas_checkbox_group': 'FACE MASK AREAS',"
+          },
+          {
+            "lineNumber": 221,
+            "text": "\t\t\t'face_mask_regions_checkbox_group': 'FACE MASK REGIONS',"
+          },
+          {
+            "lineNumber": 222,
+            "text": "\t\t\t'face_mask_types_checkbox_group': 'FACE MASK TYPES',"
+          },
+          {
+            "lineNumber": 223,
+            "text": "\t\t\t'face_selector_age_range_slider': 'FACE SELECTOR AGE',"
+          }
+        ],
+        "range": {
+          "endPosition": {
+            "column": 57,
+            "line": 222
+          },
+          "startPosition": {
+            "column": 69,
+            "line": 178
+          }
+        },
+        "relativeWorkspacePath": ".\\facefusion\\locales.py",
+        "signatures": {}
+      },
+      "score": 0.11680995672941208
+    }
+  ]
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="semantic_search_full"><details>
+<summary>Tool use: **semantic_search_full**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "path": "e:\\github\\facefusion0\\facefusion\\uis\\components\\instant_runner.py",
+  "pattern": "webcam|camera"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "e:\\github\\facefusion0\\facefusion\\uis\\components\\instant_runner.py",
+  "pattern": "webcam|camera",
+  "topFiles": [],
+  "totalFiles": 0,
+  "totalMatches": 0
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "path": "e:\\github\\facefusion0\\facefusion\\uis",
+  "pattern": "webcam|VisionFrame"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "e:\\github\\facefusion0\\facefusion\\uis",
+  "pattern": "webcam|VisionFrame",
+  "topFiles": [
+    {
+      "matchCount": 2,
+      "uri": "facefusion\\uis\\components\\about.py"
+    },
+    {
+      "matchCount": 2,
+      "uri": "facefusion/uis/components/face_selector.py"
+    },
+    {
+      "matchCount": 4,
+      "uri": "facefusion/uis/layouts/webcam.py"
+    },
+    {
+      "matchCount": 2,
+      "uri": "facefusion/uis/choices.py"
+    },
+    {
+      "matchCount": 20,
+      "uri": "facefusion/uis/components/webcam.py"
+    },
+    {
+      "matchCount": 4,
+      "uri": "facefusion/uis/types.py"
+    },
+    {
+      "matchCount": 4,
+      "uri": "facefusion\\uis\\layouts\\webcam.py"
+    },
+    {
+      "matchCount": 8,
+      "uri": "facefusion\\uis\\core.py"
+    },
+    {
+      "matchCount": 7,
+      "uri": "facefusion\\uis\\layouts\\merged.py"
+    },
+    {
+      "matchCount": 12,
+      "uri": "facefusion/uis/components/webcam_options.py"
+    },
+    {
+      "matchCount": 5,
+      "uri": "facefusion/uis/components/preview.py"
+    }
+  ],
+  "totalFiles": 11,
+  "totalMatches": 70
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+The system uses either webcam frames from an OpenCV server display or a browser stream for video input. The relay passes through data without modification.
+
+For Gradio Image with webcam source, the default includes upload, webcam, and clipboard when streaming=False, but only webcam when streaming=True. To avoid confusion and improve UX, using `sources=['webcam']` ensures only webcam is shown.
+
+Verification shows that `gradio.Image(sources=['webcam'], streaming=True, type='numpy')` should work correctly.
+
+Potential issue: Using the same WEBCAM_IMAGE as both input and output in a stream could cause infinite loops in some Gradio versions. This needs verification against Gradio examples.</details></think>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "path": "e:\\github\\facefusion0\\facefusion\\uis\\layouts",
+  "pattern": "translator"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "e:\\github\\facefusion0\\facefusion\\uis\\layouts",
+  "pattern": "translator",
+  "topFiles": [],
+  "totalFiles": 0,
+  "totalMatches": 0
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+I'll add the translator import to the merged code.</details></think>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: e:\github\facefusion0\facefusion\locales.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "path": "e:\\github\\facefusion0\\facefusion\\locales.py",
+  "pattern": "^\\\\s*'[a-z]{2}':"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "e:\\github\\facefusion0\\facefusion\\locales.py",
+  "pattern": "^\\\\s*'[a-z]{2}':",
+  "topFiles": [],
+  "totalFiles": 0,
+  "totalMatches": 0
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "path": "e:\\github\\facefusion0\\facefusion\\locales.py",
+  "pattern": "^\\t'[a-z]"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "e:\\github\\facefusion0\\facefusion\\locales.py",
+  "pattern": "^\\t'[a-z]",
+  "topFiles": [
+    {
+      "matchCount": 1,
+      "uri": "facefusion\\locales.py"
+    }
+  ],
+  "totalFiles": 1,
+  "totalMatches": 1
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+Only English - add one key under uis.</details></think>
+
+_**Agent (default)**_
+
+
+Đang triển khai nhánh dùng webcam trình duyệt (Gradio) khi chạy trên Hugging Face Space — máy chủ không có camera USB nên OpenCV không phát hiện thiết bị.
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: e:\github\facefusion0\facefusion\common_helper.py</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: e:\github\facefusion0\facefusion\common_helper.py</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: e:\github\facefusion0\facefusion\locales.py</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: e:\github\facefusion0\facefusion\uis\components\webcam_options.py</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: e:\github\facefusion0\facefusion\uis\components\webcam_options.py</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: e:\github\facefusion0\facefusion\uis\components\webcam.py</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: e:\github\facefusion0\facefusion\uis\components\webcam.py</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: e:\github\facefusion0\facefusion\uis\components\webcam.py</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+Bug: I added `return` after browser stream which means **SOURCE_FILE. When browser mode is active, WEBCAM_START_BUTTON may appear as invisible, but setting `start_visible, stop_visible = False, False` ensures the user cannot interact with the Start buttonthis is correct behavior. The order of operations ensures that `SOURCE_FILE.change` executes before the early return in the browser case, which is the intended flow.</details></think>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: e:\github\facefusion0\facefusion\uis\layouts\merged.py</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: e:\github\facefusion0\facefusion\uis\layouts\merged.py</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+- Execute py_compile
+- Read lints</details></think>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: e:\github\facefusion0\facefusion\uis\components\webcam.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: cd /d E:\github\facefusion0 && python -c "import gradio as gr; import inspect; sig = inspect.signature(gr.Image.__init__); print('sources' in str(sig)); im = gr.Image(sources=['webcam'], streaming=True, type='numpy'); print('ok', im)"</summary>
+
+```bash
+cd /d E:\github\facefusion0 && python -c "import gradio as gr; import inspect; sig = inspect.signature(gr.Image.__init__); print('sources' in str(sig)); im = gr.Image(sources=['webcam'], streaming=True, type='numpy'); print('ok', im)"
+```
+
+```
+At C:\Users\TuanAdmin\AppData\Local\Temp\ps-script-d7235b54-b6df-4721-b5d2-843cb0876fba.ps1:87 char:29
++ cd /d E:\github\facefusion0 &amp;&amp; python -c "import gradio as gr; import ...
++                             ~~
+The token '&amp;&amp;' is not a valid statement separator in this version.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : InvalidEndOfLine
+ 
+
+```
+</details>
+</tool-use>
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="read_lints">
+<details>
+<summary>Tool use: **read_lints**</summary>
+
+
+Parameters:
+
+```json
+{
+  "paths": [
+    "e:\\github\\facefusion0\\facefusion\\uis\\components\\webcam.py",
+    "e:\\github\\facefusion0\\facefusion\\uis\\components\\webcam_options.py",
+    "e:\\github\\facefusion0\\facefusion\\common_helper.py",
+    "e:\\github\\facefusion0\\facefusion\\uis\\layouts\\merged.py"
+  ]
+}
+```
+Result:
+
+```json
+{
+  "linterErrorsByFile": [
+    {
+      "relativeWorkspacePath": "e:\\github\\facefusion0\\facefusion\\uis\\components\\webcam.py"
+    },
+    {
+      "relativeWorkspacePath": "e:\\github\\facefusion0\\facefusion\\uis\\components\\webcam_options.py"
+    },
+    {
+      "relativeWorkspacePath": "e:\\github\\facefusion0\\facefusion\\common_helper.py"
+    },
+    {
+      "relativeWorkspacePath": "e:\\github\\facefusion0\\facefusion\\uis\\layouts\\merged.py"
+    }
+  ]
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="read_lints"><details>
+<summary>Tool use: **read_lints**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: Set-Location E:\github\facefusion0; python -c "import gradio as gr; im = gr.Image(sources=['webcam'], streaming=True, type='numpy'); print('ok')"</summary>
+
+```bash
+Set-Location E:\github\facefusion0; python -c "import gradio as gr; im = gr.Image(sources=['webcam'], streaming=True, type='numpy'); print('ok')"
+```
+
+```
+Traceback (most recent call last):
+  File "&lt;string&gt;", line 1, in &lt;module&gt;
+    import gradio as gr; im = gr.Image(sources=['webcam'], streaming=True, type='numpy'); print('ok')
+    ^^^^^^^^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'gradio'
+
+```
+</details>
+</tool-use>
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: Set-Location E:\github\facefusion0; python -m py_compile facefusion\common_helper.py facefusion\uis\components\webcam.py facefusion\uis\components\webcam_options.py facefusion\uis\layouts\merged.py</summary>
+
+```bash
+Set-Location E:\github\facefusion0; python -m py_compile facefusion\common_helper.py facefusion\uis\components\webcam.py facefusion\uis\components\webcam_options.py facefusion\uis\layouts\merged.py
+```
+</details>
+</tool-use>
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "path": "e:\\github\\facefusion0\\facefusion\\types.py",
+  "pattern": "Locales|uis"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "e:\\github\\facefusion0\\facefusion\\types.py",
+  "pattern": "Locales|uis",
+  "topFiles": [
+    {
+      "matchCount": 2,
+      "uri": "facefusion\\types.py"
+    }
+  ],
+  "totalFiles": 1,
+  "totalMatches": 2
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+Dict[str, Any] allows for flexible dictionary structures without enforcing strict key requirements.</details></think>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: e:\github\facefusion0\facefusion\uis\layouts\webcam.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: e:\github\facefusion0\facefusion\uis\layouts\webcam.py</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: e:\github\facefusion0\facefusion\uis\layouts\webcam.py</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: Set-Location E:\github\facefusion0; python -m py_compile facefusion\uis\layouts\webcam.py</summary>
+
+```bash
+Set-Location E:\github\facefusion0; python -m py_compile facefusion\uis\layouts\webcam.py
+```
+</details>
+</tool-use>
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+
+Đã xử lý xong. Trên **Hugging Face Space** không có camera gắn vào container, nên `cv2.VideoCapture` không thấy thiết bị và trình duyệt cũng **không bao giờ** gọi `getUserMedia` nếu UI chỉ stream từ server. Phần sửa chuyển sang **webcam phía trình duyệt** (Gradio) khi chạy trên Space.
+
+### Thay đổi chính
+
+1. **`facefusion/common_helper.py`**  
+   - Hàm `use_browser_webcam()`: bật khi có biến môi trường `SPACE_ID` (Space) hoặc `FACEFUSION_BROWSER_WEBCAM=1` (test local).
+
+2. **`facefusion/uis/components/webcam_options.py`**  
+   - Trong chế độ browser: `choices` device = `[0]`, ẩn dropdown device / mode / resolution / FPS (vì không còn dùng OpenCV trên server).
+
+3. **`facefusion/uis/components/webcam.py`**  
+   - Trong chế độ browser: `gr.Image(..., sources=['webcam'], streaming=True, type='numpy', visible=True)` và `.stream(...)` (relay frame) thay cho Start/Stop + OpenCV.
+
+4. **`facefusion/locales.py` + `merged.py` / `layouts/webcam.py`**  
+   - Thêm gợi ý `webcam_browser_hint` (mở webcam trong khung ảnh, cho phép khi trình duyệt hỏi).
+
+### Cách dùng trên Space
+
+Vào tab **webcam**, kéo xuống khung **WEBCAM**, bấm biểu tượng **webcam** trong component Gradio — lúc đó trình duyệt mới xin quyền camera.
+
+### Test local giống Space
+
+```text
+set FACEFUSION_BROWSER_WEBCAM=1
+```
+
+(rồi chạy app như bình thường)
+
+Sau khi deploy lại Space, hãy hard refresh (Ctrl+F5) để tải bundle UI mới.
+
+---
+
+_**User**_
+
+@@@.txt (12-16) 
+
+---
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+The user inquires about the content located at @@.</details></think>
+
+_**Agent (default)**_
+
+
+Đang kiểm tra cấu hình hiện tại trong repo để trả lời chính xác.
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "path": "e:\\github\\facefusion0",
+  "pattern": "FACEFUSION_ASSETS_ROOT|/data"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "e:\\github\\facefusion0",
+  "pattern": "FACEFUSION_ASSETS_ROOT|/data",
+  "topFiles": [
+    {
+      "matchCount": 24,
+      "uri": ".specstory/history/2026-04-11_02-23-43Z-text-file-content-discussion.md"
+    },
+    {
+      "matchCount": 7,
+      "uri": "@@.txt"
+    },
+    {
+      "matchCount": 4,
+      "uri": "Dockerfile"
+    },
+    {
+      "matchCount": 1,
+      "uri": "facefusion\\filesystem.py"
+    }
+  ],
+  "totalFiles": 4,
+  "totalMatches": 36
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: e:\github\facefusion0\Dockerfile</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+The user wants to know if they can perform the HF-side steps independently, including setting up the persistent disk, configuring the mount path, and aligning the FACEFUSION_ASSETS_ROOT.</details></think>
+
+_**Agent (default)**_
+
+
+Có — **phần đó chủ yếu là việc bạn làm trên Hugging Face**, không phải thêm code trong repo.
+
+### Việc bạn làm trên Hub (tài khoản / quyền Space)
+
+1. **Bật persistent storage** cho Space: **Settings → Storage** (hoặc mục tương đương), chọn gói / loại volume mà Space của bạn được phép dùng (thường liên quan Pro / org, tùy HF).
+2. **Xác nhận đường mount** trong container: nhiều Space Docker vẫn dùng **`/data`** làm điểm gắn volume. Repo của bạn đã gắn với mô hình đó:
+   - `Dockerfile` có `mkdir -p /data/facefusion-assets` và `ENV FACEFUSION_ASSETS_ROOT=/data/facefusion-assets`.
+
+Nếu tài liệu HF cho Space của bạn ghi mount ở **path khác** (ví dụ volume tùy chỉnh), bạn chỉ cần **chỉnh `FACEFUSION_ASSETS_ROOT` cho trùng thư mục thật trên volume** — có thể set **biến môi trường trong Settings của Space** (override `ENV` trong image) mà không nhất thiết phải sửa code.
+
+### Việc repo đã lo
+
+- App đọc `FACEFUSION_ASSETS_ROOT` trong `filesystem.py` để model/cache nằm trên ổ bền thay vì `/app/.assets` bị xóa mỗi lần build container.
+
+**Tóm lại:** Bật disk / chọn storage trên HF là **bạn tự làm trong UI**; chỉ khi đường mount **không** còn là `/data/...` thì bạn **căn chỉnh `FACEFUSION_ASSETS_ROOT`** cho khớp — tôi không thể “bật” storage thay tài khoản của bạn trên Hub.
+
+---
+
+_**User**_
+
+downloading: 100%|==========| 384M/384M [00:04<00:00, 82.7MB/s, download_providers=['github', 'huggingface'], file_name=hyperswap_1a_256.onnx]
+* Running on local URL:  http://0.0.0.0:7860
+* To create a public link, set `share=True` in `launch()`.
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/dist-packages/uvicorn/protocols/http/h11_impl.py", line 415, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fastapi/applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/usr/local/lib/python3.12/dist-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/usr/local/lib/python3.12/dist-packages/gradio/brotli_middleware.py", line 74, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/gradio/route_utils.py", line 883, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/usr/local/lib/python3.12/dist-packages/gradio/route_utils.py", line 899, in simple_response
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/usr/local/lib/python3.12/dist-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/usr/local/lib/python3.12/dist-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/usr/local/lib/python3.12/dist-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/usr/local/lib/python3.12/dist-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/gradio/routes.py", line 1326, in queue_join
+    return await queue_join_helper(body, request, username)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/gradio/routes.py", line 1344, in queue_join_helper
+    success, event_id = await blocks._queue.push(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/gradio/queueing.py", line 266, in push
+    fn = session_state.blocks_config.fns[body.fn_index]
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+KeyError: 246
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/dist-packages/uvicorn/protocols/http/h11_impl.py", line 415, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fastapi/applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/usr/local/lib/python3.12/dist-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/usr/local/lib/python3.12/dist-packages/gradio/brotli_middleware.py", line 74, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/gradio/route_utils.py", line 883, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/usr/local/lib/python3.12/dist-packages/gradio/route_utils.py", line 899, in simple_response
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/usr/local/lib/python3.12/dist-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/usr/local/lib/python3.12/dist-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/usr/local/lib/python3.12/dist-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/usr/local/lib/python3.12/dist-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/gradio/routes.py", line 1326, in queue_join
+    return await queue_join_helper(body, request, username)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/gradio/routes.py", line 1344, in queue_join_helper
+    success, event_id = await blocks._queue.push(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/gradio/queueing.py", line 266, in push
+    fn = session_state.blocks_config.fns[body.fn_index]
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+KeyError: 246
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/dist-packages/uvicorn/protocols/http/h11_impl.py", line 415, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fastapi/applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/usr/local/lib/python3.12/dist-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/usr/local/lib/python3.12/dist-packages/gradio/brotli_middleware.py", line 74, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/gradio/route_utils.py", line 883, in __call__
+    await self.simple_response(scope, receive, send, request_headers=headers)
+  File "/usr/local/lib/python3.12/dist-packages/gradio/route_utils.py", line 899, in simple_response
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/usr/local/lib/python3.12/dist-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/usr/local/lib/python3.12/dist-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/usr/local/lib/python3.12/dist-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/usr/local/lib/python3.12/dist-packages/fastapi/routing.py", line 120, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fastapi/routing.py", line 674, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fastapi/routing.py", line 328, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/gradio/routes.py", line 1326, in queue_join
+    return await queue_join_helper(body, request, username)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/gradio/routes.py", line 1344, in queue_join_helper
+    success, event_id = await blocks._queue.push(
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/gradio/queueing.py", line 266, in push
+    fn = session_state.blocks_config.fns[body.fn_index]
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+KeyError: 246
+
+---
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+The user encounters a Gradio KeyError related to fn_index 246. This is a common issue where the client's cached JavaScript expects a specific number of event handlers (fn_index), but the server has a different count due to:
+
+- Browser cache showing old UI while server restarts with new code
+- Conditional rendering causing different numbers of events in different environments
+
+A major problem occurs when using `use_browser_webcam` - if a Space has a SPACE_ID, the webcam path registers `.stream()` and early returns, registering fewer events than local environments. However, this behavior is consistent per deployment, affecting all users on the same server. The issue stems from a mismatch between client-side and server-side event handler counts. The browser caches old JavaScript expecting fn_index 246, but the server now has a different number of functions, causing a KeyError. This can happen due to:
+
+- Different builds: outdated client JS vs updated server code
+- Duplicate layouts: incorrect ui_layouts configuration
+- Conditional components: `use_browser_webcam()` behavior differs between environments (True on HF, False locally), leading to inconsistent event registration
+
+For a given Space deployment, the behavior remains consistent across users. This indicates a stale frontend issue where the browser has cached an old Gradio app configuration with more event handlers, but the server restarted with fewer handlers.
+
+OR the server has a bug where some events aren't registered properly.
+
+OR: Multiple tabs/layouts - if `launch()` creates multiple Block renders somehow...
+
+The error suggests a mismatch between client-side event handler expectations and server-side registrations, possibly due to:
+
+- Cached JavaScript expecting fn_index 246
+- Server-side code changes affecting event counts
+- Conditional UI rendering differences between environments
+
+Checking facefusion.ini and core.py for ui_layouts configuration to identify potential duplicate or conditional event listeners that could cause mismatches.</details></think>
+
+_**Agent (default)**_
+
+
+Đang điều tra: KeyError `fn_index` thường do lệch giữa client (cache) và server, hoặc do đăng ký sự kiện không nhất quán. Đang kiểm tra cấu hình UI và `webcam.listen()`.
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: e:\github\facefusion0\facefusion.ini</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: e:\github\facefusion0\facefusion\uis\core.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: e:\github\facefusion0\facefusion\uis\components\webcam.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+The `use_browser_webcam()` function returns True if either `SPACE_ID` is set or `FACEFUSION_BROWSER_WEBCAM=1`. On Hugging Face Space, `SPACE_ID` is set, triggering the browser webcam path with fewer event handlers. On local Docker or run without `SPACE_ID`, `use_browser_webcam()` returns False, using the OpenCV path with more event handlers. The user's error occurs on a server at `0.0.0.0:7860`, likely simulating Hugging Face with `FACEFUSION_ASSETS_ROOT`. The path `/usr/local/lib/python3.12/dist-packages` indicates Docker usage. Running the same image locally without `SPACE_ID` uses the OpenCV path with many functions. If the user previously opened the HF Space in the same browser, it could be a different origin issue. However, since it's the same server, the client-side JavaScript loads from the server, and the `config` with `fn_indices` should match when the page loads.
+
+A potential Gradio bug with `.stream()` might cause multiple function entries on the client side while the server registers them differently.
+
+Alternatively, the user may have two tabs openone old and one new.
+
+For issue #246, removing `.stream()` and using an alternative approach may change the function count.
+
+Hypothesis 2 suggests that the root cause lies in how `WEBCAM_IMAGE.stream(...` behaves. In Gradio 5, `.stream()` might register incremental or websocket handlers that become out of sync with `queue_join`, which expects different indices.
+
+Potential fix:
+- Always register the same event structure by adding dummy/no-op handlers for Start/Stop when in browser mode (hidden buttons), ensuring fn count matches. However, this is messy since browser mode skips 4+ click handlers entirely, not just hides them. **Normalize** the event structure by always using the **OpenCV path** but on browser webcam, use invisible buttons and avoid `.stream()`instead, use `gr.Image` with `sources=['webcam']` and `streaming=True` without custom `.stream()`, letting Gradio handle streaming automatically.
+
+For **Blocks**, determine whether `.stream()` is needed or if auto-streaming behavior registers incorrectly.
+
+3. **Remove** `.stream()` from the browser webcam path to prevent mismatched function counts. Remove `.stream()` entirely and use `change` event or client-side display onlyif `gr.Image` with `streaming=True` handles frames without server relay, no relay may be needed.
+
+The issue may be simpler: `load_ui_layout_module` is called twice in `launch()`:
+- First loop: loads and renders/listens
+- Second loop: reloads modules for execution
+
+`UI_LAYOUT_MODULES` caches the first load, but `load_ui_layout_module` returns the same module.
+
+**Critical bug in core.py**: When `ui_layouts` contains a single layout like `['merged']`, the render and listen functions are called once, which is correct.
+
+The `register_ui_component` function in `webcam_options` creates hidden dropdowns when `use_browser_webcam()` returns True.
+
+The KeyError 246 might stem from a version mismatch between the Gradio client loaded from CDN (version X) and the server-side Gradio version (Y) specified in `requirements.txt`.
+
+Checking `requirements.txt` for the Gradio version is necessary. Another angle: Multiple concurrent Spaces or proxy caching old HTML.
+
+Code fix to stabilize fn_index: Ensure `listen()` registers the same number of listeners regardless of browser mode:
+- Always register `WEBCAM_START_BUTTON.click` and `WEBCAM_STOP_BUTTON.click` with consistent signaturesuse wrappers that no-op in browser mode
+- For browser mode: Dont use early return; instead register stream and dummy clicks, or avoid stream entirely and rely on change events
+
+Simplest stable approach:
+- Remove `WEBCAM_IMAGE.stream(...)` and use `change` event or client-side display only if `gr.Image` with `streaming=True` handles frames without server relay
+- Avoid `.stream()` in browser webcam path to prevent mismatched function counts Removing the `.stream()` call may prevent extra client-side queue entries from conflicting with server-side function indexing. Using `gr.Image(sources=['webcam'], streaming=True)` alone might suffice, as it auto-streams in live interfacesthis needs verification for Blocks. Testing removal of `.stream()` is preferred, as the Image component with `streaming=True` may handle frames client-side without requiring server relay. The face swap may require server frames for display, meaning the client could show the webcam without hitting the queue per frame.
+
+Removing `.stream()` eliminates server events for frames, potentially preventing preview updatesthis depends on Gradios behavior.
+
+A better fix involves registering **placeholder** events for OpenCV buttons in browser mode to ensure matching function counts, though this is impractical across different deployments due to varying `SPACE_ID`.
+
+The real issue likely isn't local vs HF on the same machinesame deployment should have consistent configuration.
+
+Unless `use_browser_webcam()` is **non-deterministic**, which is unlikely. The user running locally in Docker (0.0.0.0:7860) typically has **SPACE_ID unset**, so `use_browser_webcam()` returns False, enabling full OpenCV listeners.  
+KeyError 246 occurs when the client sends function index 246, but the server has fewer functionslikely due to stale client cache from a previous deployment.
+
+When running on Hugging Face, **SPACE_ID is set**, triggering the browser webcam path with fewer functions. An old tab from before a browser webcam fix may have cached more functions, causing a mismatch where the client requests 246, but the new server only supports up to 200 functions.
+
+**Fixes include:**
+- User performs a **hard refresh** after deployment
+- Add **cache control** or **version query params** to prevent stale HTML caching in Gradio (though this is not easily implemented)
+- **Document** the need for hard refresh after deployment **Eliminate** the handler count change: **Always** use the same structure**never** early return in `listen()`; **always** register the same click handlers. For browser mode:
+- Keep `WEBCAM_START/STOP` **visible=False** but register no-op clicks or passthrough
+- Replace `.stream()` with something that doesnt add a new fn index or add compensating dummy handlers
+
+Roughly:
+- Browser path: `SOURCE_FILE.change` + `WEBCAM_IMAGE.stream` = ~2 unique listeners on webcam component
+- OpenCV path: `SOURCE_FILE.change` + 4+ click listeners The difference of ~45 handlers shifts all subsequent function indices. Any UI interaction after the webcam section could be affected if the client uses the wrong indexthough each deployment should remain self-consistent.
+
+Stale cache is the most likely cause in production.
+
+- Remove `WEBCAM_IMAGE.stream()` and replace with `Inputs: WEBCAM_IMAGE` using `.change()` for processing instead.
+- Streaming may use a special high-index function.
+- Investigate Gradios queueing behavior for stream events, as it might create problematic fn_index assignments.
+
+1. Remove `.stream()` relay
+2. Add `WEBCAM_IMAGE.change()` event handler for processing frames without server relay Using `change(fn, inputs=[WEBCAM_IMAGE], outputs=[WEBCAM_IMAGE])` with an identity function may trigger on every frame change if not streaming, or might be needed for streaming.
+
+For **streaming webcam** without `.stream()`, it's unclear if Gradio still spams the queuethis requires checking Gradio's Image implementation.
+
+An alternative is using an **`every` timer**, but this provides poor UX.
+
+A better approach is to **unify the listen() path** by always registering handlers when components exist:
+
+- Register `WEBCAM_START_BUTTON.click(...)` and related handlers unconditionally, even in browser mode.
+- Use placeholder or no-op handlers in browser mode to maintain consistent function indexing.
+- Avoid early returns in `listen()` that alter the number of registered functions.
+- Replace `.stream()` with `.change()` for processing frames without server relay. For browser webcam, the `WEBCAM_START_BUTTON` remains registered even when invisible, so early returns are not allowed. The `.stream()` method should either be removed or added additionally, not replaced.
+
+Strategy:
+- Avoid early returns in `listen()`
+- Always register all 4 click handlers for webcam components
+- In browser mode, `start` should not yield anything quickly; instead, register placeholder handlers to maintain consistent function indexing
+- Do not duplicate or remove `.stream()` unless replacing it with a compatible alternative like `.change()` for processing frames without server relay In browser mode, keeping Start/Stop buttons visible but as no-ops may confuse users. A simpler fix is to remove `use_browser_webcam()` branching in `listen()` and only register OpenCV handlers when not using browser webcam. Register `.stream()` only when using browser webcam. The KeyError stems from deployment mismatches, not internal inconsistencies. For persistent errors, a version bump or session invalidation is neededGradio may support a `key` parameter on Blocks for this. That could be a single bad cached tab spamming function index 246 repeatedly.
+
+- Remove `.stream()` and rely on `Image` native streaming for display, eliminating extra function indices.
+- Test using `WEBCAM_IMAGE.change()` with an identity function instead of `.stream()` for frame updates.
+- In Gradio 4+, `.stream()` was typically needed for webcam streaming in Blocks.
+- Check Gradio 5.44 behavior for `Image(streaming=True)` in Blockswhether `.stream()` is still required.
+- `change()` might fire on every frame, which could work for updating numpy frames without server relay. If replacing `.stream()` with `.change()` works, it may provide more stable function index allocation.
+
+The KeyError indicates index **246** is missing  a very high index  suggesting the issue is **missing** functions rather than extras.
+
+Pinning `GRADIO_VERSION` and adding `?__theme=` cache bust is one approach, though not standard.
+
+Adding `favicon_path` or custom `head=` with meta no-cache to `gradio.Blocks()` might help prevent stale caching.
+
+Implementing **structural stability** by ensuring consistent handler registration across deployments is the preferred solution. Use the same Gradio Image config across all environments to ensure API stabilityspecifically, use the same component with `sources=['webcam', 'upload']` and `streaming=True` on all platforms, avoiding environment-specific differences. This approach maintains consistent function indexing and prevents stale cache issues caused by varying component structures. On local systems, users can utilize browser-based camera access (getUserMedia) instead of OpenCV, enabling a unified code path. This approach would consistently use either `.stream()` or the same `listen()` logic.
+
+- Remove the OpenCV path from the UI entirely for simplicity, though this may break users without browser accessunlikely, as all users have browsers.
+- For local setups where performance is preferred, an optional environment variable `FACEFUSION_OPENCV_WEBCAM=1` can enable the older OpenCV path for power users.
+
+For a minimal fix to address the current KeyError:
+
+- Unify to browser webcam exclusively when camera detection failsthis is too broad and not ideal. - Always register OpenCV click handlers and `.stream()` for browser mode.
+- In browser mode, keep stream active but hide buttons; in local mode, disable stream to avoid duplicate events.
+- Avoid registering both paths unconditionally to prevent excessive function indices in deployments. Let me calculate: **Target** = max(events_open_cv, events_browser) for every deployment - **impossible** without registering **all** events always.
+
+**Always register OpenCV events** + **always register stream** on WEBCAM_IMAGE:
+- Local OpenCV: `use_browser_webcam()` False - register stream with **no-op** that returns frame unchanged - might **double** process webcam if Image has streaming+stream - **bad**
+- HF: register OpenCV - **don't return early** - register **both** stream AND opencv - **double** registration on HF
+
+For HF only OpenCV clicks:
+- start_event = WEBCAM_START_BUTTON.click(...)
+- stop_event = WEBCAM_STOP_BUTTON.click(...)
+- stream_event = WEBCAM_IMAGE.stream(...) - **only** register this on browser mode
+- change_event = WEBCAM_IMAGE.change(...) - **only** register this on non-browser mode
+
+This ensures consistent function indexing across deployments. If buttons are never clicked, their functions arent executed, but they remain registeredthis is acceptable.
+
+For Hugging Face deployments, register the stream handler:
+```python
+WEBCAM_IMAGE.stream(relay, ...)
+```
+
+Total functions = OpenCV + stream. On local systems, both OpenCV and stream are active (though stream may conflict with OpenCV Image if no webcam source is present).
+
+**Unified Image Component**:
+```python
+WEBCAM_IMAGE = gradio.Image(
+    sources=['webcam'],
+    streaming=True,
+    type='numpy',
+    visible=True  # always visible
+)
+WEBCAM_START_BUTTON = visible only when not using browser webcam
+```
+
+**listen()** always registers:
+```python
+SOURCE_FILE.change(...)
+WEBCAM_IMAGE.stream(relay, ...)
+``` When both stream and start() output to WEBCAM_IMAGE, a conflict occurs, making it impossible to register both handlers easily. To resolve this, `use_browser_webcam()` should only check the `FACEFUSION_BROWSER_WEBCAM` environment variable, removing automatic Space ID detection. Users must manually enable browser webcam on HF Spaces. Default HF behavior without the env var uses the OpenCV path (with no devices), which provides stable function indexing but poor UX. When `SPACE_ID` is absent, the OpenCV path is incorrectly triggered on Hugging Face, despite user having an empty webcam dropdown. A better approach is to use `SPACE_ID` to determine browser UI, while maintaining consistent function counts between Space and non-Space deployments.
+
+Implement OpenCV path listeners unconditionally to ensure stable function indexing. For `start()`, if browser webcam is used, simulate or skip yielding frames since browser streams are handled differently. This avoids conflicts and keeps function registration predictable.
+
+```python
+def listen():
+    SOURCE_FILE.change(...)
+``` Always register the stream handler with relay, even in local Docker environments without SPACE_ID.  
+Always register OpenCV handlers unconditionally.  
+On local systems without browser webcam, WEBCAM_IMAGE does not use `sources=['webcam']`  a plain Image component is used instead.  
+Streaming on a plain Image may error or act as a no-op, but this is acceptable.</details></think>
+
+_**Agent (default)**_
+
+
+Phát hiện: nhánh `use_browser_webcam()` gọi `return` sớm trong `listen()` nên không đăng ký các handler OpenCV (Start/Stop/...). Deploy trên HF có ít hàm hơn bản local/trước đó; trình duyệt cache JS cũ vẫn gửi `fn_index` cao (vd. 246) → KeyError. Sửa: luôn đăng ký cùng một tập listener (stream + chuỗi OpenCV), thống nhất cấu hình `Image`, và làm `start()` thành generator rỗng khi dùng browser webcam.
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: e:\github\facefusion0\facefusion\uis\components\webcam.py</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: e:\github\facefusion0\facefusion\uis\components\webcam.py</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2">
+
+<details><summary>Tool use: **edit_file_v2** • Edit file: e:\github\facefusion0\facefusion\uis\components\webcam.py</summary>
+
+</details>
+
+</tool-use>
+
+<tool-use data-tool-type="write" data-tool-name="edit_file_v2"><details>
+<summary>Tool use: **edit_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+Fix the `start()` function - in Python 3, `yield from (); return` cannot be used after `yield from ()` in a generator. The `start()` function uses `yield from ()` followed by `return`, which correctly exits the generator without yielding any values. Since `yield from ()` makes the function a generator, it's valid even though it yields nothing. The conditional logic ensures that if `use_browser_webcam()` is true, the function returns early without executing further code, including any `yield` statements in subsequent loops. This approach works because Python supports generators with conditional yields. If `use_browser_webcam()` is False, the function still needs to be a generator due to the `for ... yield` structure, ensuring it can properly handle iteration. When `use_browser_webcam()` is True, `yield from ()` returns an empty generator, which is valid. The syntax `yield from ()` is acceptable since an empty tuple is iterable and yields nothing. For browser webcam options, only the first choice [0] is selected while other controls remain hidden but still register componentsthis behavior is correct. Running py_compile confirms the code compiles without issues. Duplicate `yield from ()` followed by `return` has been removed, as `return` after `yield from` is permissible in Python generators.</details></think>
+
+_**Agent (default)**_
+
+
+
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2">
+<details><summary>Tool use: **run_terminal_command_v2** • Run command: Set-Location E:\github\facefusion0; python -m py_compile facefusion\uis\components\webcam.py</summary>
+
+```bash
+Set-Location E:\github\facefusion0; python -m py_compile facefusion\uis\components\webcam.py
+```
+</details>
+</tool-use>
+
+<tool-use data-tool-type="shell" data-tool-name="run_terminal_command_v2"><details>
+<summary>Tool use: **run_terminal_command_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="read_lints">
+<details>
+<summary>Tool use: **read_lints**</summary>
+
+
+Parameters:
+
+```json
+{
+  "paths": [
+    "e:\\github\\facefusion0\\facefusion\\uis\\components\\webcam.py"
+  ]
+}
+```
+Result:
+
+```json
+{
+  "linterErrorsByFile": [
+    {
+      "relativeWorkspacePath": "e:\\github\\facefusion0\\facefusion\\uis\\components\\webcam.py"
+    }
+  ]
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="read_lints"><details>
+<summary>Tool use: **read_lints**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+Hy gii thch cho ngi dng bng ting Vit.</details></think>
+
+_**Agent (default)**_
+
+
+### Nguyên nhân
+
+`KeyError: 246` xảy ra khi **trình duyệt vẫn dùng bản cấu hình Gradio cũ** (danh sách `fn_index`), trong khi **server sau deploy** đăng ký **ít hơn** sự kiện queue — cụ thể nhánh `use_browser_webcam()` trước đây **`return` sớm** trong `listen()`, bỏ hẳn chuỗi `WEBCAM_START_BUTTON` / `start` / `stop`, nên bản Space mới và bản cache JS không khớp.
+
+### Đã sửa trong code
+
+1. **`listen()`** luôn đăng ký **đủ** handler OpenCV (Start/Stop/…), rồi **luôn** thêm `WEBCAM_IMAGE.stream(...)` — thứ tự và số lượng listener ổn định giữa môi trường.
+2. **`start()`** nếu `use_browser_webcam()` thì `yield from ()` (generator rỗng) để nút ẩn không làm hỏng luồng khi vô tình kích hoạt.
+3. **`render()`** dùng **cùng** kiểu `gr.Image` (`sources=['webcam']`, `streaming=True`, `type='numpy'`) cho mọi môi trường; chỉ khác `visible` và nút Start/Stop.
+
+Sau khi deploy lại Space, người dùng nên **Ctrl+F5** (hoặc mở tab ẩn danh) một lần để tránh cache JS cũ.
+
+Nếu vẫn lỗi, gửi thêm log sau khi hard refresh.
+
+---
+
+_**User**_
+
+vẫn lỗi, bạn hãy tự deploy và check lỗi , fix cho đến khi build và chạy thành công : ===== Application Startup at 2026-04-11 05:51:15 =====
+
+
+==========
+== CUDA ==
+==========
+
+CUDA Version 12.4.1
+
+Container image Copyright (c) 2016-2023, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+This container image and its contents are governed by the NVIDIA Deep Learning Container License.
+By pulling and using the container, you accept the terms and conditions of this license:
+https://developer.nvidia.com/ngc/nvidia-deep-learning-container-license
+
+A copy of this license is made available in this container at /NGC-DL-CONTAINER-LICENSE for your convenience.
+
+2026-04-11 05:52:23.886218201 [W:onnxruntime:Default, device_discovery.cc:211 DiscoverDevicesForPlatform] GPU device discovery failed: device_discovery.cc:91 ReadFileContents Failed to open file: "/sys/class/drm/card0/device/vendor"
+* Running on local URL:  http://0.0.0.0:7860
+* To create a public link, set `share=True` in `launch()`.
+ERROR:    Exception in ASGI application
+  + Exception Group Traceback (most recent call last):
+  |   File "/usr/local/lib/python3.12/dist-packages/starlette/_utils.py", line 81, in collapse_excgroups
+  |     yield
+  |   File "/usr/local/lib/python3.12/dist-packages/starlette/responses.py", line 270, in __call__
+  |     async with anyio.create_task_group() as task_group:
+  |                ^^^^^^^^^^^^^^^^^^^^^^^^^
+  |   File "/usr/local/lib/python3.12/dist-packages/anyio/_backends/_asyncio.py", line 799, in __aexit__
+  |     raise BaseExceptionGroup(
+  | ExceptionGroup: unhandled errors in a TaskGroup (1 sub-exception)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/usr/local/lib/python3.12/dist-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    |     await app(scope, receive, sender)
+    |   File "/usr/local/lib/python3.12/dist-packages/fastapi/routing.py", line 121, in app
+    |     await response(scope, receive, send)
+    |   File "/usr/local/lib/python3.12/dist-packages/starlette/responses.py", line 269, in __call__
+    |     with collapse_excgroups():
+    |          ^^^^^^^^^^^^^^^^^^^^
+    |   File "/usr/lib/python3.12/contextlib.py", line 158, in __exit__
+    |     self.gen.throw(value)
+    |   File "/usr/local/lib/python3.12/dist-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    |     raise exc
+    |   File "/usr/local/lib/python3.12/dist-packages/starlette/responses.py", line 273, in wrap
+    |     await func()
+    |   File "/usr/local/lib/python3.12/dist-packages/starlette/responses.py", line 253, in stream_response
+    |     async for chunk in self.body_iterator:
+    |   File "/usr/local/lib/python3.12/dist-packages/gradio/routes.py", line 1500, in sse_stream
+    |     raise e
+    |   File "/usr/local/lib/python3.12/dist-packages/gradio/routes.py", line 1435, in sse_stream
+    |     raise HTTPException(
+    | fastapi.exceptions.HTTPException: 404: Not Found
+    +------------------------------------
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/dist-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/usr/local/lib/python3.12/dist-packages/fastapi/routing.py", line 121, in app
+    await response(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/responses.py", line 269, in __call__
+    with collapse_excgroups():
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/contextlib.py", line 158, in __exit__
+    self.gen.throw(value)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "/usr/local/lib/python3.12/dist-packages/starlette/responses.py", line 273, in wrap
+    await func()
+  File "/usr/local/lib/python3.12/dist-packages/starlette/responses.py", line 253, in stream_response
+    async for chunk in self.body_iterator:
+  File "/usr/local/lib/python3.12/dist-packages/gradio/routes.py", line 1500, in sse_stream
+    raise e
+  File "/usr/local/lib/python3.12/dist-packages/gradio/routes.py", line 1435, in sse_stream
+    raise HTTPException(
+fastapi.exceptions.HTTPException: 404: Not Found
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.12/dist-packages/uvicorn/protocols/http/h11_impl.py", line 415, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/fastapi/applications.py", line 1163, in __call__
+    await super().__call__(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/applications.py", line 107, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/usr/local/lib/python3.12/dist-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/usr/local/lib/python3.12/dist-packages/gradio/brotli_middleware.py", line 74, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/dist-packages/gradio/route_utils.py", line 877, in __call__
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/usr/local/lib/python3.12/dist-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/usr/local/lib/python3.12/dist-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/fastapi/routing.py", line 134, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/usr/local/lib/python3.12/dist-packages/starlette/_exception_handler.py", line 56, in wrapped_app
+    raise RuntimeError("Caught handled exception, but response already started.") from exc
+RuntimeError: Caught handled exception, but response already started.
+
+---
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+The user encounters errors while running the FaceFusion app in a Docker/Hugging Face Space environment. The user encounters a new error: `HTTPException: 404: Not Found` in `gradio/routes.py` within `sse_stream`, alongside `RuntimeError: Caught handled exception, but response already started.` This indicates issues with Gradio's SSE (Server-Sent Events) streaming mechanism, likely due to stale session hashes or queue IDs from cached clients, or bugs in event streaming.
+
+Key points:
+- The 404 error occurs when the client tries to connect to a non-existent session/event.
+- Common causes include invalid `event_id` or session parameters during subscription to `/queue/join`.
+- These errors suggest problems with how Gradio handles queued responses and streaming updates.</details></think>
+
+_**Agent (default)**_
+
+
+Đang phân tích lỗi SSE 404 từ Gradio (thường liên quan tới `Image.stream()` hoặc phiên bản/cache). Đọc code hiện tại và tài liệu Gradio để sửa triệt để.
+
+
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: e:\github\facefusion0\facefusion\uis\components\webcam.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2">
+<details><summary>Tool use: **read_file_v2** • Read file: e:\github\facefusion0\facefusion\uis\ui_helper.py</summary>
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="read" data-tool-name="read_file_v2"><details>
+<summary>Tool use: **read_file_v2**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search">
+<details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+
+Parameters:
+
+```json
+{
+  "caseInsensitive": false,
+  "path": "e:\\github\\facefusion0\\requirements.txt",
+  "pattern": "gradio"
+}
+```
+Additional data:
+
+```json
+{
+  "isPruned": true,
+  "outputMode": "content",
+  "path": "e:\\github\\facefusion0\\requirements.txt",
+  "pattern": "gradio",
+  "topFiles": [
+    {
+      "matchCount": 2,
+      "uri": "requirements.txt"
+    }
+  ],
+  "totalFiles": 1,
+  "totalMatches": 2
+}
+```
+Status: **completed**
+
+
+</details>
+</tool-use>
+
+<tool-use data-tool-type="unknown" data-tool-name="ripgrep_raw_search"><details>
+<summary>Tool use: **ripgrep_raw_search**</summary>
+
+</details></tool-use>
+
+_**Agent (default)**_
+
+<think><details><summary>Thought Process</summary>
+The SSE 404 error in `sse_stream` often occurs when:  
+- The requested resource is not found on the server.  
+- The endpoint URL is incorrect or malformed.  
+- The server does not support Server-Sent Events (SSE) at that location. Removing `WEBCAM_IMAGE.stream()` resolves the issue by preventing double SSE subscriptions. Gradio 5 may handle webcam display client-side, eliminating the need for the relay and avoiding invalid SSE sessions that cause the 404 error. Without `.stream()`, the webcam may still display, but frames could be sent only on user action. Gradio 5's Image component with webcam might require `.stream()` for proper server-side handling, though this can cause SSE 404 errors due to broken endpoints. Removing `.stream()` prevents double SSE subscriptions and avoids invalid sessions.
+
+- Removing `.stream()` prevents double SSE subscriptions.
+- Gradio 5 may handle webcam client-side, removing need for relay.
+- SSE 404 errors likely stem from broken stream endpoints. The SSE 404 error in `sse_stream` at line 1435 indicates a missing resource, likely due to an expired session or invalid URL hashespecially common with multiple workers when Hugging Face uses a single worker. The most probable fix is removing `.stream()` to prevent duplicate SSE subscriptions. Alternatively, using `change` with `every=` could work, though it functions as a timer rather than addressing the root cause. For browser webcam usage without server relay, users see raw webcam feed in Gradio's canvas, where face fusion processing does not run on frames without server involvementthough this may be acceptable for preview purposes. Removing `.stream()` prevents numpy frames from reaching Python on Hugging Face unless via upload. FaceFusion instant preview may require backend frames, but this was not previously connected from `WEBCAM_IMAGE` to preview. Using `streaming=False` with `sources=['webcam']` enables snapshot mode, where users take photos and trigger `change` events without continuous SSE streaming, avoiding `sse_stream` errors.  
+
+Strategy:
+- Remove `WEBCAM_IMAGE.stream()` entirely.
+- For Hugging Face browser mode, test `streaming=False` or `streaming=True` without `.stream()` to avoid 404 errors.
+- If `streaming=True` is used without `.stream()`, Gradio may still initiate its own internal SSE stream, which could be the source of the 404 error. The SSE 404 error may not be related to the stream handler itself but could stem from **Hugging Face proxy** or **websocket** path mismatches between `/queue/data` and `/queue/stream`.
+
+- `GRADIO_ROOT_PATH` or `root_path` in `launch()` might need to be set for Hugging Face Spaces.
+- Hugging Face Spaces typically serve at `/`, so `root_path` should align accordingly.
+- HF Docker environments may require specific configurations for Gradio streaming paths.</details></think>

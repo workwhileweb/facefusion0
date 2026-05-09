@@ -1,0 +1,24 @@
+vẫn lỗi, bạn hãy tự deploy và check lỗi , fix cho đến khi build và chạy thành công : 
+
+
+
+Việc bạn cần làm trên Hugging Face
+Bật persistent disk / storage cho Space (tùy gói Pro / cấu hình tổ chức).
+Đảm bảo mount trùng với đường dẫn bạn dùng (mặc định trong image là /data → dùng FACEFUSION_ASSETS_ROOT=/data/facefusion-assets là hợp lý).
+Xem tài liệu hiện tại của Hub về Spaces storage / volumes (HF đổi dần từ /data sang mounted volumes / buckets — chọn loại storage mà Space của bạn hỗ trợ và chỉnh FACEFUSION_ASSETS_ROOT cho khớp đường mount).
+Tùy chọn local / Docker
+Không set FACEFUSION_ASSETS_ROOT → hành vi cũ: model trong <repo>/.assets cạnh facefusion/.
+Set trỏ sang ổ lớn hoặc thư mục cache riêng:
+FACEFUSION_ASSETS_ROOT=/path/to/persistent/models
+Mount “driver”: trên Space không gắn ổ Windows; đúng mô hình là volume/bucket của Hub gắn vào path trong container, rồi trỏ FACEFUSION_ASSETS_ROOT vào đó — đúng với thay đổi phía trên.
+
+
+Việc bạn cần làm trên Hugging Face
+Bật persistent disk / storage cho Space (tùy gói Pro / cấu hình tổ chức).
+Đảm bảo mount trùng với đường dẫn bạn dùng (mặc định trong image là /data → dùng FACEFUSION_ASSETS_ROOT=/data/facefusion-assets là hợp lý).
+Xem tài liệu hiện tại của Hub về Spaces storage / volumes (HF đổi dần từ /data sang mounted volumes / buckets — chọn loại storage mà Space của bạn hỗ trợ và chỉnh FACEFUSION_ASSETS_ROOT cho khớp đường mount).
+=>bạn có thể tự làm được ko?
+
+
+mục chọn WEBCAM DEVICE ID
+không thấy xuất hiện webcam, cũng không thấy xuất hiện yêu cầu access webcam từ trang web. hãy fix

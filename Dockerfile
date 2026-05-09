@@ -32,7 +32,12 @@ COPY . .
 
 RUN python install.py --onnxruntime cuda --skip-conda
 
-ENV FACEFUSION_GRADIO_HOST=0.0.0.0
+# Models default to /app/.assets (wiped each new container). Mount HF persistent storage on /data
+# (Space Settings → Storage) so downloads survive redeploys; see FACEFUSION_ASSETS_ROOT below.
+RUN mkdir -p /data/facefusion-assets
+
+ENV FACEFUSION_GRADIO_HOST=0.0.0.0 \
+	FACEFUSION_ASSETS_ROOT=/data/facefusion-assets
 EXPOSE 7860
 
 CMD ["python", "facefusion.py", "run"]

@@ -187,4 +187,16 @@ def remove_directory(directory_path : str) -> bool:
 
 
 def resolve_relative_path(path : str) -> str:
-	return os.path.abspath(os.path.join(os.path.dirname(__file__), path))
+	package_dir = os.path.dirname(__file__)
+	resolved = os.path.abspath(os.path.join(package_dir, path))
+	assets_override = os.environ.get('FACEFUSION_ASSETS_ROOT', '').strip()
+	if not assets_override:
+		return resolved
+	default_assets = os.path.normpath(os.path.join(package_dir, '..', '.assets'))
+	try:
+		relative = os.path.relpath(resolved, default_assets)
+	except ValueError:
+		return resolved
+	if relative.startswith('..'):
+		return resolved
+	return os.path.normpath(os.path.join(os.path.abspath(assets_override), relative))

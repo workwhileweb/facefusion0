@@ -29,7 +29,6 @@ def suggest_output_path(output_directory_path : str, target_path : str) -> Optio
 def get_gradio_launch_kwargs() -> Dict[str, Any]:
 	kwargs : Dict[str, Any] =\
 	{
-		'favicon_path': 'facefusion.ico',
 		'inbrowser': state_manager.get_item('open_browser')
 	}
 	gradio_host = os.environ.get('FACEFUSION_GRADIO_HOST')

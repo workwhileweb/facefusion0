@@ -1,5 +1,7 @@
 import gradio
 
+from facefusion import translator
+from facefusion.common_helper import use_browser_webcam
 from facefusion.uis.components import about, age_modifier_options, background_remover_options, deep_swapper_options, download, execution, execution_thread_count, expression_restorer_options, face_debugger_options, face_editor_options, face_enhancer_options, face_swapper_options, frame_colorizer_options, frame_enhancer_options, lip_syncer_options, webcam, webcam_options
 from facefusion.uis.ui_helper import get_gradio_launch_kwargs
 
@@ -14,6 +16,8 @@ def render() -> gradio.Blocks:
 			with gradio.Column(scale = 4):
 				with gradio.Blocks():
 					about.render()
+				if use_browser_webcam():
+					gradio.Markdown(translator.get('uis.webcam_browser_hint'))
 				with gradio.Blocks():
 					webcam_options.render()
 				with gradio.Blocks():

@@ -5,6 +5,7 @@ import gradio
 
 from facefusion import state_manager, translator
 from facefusion.camera_manager import clear_camera_pool, get_local_camera_capture
+from facefusion.common_helper import use_browser_webcam
 from facefusion.filesystem import has_image
 from facefusion.streamer import multi_process_capture, open_stream
 from facefusion.types import Fps, VisionFrame, WebcamMode
@@ -30,25 +31,35 @@ def render() -> None:
 		file_count = 'multiple',
 		value = state_manager.get_item('source_paths') if has_source_image else None
 	)
+	# Same Image signature everywhere so Gradio's fn_index map stays stable across Space vs local.
+	# Do not use streaming=True + .stream() with inputs==outputs: that breaks the queue/SSE stream on
+	# Hugging Face (HTTPException 404 in sse_stream). Browser webcam uses snapshot mode (sources only).
+	browser = use_browser_webcam()
 	WEBCAM_IMAGE = gradio.Image(
 		label = translator.get('uis.webcam_image'),
 		format = 'jpeg',
-		visible = False
+		type = 'numpy',
+		sources = [ 'webcam' ],
+		streaming = False,
+		visible = browser
 	)
+	start_visible, stop_visible = (False, False) if browser else (True, False)
 	WEBCAM_START_BUTTON = gradio.Button(
 		value = translator.get('uis.start_button'),
 		variant = 'primary',
-		size = 'sm'
+		size = 'sm',
+		visible = start_visible
 	)
 	WEBCAM_STOP_BUTTON = gradio.Button(
 		value = translator.get('uis.stop_button'),
 		size = 'sm',
-		visible = False
+		visible = stop_visible
 	)
 
 
 def listen() -> None:
 	SOURCE_FILE.change(update_source, inputs = SOURCE_FILE, outputs = SOURCE_FILE)
+
 	webcam_device_id_dropdown = get_ui_component('webcam_device_id_dropdown')
 	webcam_mode_radio = get_ui_component('webcam_mode_radio')
 	webcam_resolution_dropdown = get_ui_component('webcam_resolution_dropdown')
@@ -83,6 +94,9 @@ def pre_stop() -> Tuple[gradio.File, gradio.Image, gradio.Button, gradio.Button]
 
 
 def start(webcam_device_id : int, webcam_mode : WebcamMode, webcam_resolution : str, webcam_fps : Fps) -> Iterator[VisionFrame]:
+	if use_browser_webcam():
+		yield from ()
+		return
 	state_manager.init_item('face_selector_mode', 'one')
 	state_manager.sync_state()
 
